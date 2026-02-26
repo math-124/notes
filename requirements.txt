@@ -1,0 +1,4 @@
+mystmd
+jupyterlab
+plotly
+numpy

@@ -1,0 +1,20 @@
+version: 1
+project:
+  title: Math 124 Notes (Skeleton)
+  description: Minimal two-chapter Jupyter Book for Math 124.
+  toc:
+    - file: index.ipynb
+    - title: "Chapter 1: Vectors"
+      children:
+        - file: 01_vectors/01-vectors-intro.ipynb
+        - file: 01_vectors/02-dot-product.ipynb
+    - title: "Chapter 2: Linear Maps"
+      children:
+        - file: 02_linear_maps/01-linear-maps.ipynb
+        - file: 02_linear_maps/02-3d-plotly.ipynb
+site:
+  template: book-theme
+  options:
+    hide_toc: false
+    hide_footer_links: true
+    folders: true
