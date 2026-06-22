@@ -44,6 +44,18 @@ project:
           file: lec05/05-01.ipynb
         - title: "5.2: Geometry of lines and planes"
           file: lec05/05-02.ipynb
+    - title: "Lecture 6"
+      children:
+        - title: "6.1: Linear independence"
+          file: lec06/06-01.ipynb
+        - title: "6.2: System of linear equations"
+          file: lec06/06-02.ipynb
+    - title: "Lecture 7"
+      children:
+        - title: "7.1: Basics of matrices"
+          file: lec07/07-01.ipynb
+        - title: "7.2: Matrix-vector multiplication"
+          file: lec07/07-02.ipynb
 site:
   template: book-theme
   options:
