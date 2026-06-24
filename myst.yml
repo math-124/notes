@@ -56,6 +56,10 @@ project:
           file: lec07/07-01.ipynb
         - title: "7.2: Matrix-vector multiplication"
           file: lec07/07-02.ipynb
+    - title: "Lecture 8"
+      children:
+        - title: "8.1: Matrix multiplication"
+          file: lec08/08-01.ipynb
 site:
   template: book-theme
   options:
