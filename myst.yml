@@ -60,6 +60,14 @@ project:
       children:
         - title: "8.1: Matrix multiplication"
           file: lec08/08-01.ipynb
+    - title: "Lecture 9"
+      children:
+        - title: "9.1: System of linear equations"
+          file: lec09/09-01.ipynb
+    - title: "Lecture 10"
+      children:
+        - title: "10.1: LU decomposition"
+          file: lec10/10-01.ipynb
 site:
   template: book-theme
   options:
