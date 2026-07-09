@@ -2,6 +2,7 @@ version: 1
 project:
   title: Math 124 Notes
   description: Course notes for Math 124 at the University of Michigan.
+  github: math-124/notes
   toc:
     - file: index.ipynb
     - title: "Lecture 1"
