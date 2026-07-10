@@ -5,70 +5,46 @@ project:
   github: math-124/notes
   toc:
     - file: index.ipynb
-    - title: "Lecture 1"
+    - title: "Chapter 1: Vectors and Euclidean Space"
       children:
-        - title: "1.1: What is linear algebra?"
-          file: lec01/01-01.ipynb
-        - title: "1.2: Basics of sets and real numbers"
-          file: lec01/01-02.ipynb
-        - title: "1.3: Euclidean space"
-          file: lec01/01-03.ipynb
-        - title: "1.4: Vectors"
-          file: lec01/01-04.ipynb
-    - title: "Lecture 2"
+        - title: "1.1: Introduction"
+          file: ch01/01-01.ipynb
+        - title: "1.2: Vectors as lists and arrows"
+          file: ch01/01-02.ipynb
+        - title: "1.3: Length, distance, and dot product"
+          file: ch01/01-03.ipynb
+    - title: "Chapter 2: Lines, Planes, and Geometry"
       children:
-        - title: "2.1: Operations on vectors"
-          file: lec02/02-01.ipynb
-        - title: "2.2: Linear combinations"
-          file: lec02/02-02.ipynb
-    - title: "Lecture 3"
+        - title: "2.1: Spans"
+          file: ch02/02-01.ipynb
+        - title: '2.2: Lines in $\mathbb{R}^3$'
+          file: ch02/02-02.ipynb
+        - title: '2.3: Planes in $\mathbb{R}^3$'
+          file: ch02/02-03.ipynb
+        - title: '2.4: Lines in $\mathbb{R}^2$'
+          file: ch02/02-04.ipynb
+        - title: "2.5: The cross product"
+          file: ch02/02-05.ipynb
+        - title: "2.6: Geometry of lines and planes"
+          file: ch02/02-06.ipynb
+        - title: "2.7: Systems of linear equations via lines and planes"
+          file: ch02/02-07.ipynb
+    - title: "Chapter 3: Matrices and Linear Transformations"
       children:
-        - title: "3.1: The dot product"
-          file: lec03/03-01.ipynb
-        - title: "3.2"
-          file: lec03/03-02.ipynb
-        - title: "3.3"
-          file: lec03/03-03.ipynb
-        - title: "3.4"
-          file: lec03/03-04.ipynb
-        - title: "3.5"
-          file: lec03/03-05.ipynb
-    - title: "Lecture 4"
+        - title: "3.1: Matrices and matrix-vector multiplication"
+          file: ch03/03-01.ipynb
+        - title: "3.2: Linear transformations"
+          file: ch03/03-02.ipynb
+        - title: "3.3: Matrix multiplication"
+          file: ch03/03-03.ipynb
+        - title: "3.4: Inverse matrices"
+          file: ch03/03-04.ipynb
+    - title: "Chapter 4: Linear Systems and Decompositions"
       children:
-        - title: '4.1: Lines in $\mathbb{R}^3$'
-          file: lec04/04-01.ipynb
-        - title: '4.2: Planes in $\mathbb{R}^3$'
-          file: lec04/04-02.ipynb
-    - title: "Lecture 5"
-      children:
-        - title: "5.1: The cross product"
-          file: lec05/05-01.ipynb
-        - title: "5.2: Geometry of lines and planes"
-          file: lec05/05-02.ipynb
-    - title: "Lecture 6"
-      children:
-        - title: "6.1: Linear independence"
-          file: lec06/06-01.ipynb
-        - title: "6.2: System of linear equations"
-          file: lec06/06-02.ipynb
-    - title: "Lecture 7"
-      children:
-        - title: "7.1: Basics of matrices"
-          file: lec07/07-01.ipynb
-        - title: "7.2: Matrix-vector multiplication"
-          file: lec07/07-02.ipynb
-    - title: "Lecture 8"
-      children:
-        - title: "8.1: Matrix multiplication"
-          file: lec08/08-01.ipynb
-    - title: "Lecture 9"
-      children:
-        - title: "9.1: System of linear equations"
-          file: lec09/09-01.ipynb
-    - title: "Lecture 10"
-      children:
-        - title: "10.1: LU decomposition"
-          file: lec10/10-01.ipynb
+        - title: "4.1: Linear Systems, Triangular Systems, and Back Substitution"
+          file: ch04/04-01.ipynb
+        - title: "4.2: PLU decomposition for invertible matrices"
+          file: ch04/04-02.ipynb
 site:
   template: book-theme
   options:
