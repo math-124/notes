@@ -45,6 +45,8 @@ project:
           file: ch04/04-01.ipynb
         - title: "4.2: PLU decomposition for invertible matrices"
           file: ch04/04-02.ipynb
+        - title: "4.3: PLU decompositions in general"
+          file: ch04/04-03.ipynb
 site:
   template: book-theme
   options:
