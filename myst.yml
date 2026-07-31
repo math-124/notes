@@ -53,6 +53,13 @@ project:
           file: ch05/05-01.ipynb
         - title: "5.2: Bases and Dimension"
           file: ch05/05-02.ipynb
+    - title: "Chapter 6: Orthonormal Bases"
+      children:
+        - title: "6.1: Orthonormal Bases and QR Factorization"
+          file: ch06/06-01.ipynb
+        - title: "6.2: Orthogonal Matrices and Orthogonal Transformations"
+          file: ch06/06-02.ipynb
+
 site:
   template: book-theme
   options:
