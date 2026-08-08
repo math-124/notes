@@ -59,6 +59,10 @@ project:
           file: ch06/06-01.ipynb
         - title: "6.2: Orthogonal Matrices and Orthogonal Transformations"
           file: ch06/06-02.ipynb
+    - title: "Chapter 8: Determinants"
+      children:
+        - title: "8.1: Determinants as Area and Volume Scale Factors"
+          file: ch08/08-01.ipynb
 
 
 site:
