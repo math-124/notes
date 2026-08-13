@@ -63,7 +63,7 @@ project:
       children:
         - title: "8.1: Determinants as Area and Volume Scale Factors"
           file: ch08/08-01.ipynb
-    - title: "Chapter 9: Determinants"
+    - title: "Chapter 9: Eigenvalues and Eigenvectors"
       children:
         - title: "9.1: Eigenvalues and Eigenvectors"
           file: ch09/09-01.ipynb
