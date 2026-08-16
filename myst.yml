@@ -67,6 +67,9 @@ project:
       children:
         - title: "9.1: Eigenvalues and Eigenvectors"
           file: ch09/09-01.ipynb
+        - title: "9.2: Diagonal Matrices and Diagonalization"
+          file: ch09/09-02.ipynb
+          
 
 
 site:
