@@ -69,6 +69,8 @@ project:
           file: ch09/09-01.ipynb
         - title: "9.2: Diagonal Matrices and Diagonalization"
           file: ch09/09-02.ipynb
+        - title: "9.3: Symmetric Matrices and the Spectral Theorem"
+          file: ch09/09-03s.ipynb
           
 
 
