@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="650" viewBox="0 0 1000 650" role="img" aria-labelledby="title desc">
+  <title id="title">Residual sum of squares for three data points</title>
+  <desc id="desc">The points (0,1), (1,2), and (2,2) are plotted with their least-squares line y-hat equals seven sixths plus one half t. Dashed vertical segments show residual magnitudes one sixth, one third, and one sixth.</desc>
+  <defs>
+    <marker id="axis-arrow" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#334155"/></marker>
+    <style>.sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}.math{font-family:"Times New Roman",Times,serif;font-style:italic}</style>
+  </defs>
+  <rect width="1000" height="650" rx="18" fill="#fff"/>
+  <text x="500" y="43" text-anchor="middle" class="sans" font-size="28" font-weight="700" fill="#172033">RSS is the sum of squared vertical residuals</text>
+
+  <g stroke="#dbe4ee" stroke-width="1.5">
+    <line x1="110" y1="500" x2="885" y2="500"/><line x1="110" y1="416" x2="885" y2="416"/>
+    <line x1="110" y1="332" x2="885" y2="332"/><line x1="110" y1="248" x2="885" y2="248"/>
+    <line x1="110" y1="164" x2="885" y2="164"/><line x1="110" y1="80" x2="885" y2="80"/>
+  </g>
+  <line x1="100" y1="500" x2="900" y2="500" stroke="#334155" stroke-width="2.5" marker-end="url(#axis-arrow)"/>
+  <line x1="170" y1="520" x2="170" y2="63" stroke="#334155" stroke-width="2.5" marker-end="url(#axis-arrow)"/>
+  <text x="918" y="508" class="math" font-size="25" fill="#172033">t</text><text x="158" y="52" class="math" font-size="25" fill="#172033">y</text>
+
+  <g class="sans" font-size="17" fill="#475569" text-anchor="middle">
+    <line x1="170" y1="494" x2="170" y2="506" stroke="#334155" stroke-width="2"/><line x1="470" y1="494" x2="470" y2="506" stroke="#334155" stroke-width="2"/><line x1="770" y1="494" x2="770" y2="506" stroke="#334155" stroke-width="2"/>
+    <text x="170" y="527">0</text><text x="470" y="527">1</text><text x="770" y="527">2</text>
+  </g>
+  <g class="sans" font-size="16" fill="#475569" text-anchor="end">
+    <text x="155" y="506">0</text><text x="155" y="422">0.5</text><text x="155" y="338">1</text>
+    <text x="155" y="254">1.5</text><text x="155" y="170">2</text><text x="155" y="86">2.5</text>
+  </g>
+
+  <line x1="110" y1="321" x2="860" y2="111" stroke="#e07a1f" stroke-width="5" stroke-linecap="round"/>
+  <rect x="555" y="79" width="268" height="44" rx="10" fill="#fff7ed" stroke="#e07a1f" stroke-width="1.5"/>
+  <text x="689" y="108" text-anchor="middle" class="sans" font-size="20" font-weight="650" fill="#9a4b0b">best-fit line: ŷ = 7/6 + (1/2)t</text>
+
+  <g stroke="#c02670" stroke-width="4" stroke-dasharray="8 6">
+    <line x1="170" y1="332" x2="170" y2="304"/><line x1="470" y1="164" x2="470" y2="220"/><line x1="770" y1="164" x2="770" y2="136"/>
+  </g>
+  <g stroke="#c02670" stroke-width="2.5">
+    <line x1="160" y1="332" x2="180" y2="332"/><line x1="160" y1="304" x2="180" y2="304"/>
+    <line x1="460" y1="164" x2="480" y2="164"/><line x1="460" y1="220" x2="480" y2="220"/>
+    <line x1="760" y1="164" x2="780" y2="164"/><line x1="760" y1="136" x2="780" y2="136"/>
+  </g>
+
+  <g fill="#1769aa" stroke="#fff" stroke-width="3">
+    <circle cx="170" cy="332" r="9"/><circle cx="470" cy="164" r="9"/><circle cx="770" cy="164" r="9"/>
+  </g>
+  <g class="sans" font-size="18" font-weight="650" fill="#14558a">
+    <text x="188" y="355">(0, 1)</text><text x="408" y="145">(1, 2)</text><text x="788" y="183">(2, 2)</text>
+  </g>
+  <g class="sans" font-size="16" font-weight="650" fill="#9d174d">
+    <text x="190" y="317">|r₁| = 1/6</text><text x="490" y="198">|r₂| = 1/3</text><text x="790" y="145">|r₃| = 1/6</text>
+  </g>
+
+  <rect x="145" y="553" width="710" height="67" rx="13" fill="#fdf2f8" stroke="#c02670" stroke-width="1.7"/>
+  <text x="500" y="581" text-anchor="middle" class="sans" font-size="19" font-weight="650" fill="#831843">square each vertical error, then add</text>
+  <text x="500" y="608" text-anchor="middle" class="sans" font-size="22" fill="#172033">RSS = (1/6)² + (1/3)² + (1/6)² = 1/6</text>
+</svg>
