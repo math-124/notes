@@ -65,6 +65,9 @@ project:
     #   children:
     #     - title: "7.1: Least squares"
     #       file: ch07/07-01.ipynb
+    #   children:
+    #     - title: "7.2: Applications of Least Squares"
+    #       file: ch07/07-02.ipynb
     # - title: "Chapter 8: Determinants"
     #   children:
     #     - title: "8.1: Determinants as area and volume scale factors"
