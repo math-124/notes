@@ -57,11 +57,11 @@
 
 /* Edward Tufte's font styles */
 body {
-    font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, system-ui, serif;
+    font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, system-ui, serif;
+    font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 
 /* Hyperlink styles - override theme defaults for all links in main content, including headings and lists, but not in nav/sidebar */

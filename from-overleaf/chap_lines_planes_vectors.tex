@@ -1,0 +1,1689 @@
+
+\chapter{Geometry in $\mathbb{R}^2$ and $\mathbb{R}^3$}
+
+\section{Describing Lines in $\mathbb{R}^2$ using Vectors}
+
+\subsection{Homogeneous and Nonhomogeneous Equations}
+
+A line in $\mathbb{R}^2$ is given algebraically by a single linear equation.
+The simplest lines to study are also those that contain the origin $(0,0)$.
+
+$$
+\text{Example: Let $\ell$ be the line}
+\quad 
+3x-4y=0.
+$$
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=0.72]
+  % Axes
+  \draw[->, gray] (-5.5,0) -- (5.8,0) node[right] {$x$};
+  \draw[->, gray] (0,-4.4) -- (0,4.8) node[above] {$y$};
+
+  % Line 3x - 4y = 0
+  \draw[black, thick, domain=-5.2:5.2] plot (\x,{0.75*\x});
+
+  % Points
+  \filldraw[black] (0,0) circle (2pt);
+  \node[below right] at (0,0) {$(0,0)$};
+
+  \filldraw[black] (4,3) circle (2pt);
+  \node[right=8pt] at (4,3) {$(4,3)$};
+
+  \filldraw[black] (-4,-3) circle (2pt);
+  \node[below left] at (-4,-3) {$(-4,-3)$};
+
+  % Label for the line
+  \node[violet, above left] at (5.05,4.05) {$\ell: 3x-4y=0$};
+\end{tikzpicture}
+\caption{The line $3x-4y=0$, which passes through the origin.}
+\end{figure}
+
+\paragraph{Remark.}
+The $0$ on the right of the equation is what forces the line to go through
+$(0,0)$. Such an equation is called homogeneous.
+
+If one changes the $0$ to a nonzero number, then the line will not go through
+the origin $(0,0)$.
+
+$$
+\text{Example:}
+\qquad
+3x-4y=7
+\qquad
+\longrightarrow
+\qquad
+\text{nonhomogeneous linear equation.}
+$$
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=0.72]
+  % Axes
+  \draw[->, gray] (-5.5,0) -- (6.5,0) node[right] {$x$};
+  \draw[->, gray] (0,-4.5) -- (0,4.8) node[above] {$y$};
+
+  % Homogeneous line 3x - 4y = 0
+  \draw[black, thick, domain=-5.2:5.2] plot (\x,{0.75*\x});
+
+  % Affine/nonhomogeneous line 3x - 4y = 7
+  % y = (3x - 7)/4
+  \draw[magenta!80!black, thick, domain=-1.2:6.2] plot (\x,{(3*\x - 7)/4});
+
+  % Points on homogeneous line
+  \filldraw[black] (0,0) circle (2pt);
+  \node[below right] at (0,0) {$(0,0)$};
+
+  \filldraw[black] (4,3) circle (2pt);
+  \node[right=8pt] at (4,3) {$(4,3)$};
+
+  \filldraw[black] (-4,-3) circle (2pt);
+  \node[below left] at (-4,-3) {$(-4,-3)$};
+
+  % Points on affine line
+  \filldraw[magenta!80!black] (1,-1) circle (2pt);
+  \node[below right=3pt, magenta!80!black] at (1,-1) {$(1,-1)$};
+
+  \filldraw[magenta!80!black] (5,2) circle (2pt);
+  \node[right=8pt, magenta!80!black] at (5,2) {$(5,2)$};
+
+  % Arrow along affine line from (1,-1) to (5,2)
+  
+  % Labels
+  \node[violet, above left] at (5.05,4.05) {$\ell: 3x-4y=0$};
+  
+  \node[magenta!80!black, above right] at (6.5,2.75) {$\ell': 3x-4y=7$};
+  
+\end{tikzpicture}
+\caption{Changing the right-hand side from $0$ to $7$ gives a parallel line.}
+\end{figure}
+
+We get in this way a line that is parallel to $3x-4y=0$.
+
+By varying $c$, the equation
+
+$$
+3x-4y=c
+$$
+
+will give all possible lines in the plane that are parallel to the line $\ell$.
+
+For simplicity, we'll first study extensively the homogeneous case, i.e., lines
+through the origin.
+
+\subsection{Describing Lines Through the Origin Using Vectors}
+
+Lines through the origin can be efficiently described using vectors.
+
+Let
+
+$$
+\vec v=
+\begin{bmatrix}
+4\\
+3
+\end{bmatrix}.
+$$
+
+The line $\ell$ can be described as all multiples of this vector.
+
+
+Indeed every point on the line is of the form $(3t,4t)$ for some scalar $t \in \mathbb{R}$. For example, we've plotted the vectors $\vec{v}$, $\frac{1}{2}\vec{v}$ and 
+$-\frac{1}{2}\vec{v}$
+in the figure below.  
+
+\bigidea{We say $\ell$ is the span of the vector
+$$
+\vec{v} = \begin{bmatrix}
+4\\
+3
+\end{bmatrix}.
+$$
+}
+
+
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=0.72]
+  % Axes
+  \draw[->, gray] (-5.5,0) -- (5.8,0) node[right] {$x$};
+  \draw[->, gray] (0,-4.4) -- (0,4.8) node[above] {$y$};
+
+  % Line
+  \draw[black, thick, domain=-5.2:5.2] plot (\x,{0.75*\x});
+
+  % Points
+  \filldraw[black] (0,0) circle (2pt);
+  \node[below right] at (0,0) {$(0,0)$};
+
+  \filldraw[black] (4,3) circle (2pt);
+  \node[right=8pt] at (4,3) {$(4,3)$};
+
+  \filldraw[black] (-4,-3) circle (2pt);
+  \node[below left] at (-4,-3) {$(-4,-3)$};
+
+  % Vector arrow from origin to v = (4,3)
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (4,3);
+  \node[above left=2pt] at (3.75,2.85) {$\vec v$};
+
+  % Vector arrow from origin to (1/3)v = (4/3,1)
+  \draw[-{Latex[length=2mm]}, thick] (0,0) -- (1.333,1);
+  \filldraw[black] (1.333,1) circle (1.6pt);
+  \node[above left=3pt] at (1.333,1) {$\frac{1}{3}\vec v$};
+
+  % Vector arrow from origin to (1/2)v = (2,3/2)
+  \draw[-{Latex[length=2.2mm]}, thick] (0,0) -- (2,1.5);
+  \filldraw[black] (2,1.5) circle (1.6pt);
+  \node[below right=3pt] at (2,1.5) {$\frac{1}{2}\vec v$};
+
+  % Vector arrow from origin to -(1/2)v = (-2,-3/2)
+  \draw[-{Latex[length=2.2mm]}, thick] (0,0) -- (-2,-1.5);
+  \filldraw[black] (-2,-1.5) circle (1.6pt);
+  \node[above left=3pt] at (-2,-1.5) {$-\frac{1}{2}\vec v$};
+
+  % Labels
+  \node[violet, above left] at (5.05,4.05) {$3x-4y=0$};
+
+  \node[right] at (5.0,3.75) {$\ell$};
+\end{tikzpicture}
+\caption{The line $\ell$ through the origin can be described using the vector $\vec v=\begin{bmatrix}4\\3\end{bmatrix}$.}
+\end{figure}
+
+
+
+
+
+
+
+
+Note that we could have picked any nonzero vector along this line, e.g.
+
+$$
+\frac{1}{2}\vec{v} = \begin{bmatrix}
+2\\
+3/2
+\end{bmatrix} \quad \text{or} \quad -\frac{1}{2}\vec{v} = \begin{bmatrix}
+-2\\
+-3/2
+\end{bmatrix} \quad \text{or} \quad \frac{1}{3}\vec{v} = \begin{bmatrix}
+4/3\\
+1
+\end{bmatrix}
+$$
+So in this case
+
+$$
+\ell=\operatorname{span}(\vec v)=\operatorname{span}(\frac{1}{2}\vec v)
+=\operatorname{span}(-\frac{1}{2}\vec v)=\operatorname{span}(\frac{1}{3}\vec v) \quad \text{etc.}$$
+
+
+\paragraph{Exercise.}
+Let $\ell'$ be the span of
+
+$$
+\begin{bmatrix}
+2\\
+1
+\end{bmatrix}.
+$$
+
+Draw $\ell'$. Give an equation describing $\ell'$.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=0.72]
+  % Axes
+  \draw[->, gray] (-5.5,0) -- (6.5,0) node[right] {$x$};
+  \draw[->, gray] (0,-3.2) -- (0,4.0) node[above] {$y$};
+
+  % Line through origin with direction (2,1): y = x/2
+  \draw[black, thick, domain=-5.2:6.2] plot (\x,{0.5*\x});
+
+  % Origin
+  \filldraw[black] (0,0) circle (2pt);
+
+  % Vectors
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (2,1);
+  \node[above left=4pt] at (2,1) {$\begin{bmatrix}2\\1\end{bmatrix}$};
+
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (6,3);
+  \node[above=6pt] at (5.7,3) {$\begin{bmatrix}6\\3\end{bmatrix}$};
+
+  % Label
+  \node[right=6pt] at (5.4,2.7) {$\ell'$};
+\end{tikzpicture}
+\caption{The line $\ell'$ spanned by $\begin{bmatrix}2\\1\end{bmatrix}$.}
+\end{figure}
+
+Notice that the $y$-coordinate of any point on this line is always one half of
+the $x$-coordinate. So the equation of the line is
+
+$$
+y-\frac12 x=0
+$$
+
+or
+
+$$
+x-2y=0.
+$$
+
+\paragraph{Remark.}
+We could multiply the equation by any nonzero number, and that would give an
+equally good equation.
+
+For example,
+
+$$
+2x-4y=0.
+$$
+
+So the equation describing the line is not unique.
+
+\subsection{The Dual Perspective and Orthogonality}
+
+Let's reconsider the line
+
+$$
+\ell: 3x-4y=0.
+$$
+
+Let $\ell^\perp$ be the unique line through the origin that is perpendicular to $\ell$.
+
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=0.68]
+  % Axes
+  \draw[->, gray] (-5.8,0) -- (6.0,0) node[right] {$x$};
+  \draw[->, gray] (0,-5.2) -- (0,5.3) node[above] {$y$};
+
+  % Line ell: y = 3x/4
+  \draw[black, thick, domain=-5:5.2] plot (\x,{0.75*\x});
+  \node[right=5pt] at (4.5,4.45) {$\ell$};
+
+  % Perpendicular line ell^\perp: direction (3,-4), slope -4/3
+  \draw[black, thick, domain=-3.6:3.6] plot (\x,{-1.333333333*\x});
+  \node[left=6pt] at (-2.6,5.47) {$\ell^\perp$};
+
+  % Right angle marker
+  \draw[thick]
+    (0.36,0.27) --
+    (0.09,0.63) --
+    (-0.27,0.36);
+
+  % Vector v = (4,3)
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (4,3);
+  \node[above left=3pt] at (2.4,1.85) {$\vec v$};
+  \node[right=8pt] at (4,3) {$(4,3)$};
+
+  % Vector (-3,4)
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (-3,4);
+  \node[left=8pt] at (-3,4) {$\begin{bmatrix}-3\\4\end{bmatrix} = -\vec{w}$};
+
+  % Vector w = (3,-4)
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (3,-4);
+  \node[right=8pt] at (3,-4) {$\begin{bmatrix}3\\-4\end{bmatrix}=\vec w$};
+
+  % Origin
+  \filldraw[black] (0,0) circle (2pt);
+\end{tikzpicture}
+\caption{The coefficient vector $\begin{bmatrix}3\\-4\end{bmatrix}$ is perpendicular to the line $3x-4y=0$.}
+\end{figure}
+
+Notice that the coefficients of the equation defining $\ell$ are
+
+$$
+(3,-4).
+$$
+
+Let us name the corresponding vector
+
+$$
+\begin{bmatrix}
+3\\
+-4
+\end{bmatrix}
+=
+\vec w.
+$$
+
+Notice that $\vec w $
+lies on $\ell^\perp$.
+What is going on?
+
+We can write
+
+$$
+3x-4y=0
+$$
+
+as
+
+$$
+\begin{bmatrix}
+3\\
+-4
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+x\\
+y
+\end{bmatrix}
+=0.
+$$
+
+So the points on the line $\ell$ are exactly those that are perpendicular to
+the vector
+
+$$
+\begin{bmatrix}
+3\\
+-4
+\end{bmatrix}.
+$$
+
+\bigidea{
+This is a rather remarkable perspective.
+
+The coefficients of the equation defining $\ell$ are exactly given by vectors
+on $\ell^\perp$.}
+
+So we can think of the line $\ell$ in two different ways:
+
+$$
+\ell
+=
+\operatorname{span}(\vec v),
+\qquad
+\vec v=
+\begin{bmatrix}
+4\\
+3
+\end{bmatrix},
+$$
+
+or
+
+$$
+\ell
+=
+\left\{
+\text{vectors perpendicular to } \vec w
+\right\},
+\qquad
+\vec w=
+\begin{bmatrix}
+3\\
+-4
+\end{bmatrix}.
+$$
+
+Likewise, we can think of $\ell^\perp$ as
+
+$$
+\ell^\perp
+=
+\operatorname{span}(\vec w),
+\qquad
+\vec w=
+\begin{bmatrix}
+3\\
+-4
+\end{bmatrix},
+$$
+
+or
+
+$$
+\ell^\perp
+=
+\left\{
+\text{vectors perpendicular to } \vec v
+\right\},
+\qquad
+\vec v=
+\begin{bmatrix}
+4\\
+3
+\end{bmatrix}.
+$$
+
+So an equation for $\ell^\perp$ is
+
+$$
+4x+3y=0.
+$$
+
+\begin{remark}
+    We can pick other vectors that span $\ell^\perp$ eg. 
+    $$
+    \ell^\perp = \operatorname{span} (3\vec{w})$$,
+    where 
+    $$ 3\vec{w} =\begin{bmatrix}
+9\\
+-12
+\end{bmatrix} $$
+This means another way of describing
+$\ell$ is the equation
+$$ 9x - 12y=0$$.
+This just corresponds to multiplying the original equation we had by the scalar $3$.
+\end{remark}
+
+\paragraph{Exercise.}
+Consider the line
+
+$$
+\ell'=\operatorname{span}
+\begin{bmatrix}
+2\\
+1
+\end{bmatrix}.
+$$
+
+\begin{enumerate}
+  \item Draw $\ell'$ and $(\ell')^\perp$.
+  \item Find a nonzero vector on $(\ell')^\perp$.
+  \item Use your vector from the previous subpart to write an equation for $\ell'$.
+  \item Find another nonzero vector on $(\ell')^\perp$.
+  \item Use your vector from the previous subpart to write another equation for $\ell'$.
+  \item How do your equations for $\ell'$ differ?
+  \item Write down an equation for $\ell'$.
+\end{enumerate}
+
+\subsection{Affine Lines}
+
+Now we can discuss lines that don't necessarily pass through the origin. These
+are often called affine lines to indicate that they need not pass through the
+origin.
+
+How to describe them?
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=0.72]
+  % Axes
+  \draw[->, gray] (-5.5,0) -- (6.5,0) node[right] {$x$};
+  \draw[->, gray] (0,-4.5) -- (0,4.8) node[above] {$y$};
+
+  % Homogeneous line 3x - 4y = 0
+  \draw[black, thick, domain=-5.2:5.2] plot (\x,{0.75*\x});
+ 
+
+  \draw[-{Latex[length=3mm]}, ultra thick] (0,0) -- (4,3);
+  \node[above left=3pt] at (2.4,1.85) {$\vec v$};
+
+  % Affine line 3x - 4y = 7
+  \draw[magenta!80!black, thick, domain=-1.2:6.2] plot (\x,{(3*\x - 7)/4});
+
+  % Points on homogeneous line
+  \filldraw[black] (-4,-3) circle (2pt);
+  \node[below left] at (-4,-3) {$(-4,-3)$};
+
+  \filldraw[black] (4,3) circle (2pt);
+  \node[right=8pt] at (4,3) {$(4,3)$};
+
+  % Points on affine line
+  \filldraw[magenta!80!black] (1,-1) circle (2pt);
+  \node[below right=3pt, magenta!80!black] at (1,-1) {$(1,-1)$};
+
+  \filldraw[magenta!80!black] (5,2) circle (2pt);
+  \node[right=8pt, magenta!80!black] at (5,2) {$(5,2)$};
+
+  % Arrow along affine line
+  \draw[-{Latex[length=3mm]}, magenta!80!black, ultra thick] (1,-1) -- (5,2);
+
+  % Labels
+  \node[violet, above left] at (5.05,4.05) {$\ell: 3x-4y=0$};
+  
+
+  \node[magenta!80!black, above right] at (6.2,2.75) {$\ell': 3x-4y=7$};
+  
+\end{tikzpicture}
+\caption{The affine line $3x-4y=7$ is parallel to the homogeneous line $3x-4y=0$.}
+\end{figure}
+
+Let's consider the line
+
+$$
+3x-4y=7.
+$$
+
+Notice the point
+
+$$
+(1,-1)
+$$
+
+lies on it.
+
+We can get any point on this line by first going to
+
+$$
+\begin{bmatrix}
+1\\
+-1
+\end{bmatrix}
+$$
+
+then adding any vector on $\ell$ to it.
+
+For this line, we may take
+
+$$
+\vec v=
+\begin{bmatrix}
+4\\
+3
+\end{bmatrix},
+$$
+
+since this vector points in the same direction as the line $3x-4y=0$.
+
+So the line $3x-4y=7$ is
+
+$$
+\begin{bmatrix}
+1\\
+-1
+\end{bmatrix}
++
+\operatorname{span}(\vec v)
+=
+\left\{
+\begin{bmatrix}
+1\\
+-1
+\end{bmatrix}
++
+t\vec v
+\;:\;
+t\in\mathbb{R}
+\right\}.
+$$
+
+Instead of
+
+$$
+\begin{bmatrix}
+1\\
+-1
+\end{bmatrix},
+$$
+
+we could have taken any point on the line, e.g.
+
+$$
+\begin{bmatrix}
+5\\
+2
+\end{bmatrix},
+$$
+
+so
+
+$$
+3x-4y=7
+$$
+
+can also be written as
+
+$$
+\left\{
+\begin{bmatrix}
+5\\
+2
+\end{bmatrix}
++
+t\vec v'
+\;:\;
+t\in\mathbb{R}
+\right\}.
+$$
+
+\paragraph{Summary.}
+Affine lines in $\mathbb{R}^2$ may be thought of as translations of the span
+of a vector by some fixed vector.
+
+\paragraph{Exercise.}
+Can you describe affine lines using the dual perspective and orthogonality?
+
+\paragraph{Answer.}
+They can be described as a set of vectors $\vec{v'}$ such that
+
+$$
+\vec{v'}\cdot \vec w
+$$
+
+is a fixed constant, where $\vec w$ is a nonzero vector on $\ell^\perp$.
+
+For example, the affine line
+
+$$
+3x-4y=7
+$$
+
+can be written as
+
+$$
+\begin{bmatrix}
+3\\
+-4
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+x\\
+y
+\end{bmatrix}
+=7.
+$$
+
+So it is the set of all points whose dot product with the fixed normal vector
+
+$$
+\begin{bmatrix}
+3\\
+-4
+\end{bmatrix}
+$$
+
+is the fixed constant $7$.
+
+
+% Requires:
+% \usepackage{amsmath,amssymb}
+% \usepackage{tikz}
+% \usetikzlibrary{arrows.meta,positioning}
+
+
+\section{Geometry in \texorpdfstring{$\mathbb{R}^2$}{R2}}
+
+There are two special vectors in $\mathbb{R}^2$,
+
+\[
+\vec e_1=
+\begin{bmatrix}
+1\\
+0
+\end{bmatrix},
+\qquad
+\vec e_2=
+\begin{bmatrix}
+0\\
+1
+\end{bmatrix}.
+\]
+
+What is nice about them is that every vector can be easily expressed as a
+combination of them.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.0]
+  % Axes
+  \draw[->, gray] (-2.0,0) -- (3.5,0) node[right] {$x$};
+  \draw[->, gray] (0,-1.5) -- (0,3.5) node[above] {$y$};
+
+  % e1
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (2.0,0);
+  \node[below right] at (2.0,0) {$\vec e_1=\begin{bmatrix}1\\0\end{bmatrix}$};
+
+  % e2
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (0,2.0);
+  \node[above left] at (0,2.0) {$\vec e_2=\begin{bmatrix}0\\1\end{bmatrix}$};
+
+  \filldraw[black] (0,0) circle (1.5pt);
+\end{tikzpicture}
+\caption{The standard basis vectors in $\mathbb{R}^2$.}
+\end{figure}
+
+For example,
+
+\[
+\begin{bmatrix}
+5\\
+7
+\end{bmatrix}
+=
+\begin{bmatrix}
+5\\
+0
+\end{bmatrix}
++
+\begin{bmatrix}
+0\\
+7
+\end{bmatrix}
+=
+5
+\begin{bmatrix}
+1\\
+0
+\end{bmatrix}
++
+7
+\begin{bmatrix}
+0\\
+1
+\end{bmatrix}
+=
+5\vec e_1+7\vec e_2.
+\]
+
+To do geometry in $\mathbb{R}^2$, it is useful to consider other such pairs of
+vectors. The key properties of $(\vec e_1,\vec e_2)$ are:
+
+\begin{enumerate}
+  \item length one,
+  \item orthogonal to each other.
+\end{enumerate}
+
+We will now discuss the notion of an orthonormal basis.
+
+For this, we first need to define unit vectors.
+
+\paragraph{Definition.}
+A unit vector is a vector of length one.
+
+\paragraph{Definition.}
+An orthonormal basis of $\mathbb{R}^2$ is a pair of vectors
+$(\vec u_1,\vec u_2)$ such that $\vec u_1$ and $\vec u_2$ are both unit vectors
+that are orthogonal to each other.
+
+\paragraph{Example.}
+The vector
+
+\[
+\begin{bmatrix}
+\frac45\\[2pt]
+\frac35
+\end{bmatrix}
+\]
+
+has length one since
+
+\[
+\sqrt{\left(\frac45\right)^2+\left(\frac35\right)^2}
+=
+\sqrt{\frac{16}{25}+\frac{9}{25}}
+=
+1.
+\]
+
+Similarly, the vector
+
+\[
+\begin{bmatrix}
+\frac{1}{\sqrt{2}}\\[2pt]
+-\frac{1}{\sqrt{2}}
+\end{bmatrix}
+\]
+
+has length one since
+
+\[
+\sqrt{
+\left(\frac{1}{\sqrt{2}}\right)^2+
+\left(-\frac{1}{\sqrt{2}}\right)^2
+}
+=
+\sqrt{\frac12+\frac12}
+=
+1.
+\]
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.3]
+  % Axes
+  \draw[->, gray] (-1.6,0) -- (2.2,0) node[right] {$x$};
+  \draw[->, gray] (0,-1.6) -- (0,2.0) node[above] {$y$};
+
+  % Vector (4/5,3/5)
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (1.6,1.2);
+  \node[right] at (1.6,1.2)
+    {$\begin{bmatrix}\frac45\\[2pt]\frac35\end{bmatrix}$};
+
+  % Vector (1/sqrt2,-1/sqrt2)
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (1.35,-1.35);
+  \node[right] at (1.35,-1.35)
+    {$\begin{bmatrix}\frac{1}{\sqrt{2}}\\[2pt]-\frac{1}{\sqrt{2}}\end{bmatrix}$};
+
+  \filldraw[black] (0,0) circle (1.5pt);
+\end{tikzpicture}
+\caption{Examples of unit vectors in $\mathbb{R}^2$.}
+\end{figure}
+
+\paragraph{Example.}
+Let
+
+\[
+\vec u_1=
+\begin{bmatrix}
+\frac45\\[2pt]
+\frac35
+\end{bmatrix},
+\qquad
+\vec u_2=
+\begin{bmatrix}
+-\frac35\\[2pt]
+\frac45
+\end{bmatrix}.
+\]
+
+Then $(\vec u_1,\vec u_2)$ is an orthonormal basis of $\mathbb{R}^2$.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.3]
+  % Axes
+  \draw[->, gray] (-2.0,0) -- (2.3,0) node[right] {$x$};
+  \draw[->, gray] (0,-1.5) -- (0,2.3) node[above] {$y$};
+
+  % u1
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (1.6,1.2);
+  \node[right] at (1.6,1.2)
+    {$\vec u_1=\begin{bmatrix}\frac45\\[2pt]\frac35\end{bmatrix}$};
+
+  % u2
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (-1.2,1.6);
+  \node[left] at (-1.2,1.6)
+    {$\vec u_2=\begin{bmatrix}-\frac35\\[2pt]\frac45\end{bmatrix}$};
+
+  \filldraw[black] (0,0) circle (1.5pt);
+\end{tikzpicture}
+\caption{The pair $(\vec u_1,\vec u_2)$ is an orthonormal basis of $\mathbb{R}^2$.}
+\end{figure}
+
+\paragraph{Example.}
+Let
+
+\[
+\vec w_1=
+\begin{bmatrix}
+-\frac{1}{\sqrt{2}}\\[2pt]
+\frac{1}{\sqrt{2}}
+\end{bmatrix},
+\qquad
+\vec w_2=
+\begin{bmatrix}
+-\frac{1}{\sqrt{2}}\\[2pt]
+-\frac{1}{\sqrt{2}}
+\end{bmatrix}.
+\]
+
+Then $(\vec w_1,\vec w_2)$ is also an orthonormal basis.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.4]
+  % Axes
+  \draw[->, gray] (-2.2,0) -- (1.8,0) node[right] {$x$};
+  \draw[->, gray] (0,-1.9) -- (0,2.0) node[above] {$y$};
+
+  % w1
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (-1.25,1.25);
+  \node[left] at (-1.25,1.25)
+    {$\vec w_1=\begin{bmatrix}-\frac{1}{\sqrt{2}}\\[2pt]\frac{1}{\sqrt{2}}\end{bmatrix}$};
+
+  % w2
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (-1.25,-1.25);
+  \node[left] at (-1.25,-1.25)
+    {$\vec w_2=\begin{bmatrix}-\frac{1}{\sqrt{2}}\\[2pt]-\frac{1}{\sqrt{2}}\end{bmatrix}$};
+
+  \filldraw[black] (0,0) circle (1.5pt);
+\end{tikzpicture}
+\caption{An orthonormal basis is not unique.}
+\end{figure}
+
+\paragraph{Remark.}
+Note that an orthonormal basis is not unique.
+
+\subsection{Why Are Orthonormal Bases Important?}
+
+The reason orthonormal bases are useful is that it is very easy to express an
+arbitrary vector in terms of an orthonormal basis.
+
+Let $\vec u_1,\vec u_2$ be an orthonormal basis of $\mathbb{R}^2$.
+
+Let $\vec v$ be any vector in $\mathbb{R}^2$.
+
+Then
+
+\[
+\vec v=a\vec u_1+b\vec u_2
+\]
+
+for some scalars $a,b$. This follows by completing the rectangle in the figure below. 
+
+But how do we find $a,b$?
+
+Take the dot product with $\vec u_1$:
+
+\[
+\vec v\cdot \vec u_1
+=
+(a\vec u_1+b\vec u_2)\cdot \vec u_1
+=
+a(\vec u_1\cdot \vec u_1)
++
+b(\vec u_2\cdot \vec u_1).
+\]
+
+Since $\vec u_1$ is a unit vector,
+
+\[
+\vec u_1\cdot \vec u_1=1.
+\]
+
+Since $\vec u_1$ and $\vec u_2$ are orthogonal,
+
+\[
+\vec u_2\cdot \vec u_1=0.
+\]
+
+Therefore
+
+\[
+\vec v\cdot \vec u_1=a.
+\]
+
+Similarly,
+
+\[
+b=\vec v\cdot \vec u_2.
+\]
+
+So
+
+\[
+\vec v
+=
+(\vec v\cdot \vec u_1)\vec u_1
++
+(\vec v\cdot \vec u_2)\vec u_2.
+\]
+
+
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.0]
+  % Orthonormal unit vectors:
+  % u_1 = (3/sqrt(10), 1/sqrt(10))
+  % u_2 = (-1/sqrt(10), 3/sqrt(10))
+  %
+  % Components:
+  % a u_1 = 3u_1
+  % b u_2 = (5/2)u_2
+  % v = a u_1 + b u_2
+
+  \coordinate (O) at (0,0);
+
+  \coordinate (Uone) at (0.94868,0.31623);
+  \coordinate (Utwo) at (-0.31623,0.94868);
+
+  \coordinate (A) at (2.84605,0.94868);
+  \coordinate (B) at (-0.79057,2.37171);
+
+  % V = A + B
+  \coordinate (V) at (2.05548,3.32039);
+
+  % Axes
+  \draw[->, gray] (-2.0,0) -- (4.2,0) node[right] {$x$};
+  \draw[->, gray] (0,-1.5) -- (0,4.2) node[above] {$y$};
+
+  % Dashed parallelogram guides
+  \draw[dashed, gray] (A) -- (V);
+  \draw[dashed, gray] (B) -- (V);
+
+  % Component a u_1
+  \draw[-{Latex[length=3mm]}, thick] (O) -- (A);
+  \node[below right=3pt] at (A) {$a\vec u_1$};
+
+  % Component b u_2
+  \draw[-{Latex[length=3mm]}, thick] (O) -- (B);
+  \node[left=5pt] at (B) {$b\vec u_2$};
+
+  % Unit vector u_1
+  \draw[-{Latex[length=2.2mm]}, thick] (O) -- (Uone);
+  \node[above=3pt] at (Uone) {$\vec u_1$};
+
+  % Unit vector u_2
+  \draw[-{Latex[length=2.2mm]}, thick] (O) -- (Utwo);
+  \node[right=3pt] at (Utwo) {$\vec u_2$};
+
+  % Vector v = a u_1 + b u_2
+  \draw[-{Latex[length=3mm]}, very thick] (O) -- (V);
+  \node[above right=3pt] at (V) {$\vec v$};
+
+  % Origin
+  \filldraw[black] (O) circle (1.5pt);
+\end{tikzpicture}
+\caption{The decomposition
+$\vec v=a\vec u_1+b\vec u_2$ with respect to the orthonormal directions
+$\vec u_1$ and $\vec u_2$.}
+\end{figure}
+
+\paragraph{Example.}
+Let
+
+\[
+\vec v=
+\begin{bmatrix}
+7\\
+5
+\end{bmatrix}.
+\]
+
+For the standard basis
+
+\[
+(\vec e_1,\vec e_2)
+=
+\left(
+\begin{bmatrix}
+1\\
+0
+\end{bmatrix},
+\begin{bmatrix}
+0\\
+1
+\end{bmatrix}
+\right),
+\]
+
+we have
+
+\[
+\vec v\cdot \vec e_1
+=
+\begin{bmatrix}
+7\\
+5
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+1\\
+0
+\end{bmatrix}
+=
+7,
+\]
+
+and
+
+\[
+\vec v\cdot \vec e_2
+=
+\begin{bmatrix}
+7\\
+5
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+0\\
+1
+\end{bmatrix}
+=
+5.
+\]
+
+Therefore
+
+\[
+(\vec v\cdot \vec e_1)\vec e_1
++
+(\vec v\cdot \vec e_2)\vec e_2
+=
+7\vec e_1+5\vec e_2
+=
+\begin{bmatrix}
+7\\
+0
+\end{bmatrix}
++
+\begin{bmatrix}
+0\\
+5
+\end{bmatrix}
+=
+\begin{bmatrix}
+7\\
+5
+\end{bmatrix}.
+\]
+
+Now take the orthonormal basis
+
+\[
+(\vec u_1,\vec u_2)
+=
+\left(
+\begin{bmatrix}
+\frac45\\[2pt]
+\frac35
+\end{bmatrix},
+\begin{bmatrix}
+-\frac35\\[2pt]
+\frac45
+\end{bmatrix}
+\right).
+\]
+
+Then
+
+\[
+\vec v\cdot \vec u_1
+=
+\begin{bmatrix}
+7\\
+5
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+\frac45\\[2pt]
+\frac35
+\end{bmatrix}
+=
+\frac{28}{5}+\frac{15}{5}
+=
+\frac{43}{5}.
+\]
+
+Also,
+
+\[
+\vec v\cdot \vec u_2
+=
+\begin{bmatrix}
+7\\
+5
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+-\frac35\\[2pt]
+\frac45
+\end{bmatrix}
+=
+-\frac{21}{5}+\frac{20}{5}
+=
+-\frac15.
+\]
+
+So
+
+\[
+\vec v
+=
+\frac{43}{5}\vec u_1
+-
+\frac15 \vec u_2.
+\]
+
+
+Continuing the example, suppose
+
+\[
+(\vec w_1,\vec w_2)
+=
+\left(
+\begin{bmatrix}
+-\frac{1}{\sqrt{2}}\\[2pt]
+\frac{1}{\sqrt{2}}
+\end{bmatrix},
+\begin{bmatrix}
+-\frac{1}{\sqrt{2}}\\[2pt]
+-\frac{1}{\sqrt{2}}
+\end{bmatrix}
+\right).
+\]
+
+Let
+
+\[
+\vec v=
+\begin{bmatrix}
+7\\
+5
+\end{bmatrix}.
+\]
+
+Then
+
+\[
+\vec v\cdot \vec w_1
+=
+\begin{bmatrix}
+7\\
+5
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+-\frac{1}{\sqrt{2}}\\[2pt]
+\frac{1}{\sqrt{2}}
+\end{bmatrix}
+=
+-\frac{7}{\sqrt{2}}+\frac{5}{\sqrt{2}}
+=
+-\frac{2}{\sqrt{2}}
+=
+-\sqrt{2}.
+\]
+
+Also,
+
+\[
+\vec v\cdot \vec w_2
+=
+\begin{bmatrix}
+7\\
+5
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+-\frac{1}{\sqrt{2}}\\[2pt]
+-\frac{1}{\sqrt{2}}
+\end{bmatrix}
+=
+-\frac{7}{\sqrt{2}}-\frac{5}{\sqrt{2}}
+=
+-\frac{12}{\sqrt{2}}
+=
+-6\sqrt{2}.
+\]
+
+So
+
+\[
+\vec v
+=
+-\sqrt{2}\,\vec w_1
+-
+6\sqrt{2}\,\vec w_2.
+\]
+
+\subsection{Orthogonal Projection Onto a Line}
+
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=0.9]
+  % Coordinates
+  \coordinate (O) at (0,0);
+  \coordinate (Vone) at (2.55,1.40);
+  \coordinate (Vtwo) at (-1.25,2.27);
+  \coordinate (V) at (1.30,3.67); % Vone + Vtwo
+
+  % Axes
+  \draw[->, gray] (-3.8,0) -- (4.2,0) node[right] {$x$};
+  \draw[->, gray] (0,-3.2) -- (0,4.3) node[above] {$y$};
+
+  % Line ell
+  \draw[black, thick, domain=-3.7:4.0] plot (\x,{0.55*\x});
+  \node[right] at (3.75,1.95) {$\ell$};
+
+  % Perpendicular line ell perp
+  \draw[black, thick, domain=-1.7:1.7] plot (\x,{-1.818*\x});
+  \node[left] at (-1.45,3.4) {$\ell^\perp$};
+
+  % Unit-ish arrow along ell
+  \draw[-{Latex[length=2.5mm]}, thick] (O) -- (1.55,0.85);
+  \node[below right] at (1.35,0.65) {$\vec u_1$};
+
+  % Projection/vector along ell
+  \draw[-{Latex[length=2.5mm]}, thick] (O) -- (Vone);
+  \node[above] at (2.25,1.25) {$\vec v_1$};
+
+  % Unit-ish arrow along ell perp
+  \draw[-{Latex[length=2.5mm]}, thick] (O) -- (-0.65,1.18);
+  \node[left] at (-0.65,1.18) {$\vec u_2$};
+
+  % Projection/vector along ell perp
+  \draw[-{Latex[length=2.5mm]}, thick] (O) -- (Vtwo);
+  \node[left] at (-1.25,2.27) {$\vec v_2$};
+
+  % Vector v = v1 + v2
+  \draw[-{Latex[length=3mm]}, thick] (O) -- (V);
+  \node[above right] at (V) {$\vec v$};
+
+  % Dashed parallelogram guide lines
+  \draw[dashed] (Vone) -- (V);
+  \draw[dashed] (Vtwo) -- (V);
+
+  % Origin
+  \filldraw[black] (O) circle (1.5pt);
+\end{tikzpicture}
+\caption{A vector can be resolved into a part along a line and a part perpendicular to the line.}
+\end{figure}
+
+
+Now suppose $\vec v$ is some vector in $\mathbb{R}^2$, and $\ell$ is a line in
+$\mathbb{R}^2$ going through the origin.
+
+We can write $\vec v$ as the sum of two vectors, one along $\ell$, and one
+perpendicular to $\ell$:
+
+\[
+\vec v=\vec v_1+\vec v_2.
+\]
+
+The vector $\vec v_1$ is called the orthogonal projection of $\vec v$ to
+$\ell$.
+
+How do we find it?
+
+First, we can pick a unit vector $\vec u_1$ along $\ell$, and a unit vector
+$\vec u_2$ perpendicular to $\ell$.
+
+Then $(\vec u_1,\vec u_2)$ is an orthonormal basis of $\mathbb{R}^2$.
+
+We saw that
+
+\[
+\vec v
+=
+(\vec v\cdot \vec u_1)\vec u_1
++
+(\vec v\cdot \vec u_2)\vec u_2.
+\]
+
+The first term is along $\ell$, and the second term is perpendicular to $\ell$.
+Therefore
+
+\[
+\operatorname{proj}_{\ell}(\vec v)
+=
+\vec v_1
+=
+(\vec v\cdot \vec u_1)\vec u_1.
+\]
+
+\paragraph{Example.}
+Find the orthogonal projection of the vector
+
+\[
+\begin{bmatrix}
+8\\
+9
+\end{bmatrix}
+\]
+
+to the line
+
+\[
+2x-3y=0.
+\]
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=0.55]
+  % Axes
+  \draw[->, gray] (-3.5,0) -- (10.5,0) node[right] {$x$};
+  \draw[->, gray] (0,-3.5) -- (0,10.5) node[above] {$y$};
+
+  % Line ell: 2x - 3y = 0 => y = 2x/3
+  \draw[black, thick, domain=-3:10] plot (\x,{(2/3)*\x});
+  \node[right] at (8.7,5.63) {$\ell$};
+  \node[right] at (7.0,4.2) {$2x-3y=0$};
+
+  % Vector v = (8,9)
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (8,9);
+  \node[above right] at (8,9)
+    {$\vec v=\begin{bmatrix}8\\9\end{bmatrix}$};
+
+  % Unit direction u1, scaled visually
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- (3,2);
+  \node[below right] at (3,2) {$\vec u_1$};
+
+  % Projection of v onto ell = (126/13,84/13)
+  \draw[-{Latex[length=3mm]}, thick] (0,0) -- ({126/13},{84/13});
+  \node[below right] at ({126/13},{84/13})
+    {$\operatorname{proj}_{\ell}(\vec v)$};
+
+  % Perpendicular component
+  \draw[dashed] ({126/13},{84/13}) -- (8,9);
+
+  \filldraw[black] (0,0) circle (2pt);
+\end{tikzpicture}
+\caption{Projection of $\vec v=\begin{bmatrix}8\\9\end{bmatrix}$ onto the line $2x-3y=0$.}
+\end{figure}
+
+A vector along the line $2x-3y=0$ is
+
+\[
+\begin{bmatrix}
+3\\
+2
+\end{bmatrix}
+=
+\vec w.
+\]
+
+Its length is
+
+\[
+\lVert \vec w\rVert
+=
+\sqrt{9+4}
+=
+\sqrt{13}.
+\]
+
+A unit vector along $\ell$ is
+
+\[
+\vec u_1
+=
+\begin{bmatrix}
+\frac{3}{\sqrt{13}}\\[2pt]
+\frac{2}{\sqrt{13}}
+\end{bmatrix}.
+\]
+
+So the projection is
+
+\[
+\operatorname{proj}_{\ell}(\vec v)
+=
+(\vec v\cdot \vec u_1)\vec u_1.
+\]
+
+Thus
+
+\[
+\operatorname{proj}_{\ell}(\vec v)
+=
+\left(
+\begin{bmatrix}
+8\\
+9
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+\frac{3}{\sqrt{13}}\\[2pt]
+\frac{2}{\sqrt{13}}
+\end{bmatrix}
+\right)
+\begin{bmatrix}
+\frac{3}{\sqrt{13}}\\[2pt]
+\frac{2}{\sqrt{13}}
+\end{bmatrix}.
+\]
+
+Since
+
+\[
+\begin{bmatrix}
+8\\
+9
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+\frac{3}{\sqrt{13}}\\[2pt]
+\frac{2}{\sqrt{13}}
+\end{bmatrix}
+=
+\frac{24}{\sqrt{13}}+\frac{18}{\sqrt{13}}
+=
+\frac{42}{\sqrt{13}},
+\]
+
+we get
+
+\[
+\operatorname{proj}_{\ell}(\vec v)
+=
+\frac{42}{\sqrt{13}}
+\begin{bmatrix}
+\frac{3}{\sqrt{13}}\\[2pt]
+\frac{2}{\sqrt{13}}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{126}{13}\\[2pt]
+\frac{84}{13}
+\end{bmatrix}.
+\]
+
+Likewise, we can find the projection to $\ell^\perp$.
+
+Since
+
+\[
+\vec u_1
+=
+\begin{bmatrix}
+\frac{3}{\sqrt{13}}\\[2pt]
+\frac{2}{\sqrt{13}}
+\end{bmatrix},
+\]
+
+we can take
+
+\[
+\vec u_2
+=
+\begin{bmatrix}
+-\frac{2}{\sqrt{13}}\\[2pt]
+\frac{3}{\sqrt{13}}
+\end{bmatrix}.
+\]
+
+Then
+
+\[
+\operatorname{proj}_{\ell^\perp}(\vec v)
+=
+(\vec v\cdot \vec u_2)\vec u_2.
+\]
+
+So
+
+\[
+\operatorname{proj}_{\ell^\perp}(\vec v)
+=
+\left(
+\begin{bmatrix}
+8\\
+9
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+-\frac{2}{\sqrt{13}}\\[2pt]
+\frac{3}{\sqrt{13}}
+\end{bmatrix}
+\right)
+\begin{bmatrix}
+-\frac{2}{\sqrt{13}}\\[2pt]
+\frac{3}{\sqrt{13}}
+\end{bmatrix}.
+\]
+
+Since
+
+\[
+\begin{bmatrix}
+8\\
+9
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+-\frac{2}{\sqrt{13}}\\[2pt]
+\frac{3}{\sqrt{13}}
+\end{bmatrix}
+=
+-\frac{16}{\sqrt{13}}+\frac{27}{\sqrt{13}}
+=
+\frac{11}{\sqrt{13}},
+\]
+
+we get
+
+\[
+\operatorname{proj}_{\ell^\perp}(\vec v)
+=
+\frac{11}{\sqrt{13}}
+\begin{bmatrix}
+-\frac{2}{\sqrt{13}}\\[2pt]
+\frac{3}{\sqrt{13}}
+\end{bmatrix}
+=
+\begin{bmatrix}
+-\frac{22}{13}\\[2pt]
+\frac{33}{13}
+\end{bmatrix}.
+\]
+
+Then
+
+\[
+\vec v
+=
+\vec v_1+\vec v_2,
+\]
+
+where
+
+\[
+\vec v_1=
+\begin{bmatrix}
+\frac{126}{13}\\[2pt]
+\frac{84}{13}
+\end{bmatrix},
+\qquad
+\vec v_2=
+\begin{bmatrix}
+-\frac{22}{13}\\[2pt]
+\frac{33}{13}
+\end{bmatrix}.
+\]
+
+Check:
+
+\[
+\begin{bmatrix}
+\frac{126}{13}\\[2pt]
+\frac{84}{13}
+\end{bmatrix}
++
+\begin{bmatrix}
+-\frac{22}{13}\\[2pt]
+\frac{33}{13}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{104}{13}\\[2pt]
+\frac{117}{13}
+\end{bmatrix}
+=
+\begin{bmatrix}
+8\\
+9
+\end{bmatrix}.
+\]
+
+Basically, we have resolved one vector $\vec v$ into two orthogonal directions,
+with $\vec v_1$ along $\ell$ and $\vec v_2$ along $\ell^\perp$.

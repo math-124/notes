@@ -1,5 +1,7 @@
 mystmd
 jupyterlab
-plotly
+plotly==6.3.1
+kaleido==1.0.0
+choreographer==1.0.9
 numpy
 ipykernel

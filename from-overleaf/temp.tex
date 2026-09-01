@@ -1,0 +1,1017 @@
+
+\section{Geometry in $\mathbb{R}^3$}
+
+We will now start discussing geometry in $\mathbb{R}^3$.
+
+Informally, $\mathbb{R}^3$ is three-dimensional, so inside it we can consider
+two-dimensional flat objects, called planes, and one-dimensional flat objects,
+called lines.
+
+As we saw previously, it is easier to study these objects first in the case
+that they pass through, or contain, the origin.
+
+\subsection{Lines Through the Origin}
+
+As in the case of $\mathbb{R}^2$, to describe a line through the origin, we
+just need to give any nonzero vector along the line.
+
+For example, let
+
+\[
+\vec v=
+\begin{bmatrix}
+3\\
+4\\
+5
+\end{bmatrix}.
+\]
+
+The line through the origin in the direction of $\vec v$ is
+
+\[
+\operatorname{span}(\vec v)
+=
+\left\{
+t
+\begin{bmatrix}
+3\\
+4\\
+5
+\end{bmatrix}
+:
+t\in\mathbb{R}
+\right\}.
+\]
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  scale=0.8,
+  x={(0.85cm,-0.25cm)},
+  y={(-0.35cm,-0.25cm)},
+  z={(0cm,0.75cm)}
+]
+  % Origin
+  \coordinate (O) at (0,0,0);
+
+  % Coordinate axes
+  \draw[->, gray] (0,0,0) -- (6,0,0) node[below right] {$x$};
+  \draw[->, gray] (0,0,0) -- (0,6,0) node[below left] {$y$};
+  \draw[->, gray] (0,0,0) -- (0,0,7) node[above] {$z$};
+
+  % Exact line t(3,4,5)
+  \draw[black, thick]
+    (-2.4,-3.2,-4) -- (3.6,4.8,6);
+
+  % Exact vector v=(3,4,5)
+  \draw[-{Latex[length=3mm]}, very thick]
+    (O) -- (3,4,5);
+
+  \filldraw[black] (O) circle (1.7pt);
+
+  \node[right=5pt] at (3,4,5)
+    {$\vec v=\begin{bmatrix}3\\4\\5\end{bmatrix}$};
+
+  \node[right=4pt] at (3.45,4.6,5.75) {$\ell$};
+\end{tikzpicture}
+\caption{The line through the origin spanned by
+$\vec v=\begin{bmatrix}3\\4\\5\end{bmatrix}$.}
+\end{figure}
+
+\subsection{Planes Through the Origin}
+
+Informally, a plane has two independent directions. This means that, to
+describe a plane, we need to give two vectors in the plane that are not
+multiples of each other.
+
+For example, let
+
+\[
+\vec v_1=
+\begin{bmatrix}
+3\\
+4\\
+5
+\end{bmatrix},
+\qquad
+\vec v_2=
+\begin{bmatrix}
+1\\
+1\\
+1
+\end{bmatrix}.
+\]
+
+These vectors are not multiples of each other.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  scale=0.72,
+  x={(0.85cm,-0.25cm)},
+  y={(-0.35cm,-0.25cm)},
+  z={(0cm,0.75cm)}
+]
+  \coordinate (O) at (0,0,0);
+
+  % Coordinate axes
+  \draw[->, gray] (0,0,0) -- (6,0,0) node[below right] {$x$};
+  \draw[->, gray] (0,0,0) -- (0,6,0) node[below left] {$y$};
+  \draw[->, gray] (0,0,0) -- (0,0,7) node[above] {$z$};
+
+  % Exact plane x-2y+z=0
+  % Each corner satisfies x-2y+z=0.
+  \filldraw[
+    fill=blue!15,
+    fill opacity=0.65,
+    draw=blue!55!black,
+    thick
+  ]
+    (-4,-2,0) --
+    (0,-2,-4) --
+    (4,2,0) --
+    (0,2,4) -- cycle;
+
+  % Exact vectors
+  \draw[-{Latex[length=3mm]}, very thick, black]
+    (O) -- (3,4,5);
+  \node[right=5pt] at (3,4,5)
+    {$\vec v_1=\begin{bmatrix}3\\4\\5\end{bmatrix}$};
+
+  \draw[-{Latex[length=3mm]}, very thick, black]
+    (O) -- (1,1,1);
+  \node[below right=4pt] at (1,1,1)
+    {$\vec v_2=\begin{bmatrix}1\\1\\1\end{bmatrix}$};
+
+  \filldraw[black] (O) circle (1.7pt);
+  \node[right] at (3.5,1.75,0) {$P$};
+\end{tikzpicture}
+\caption{The vectors $\vec v_1$ and $\vec v_2$ determine a plane $P$ through
+the origin.}
+\end{figure}
+
+The reason that two vectors are enough to describe a plane is that we can take
+linear combinations of them to fill out the entire plane.
+
+Let $\ell_1$ be the line through $\vec v_1$, and let $\ell_2$ be the line
+through $\vec v_2$.
+
+Consider a vector $\vec w$ in the plane. Complete a parallelogram whose sides
+are parallel to $\ell_1$ and $\ell_2$. We can then write
+
+\[
+\vec w=\vec w_1+\vec w_2,
+\]
+
+where $\vec w_1$ lies on $\ell_1$ and $\vec w_2$ lies on $\ell_2$.
+
+This implies that
+
+\[
+\vec w_1=a\vec v_1
+\]
+
+for some scalar $a$, and
+
+\[
+\vec w_2=b\vec v_2
+\]
+
+for some scalar $b$.
+
+Therefore,
+
+\[
+\boxed{\vec w=a\vec v_1+b\vec v_2}.
+\]
+
+We say that $\vec w$ is a linear combination of $\vec v_1$ and $\vec v_2$.
+
+The following figure gives an exact example. Here
+
+\[
+\vec w_1=\vec v_1,
+\qquad
+\vec w_2=-\vec v_2,
+\]
+
+so
+
+\[
+\vec w=\vec v_1-\vec v_2
+=
+\begin{bmatrix}
+2\\
+3\\
+4
+\end{bmatrix}.
+\]
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  scale=0.78,
+  x={(0.85cm,-0.25cm)},
+  y={(-0.35cm,-0.25cm)},
+  z={(0cm,0.75cm)}
+]
+  \coordinate (O) at (0,0,0);
+  \coordinate (Wone) at (3,4,5);
+  \coordinate (Wtwo) at (-1,-1,-1);
+  \coordinate (W) at (2,3,4);
+
+  % Exact plane x-2y+z=0
+  \filldraw[
+    fill=blue!12,
+    fill opacity=0.65,
+    draw=blue!55!black,
+    thick
+  ]
+    (-4,-2,0) --
+    (0,-2,-4) --
+    (4,2,0) --
+    (0,2,4) -- cycle;
+
+  % Lines in the directions v1 and v2
+  \draw[blue!70!black, thick]
+    (-2.4,-3.2,-4) -- (3.6,4.8,6);
+  \node[right] at (3.3,4.4,5.5) {$\ell_1$};
+
+  \draw[blue!70!black, thick]
+    (-3,-3,-3) -- (3,3,3);
+  \node[below right] at (2.5,2.5,2.5) {$\ell_2$};
+
+  % Exact component vectors
+  \draw[-{Latex[length=3mm]}, very thick]
+    (O) -- (Wone);
+  \node[right=5pt] at (Wone) {$\vec w_1=\vec v_1$};
+
+  \draw[-{Latex[length=3mm]}, very thick]
+    (O) -- (Wtwo);
+  \node[left=5pt] at (Wtwo) {$\vec w_2=-\vec v_2$};
+
+  % Exact sum vector
+  \draw[-{Latex[length=3mm]}, very thick, green!55!black]
+    (O) -- (W);
+  \node[left=5pt, green!55!black] at (W)
+    {$\vec w=\begin{bmatrix}2\\3\\4\end{bmatrix}$};
+
+  % Exact parallelogram completion
+  \draw[dashed, magenta!80!black] (Wone) -- (W);
+  \draw[dashed, magenta!80!black] (Wtwo) -- (W);
+
+  \filldraw[black] (O) circle (1.7pt);
+  \node[right] at (3.5,1.75,0) {$P$};
+\end{tikzpicture}
+\caption{The exact parallelogram relation
+$\vec w=\vec w_1+\vec w_2=\vec v_1-\vec v_2$.}
+\end{figure}
+
+\paragraph{Definition.}
+The span of the two vectors $\vec v_1$ and $\vec v_2$ is the set of all linear
+combinations
+
+\[
+\operatorname{span}(\vec v_1,\vec v_2)
+=
+\left\{
+a\vec v_1+b\vec v_2
+:
+a,b\in\mathbb{R}
+\right\}.
+\]
+
+Later, we will generalize this to the span of any number of vectors in
+$\mathbb{R}^n$.
+
+Returning to our specific example,
+
+\[
+\vec v_1=
+\begin{bmatrix}
+3\\
+4\\
+5
+\end{bmatrix},
+\qquad
+\vec v_2=
+\begin{bmatrix}
+1\\
+1\\
+1
+\end{bmatrix},
+\]
+
+the plane $P$ is described by
+
+\[
+P
+=
+\left\{
+a\vec v_1+b\vec v_2
+:
+a,b\in\mathbb{R}
+\right\}.
+\]
+
+Equivalently,
+
+\[
+P
+=
+\left\{
+a
+\begin{bmatrix}
+3\\
+4\\
+5
+\end{bmatrix}
++
+b
+\begin{bmatrix}
+1\\
+1\\
+1
+\end{bmatrix}
+:
+a,b\in\mathbb{R}
+\right\}.
+\]
+
+Thus,
+
+\[
+P
+=
+\left\{
+\begin{bmatrix}
+3a+b\\
+4a+b\\
+5a+b
+\end{bmatrix}
+:
+a,b\in\mathbb{R}
+\right\}.
+\]
+
+\paragraph{Exercise.}
+Use this last description to write out some other vectors in the plane.
+
+\paragraph{Answer.}
+We can take any values of $a$ and $b$.
+
+For example, if $a=1$ and $b=-1$, then
+
+\[
+\begin{bmatrix}
+3a+b\\
+4a+b\\
+5a+b
+\end{bmatrix}
+=
+\begin{bmatrix}
+2\\
+3\\
+4
+\end{bmatrix}
+=
+\vec v_3.
+\]
+
+If $a=2$ and $b=3$, then
+
+\[
+\begin{bmatrix}
+3a+b\\
+4a+b\\
+5a+b
+\end{bmatrix}
+=
+\begin{bmatrix}
+9\\
+11\\
+13
+\end{bmatrix}
+=
+\vec v_4.
+\]
+
+Notice that taking $a=1$ and $b=0$ recovers $\vec v_1$, while taking $a=0$
+and $b=1$ recovers $\vec v_2$.
+
+Now there is nothing special about the original choice $(\vec v_1,\vec v_2)$.
+As far as the plane $P$ is concerned, any choice of two independent vectors is
+enough to describe the plane.
+
+For example,
+
+\[
+P=\operatorname{span}(\vec v_3,\vec v_4).
+\]
+
+Why is this?
+
+The key point is that $\vec v_1$ and $\vec v_2$ are themselves linear
+combinations of $\vec v_3$ and $\vec v_4$.
+
+Since
+
+\[
+\vec v_3=\vec v_1-\vec v_2
+\]
+
+and
+
+\[
+\vec v_4=2\vec v_1+3\vec v_2,
+\]
+
+we have
+
+\[
+\vec v_1
+=
+\frac{3\vec v_3+\vec v_4}{5}
+=
+\frac35\vec v_3+\frac15\vec v_4
+\]
+
+and
+
+\[
+\vec v_2
+=
+\frac{\vec v_4-2\vec v_3}{5}
+=
+-\frac25\vec v_3+\frac15\vec v_4.
+\]
+
+Therefore,
+
+\[
+\vec v_1,\vec v_2\in\operatorname{span}(\vec v_3,\vec v_4).
+\]
+
+The span of any number of vectors is closed under taking further linear
+combinations. One might summarize this with the slogan:
+
+\begin{center}
+A linear combination of linear combinations is a linear combination.
+\end{center}
+
+Indeed, if
+
+\[
+\vec v_1=\alpha\vec v_3+\beta\vec v_4
+\]
+
+and
+
+\[
+\vec v_2=\gamma\vec v_3+\delta\vec v_4,
+\]
+
+then
+
+\[
+\begin{aligned}
+a\vec v_1+b\vec v_2
+&=
+a(\alpha\vec v_3+\beta\vec v_4)
++
+b(\gamma\vec v_3+\delta\vec v_4)\\
+&=
+(a\alpha+b\gamma)\vec v_3
++
+(a\beta+b\delta)\vec v_4\\
+&\in
+\operatorname{span}(\vec v_3,\vec v_4).
+\end{aligned}
+\]
+
+This means that any linear combination of $(\vec v_1,\vec v_2)$ is also a
+linear combination of $(\vec v_3,\vec v_4)$.
+
+Likewise, any linear combination of $(\vec v_3,\vec v_4)$ is a linear
+combination of $(\vec v_1,\vec v_2)$.
+
+Therefore,
+
+\[
+\operatorname{span}(\vec v_1,\vec v_2)
+=
+\operatorname{span}(\vec v_3,\vec v_4).
+\]
+
+\paragraph{Conclusion.}
+A plane in $\mathbb{R}^3$ containing the origin may be described as the span
+of two independent vectors. This description is not unique, since there are
+many different choices of pairs of independent vectors.
+
+\subsection{The Dual Perspective}
+
+Now we will consider lines and planes in $\mathbb{R}^3$ from the dual
+perspective. Instead of describing them as spans of vectors, we will try to
+describe them using equations.
+
+It is simplest to start with planes through the origin.
+
+As an example, consider the plane $P$ discussed above:
+
+\[
+P=\operatorname{span}(\vec v_1,\vec v_2),
+\]
+
+where
+
+\[
+\vec v_1=
+\begin{bmatrix}
+3\\
+4\\
+5
+\end{bmatrix},
+\qquad
+\vec v_2=
+\begin{bmatrix}
+1\\
+1\\
+1
+\end{bmatrix}.
+\]
+
+We can guess an equation defining this plane by noticing that, for both
+$\vec v_1$ and $\vec v_2$,
+
+\[
+\text{$x$-coordinate}+\text{$z$-coordinate}
+=
+2\cdot\text{$y$-coordinate}.
+\]
+
+Indeed,
+
+\[
+3+5=2(4)
+\]
+
+and
+
+\[
+1+1=2(1).
+\]
+
+This means that $\vec v_1$ and $\vec v_2$ satisfy the equation
+
+\[
+x+z=2y,
+\]
+
+or equivalently,
+
+\[
+x-2y+z=0.
+\]
+
+\paragraph{Exercise.}
+Graph the equation
+
+\[
+x-2y+z=0.
+\]
+
+Is it the same as the plane $P$?
+
+What is happening here?
+
+Let
+
+\[
+\vec w=
+\begin{bmatrix}
+1\\
+-2\\
+1
+\end{bmatrix}.
+\]
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  scale=0.8,
+  x={(0.85cm,-0.25cm)},
+  y={(-0.35cm,-0.25cm)},
+  z={(0cm,0.75cm)}
+]
+  \coordinate (O) at (0,0,0);
+
+  % Exact plane x-2y+z=0
+  \filldraw[
+    fill=blue!15,
+    fill opacity=0.65,
+    draw=blue!55!black,
+    thick
+  ]
+    (-4,-2,0) --
+    (0,-2,-4) --
+    (4,2,0) --
+    (0,2,4) -- cycle;
+
+  % Exact spanning vectors
+  \draw[-{Latex[length=3mm]}, very thick]
+    (O) -- (3,4,5);
+  \node[right=4pt] at (3,4,5) {$\vec v_1$};
+
+  \draw[-{Latex[length=3mm]}, very thick]
+    (O) -- (1,1,1);
+  \node[below right=3pt] at (1,1,1) {$\vec v_2$};
+
+  % Exact normal line span(1,-2,1)
+  \draw[green!55!black, thick]
+    (-2,4,-2) -- (2,-4,2);
+
+  % Exact normal vector
+  \draw[-{Latex[length=3mm]}, very thick, green!55!black]
+    (O) -- (1,-2,1);
+  \node[right=5pt, green!55!black] at (1,-2,1)
+    {$\vec w=\begin{bmatrix}1\\-2\\1\end{bmatrix}$};
+
+  \filldraw[black] (O) circle (1.7pt);
+  \node[right] at (3.5,1.75,0) {$P$};
+\end{tikzpicture}
+\caption{The vector
+$\vec w=\begin{bmatrix}1\\-2\\1\end{bmatrix}$ is perpendicular to the plane
+$P$.}
+\end{figure}
+
+The vector
+
+\[
+\vec w=
+\begin{bmatrix}
+1\\
+-2\\
+1
+\end{bmatrix}
+\]
+
+spans the unique line through the origin that is perpendicular to the plane
+$P$.
+
+Notice that
+
+\[
+\vec v_1\cdot\vec w
+=
+\begin{bmatrix}
+3\\
+4\\
+5
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+1\\
+-2\\
+1
+\end{bmatrix}
+=
+3-8+5
+=
+0,
+\]
+
+and
+
+\[
+\vec v_2\cdot\vec w
+=
+\begin{bmatrix}
+1\\
+1\\
+1
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+1\\
+-2\\
+1
+\end{bmatrix}
+=
+1-2+1
+=
+0.
+\]
+
+Consequently, for any linear combination of $\vec v_1$ and $\vec v_2$,
+
+\[
+\begin{aligned}
+(a\vec v_1+b\vec v_2)\cdot\vec w
+&=
+a(\vec v_1\cdot\vec w)
++
+b(\vec v_2\cdot\vec w)\\
+&=
+0+0\\
+&=
+0.
+\end{aligned}
+\]
+
+\paragraph{Conclusion.}
+The equation
+
+\[
+x-2y+z=0
+\]
+
+exactly describes the vectors perpendicular to
+
+\[
+\begin{bmatrix}
+1\\
+-2\\
+1
+\end{bmatrix}.
+\]
+
+This is another way of describing the plane $P$.
+
+\paragraph{Remark.}
+Instead of
+
+\[
+\begin{bmatrix}
+1\\
+-2\\
+1
+\end{bmatrix},
+\]
+
+we could take any nonzero scalar multiple of it. For example,
+
+\[
+\begin{bmatrix}
+3\\
+-6\\
+3
+\end{bmatrix}.
+\]
+
+Thus,
+
+\[
+3x-6y+3z=0
+\]
+
+is another equation describing $P$.
+
+\paragraph{Question for in-class discussion.}
+Which method of describing $P$ is easier:
+
+\begin{itemize}
+  \item as the span of two vectors, or
+  \item as the solution set of a single linear equation?
+\end{itemize}
+
+\subsection{Describing Lines Using the Dual Perspective}
+
+Now let us try to describe lines using the dual perspective.
+
+This is a trickier problem, since one equation in $\mathbb{R}^3$ defines a
+plane. To define a line, we need two equations.
+
+For example, consider the line
+
+\[
+\ell
+=
+\operatorname{span}
+\left(
+\begin{bmatrix}
+3\\
+4\\
+5
+\end{bmatrix}
+\right).
+\]
+
+One equation satisfied by every vector on this line is
+
+\[
+x-2y+z=0.
+\]
+
+Can we find another equation that is independent of the first equation?
+
+There are many ways to do this. For example, each of the following equations
+is satisfied by every vector on $\ell$:
+
+\[
+4x-3y=0,
+\]
+
+\[
+5y-4z=0,
+\]
+
+\[
+5x-3z=0,
+\]
+
+or
+
+\[
+-5x+5y-z=0.
+\]
+
+Let
+
+\[
+\vec w=
+\begin{bmatrix}
+1\\
+-2\\
+1
+\end{bmatrix}
+\]
+
+and, just for the sake of an example, choose
+
+\[
+\vec w'=
+\begin{bmatrix}
+-5\\
+5\\
+-1
+\end{bmatrix}.
+\]
+
+The plane perpendicular to $\vec w$ is
+
+\[
+P=\left\{\vec x\in\mathbb{R}^3:\vec x\cdot\vec w=0\right\},
+\]
+
+and the plane perpendicular to $\vec w'$ is
+
+\[
+P'=\left\{\vec x\in\mathbb{R}^3:\vec x\cdot\vec w'=0\right\}.
+\]
+
+Their intersection is the line $\ell$.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  scale=0.72,
+  x={(0.85cm,-0.25cm)},
+  y={(-0.35cm,-0.25cm)},
+  z={(0cm,0.75cm)}
+]
+  \coordinate (O) at (0,0,0);
+
+  % Plane P: span((3,4,5),(2,1,0))
+  % Its normal vector is (1,-2,1).
+  \filldraw[
+    fill=blue!25,
+    fill opacity=0.42,
+    draw=blue!60!black,
+    thick
+  ]
+    (-6.4,-5.2,-4) --
+    (1.6,-1.2,-4) --
+    (6.4,5.2,4) --
+    (-1.6,1.2,4) -- cycle;
+
+  % Plane P': span((3,4,5),(1,1,0))
+  % Its normal vector is (-5,5,-1).
+  \filldraw[
+    fill=orange!35,
+    fill opacity=0.40,
+    draw=orange!70!black,
+    thick
+  ]
+    (-4.4,-5.2,-4) --
+    (-0.4,-1.2,-4) --
+    (4.4,5.2,4) --
+    (0.4,1.2,4) -- cycle;
+
+  % Exact intersection line span(3,4,5)
+  \draw[black, very thick]
+    (-3,-4,-5) -- (3.6,4.8,6);
+
+  % Exact direction vector
+  \draw[-{Latex[length=3mm]}, very thick, black]
+    (O) -- (3,4,5);
+  \node[right=5pt] at (3,4,5)
+    {$\begin{bmatrix}3\\4\\5\end{bmatrix}$};
+
+  % Exact normal vectors
+  \draw[-{Latex[length=3mm]}, thick, blue!70!black]
+    (O) -- (1,-2,1);
+  \node[right=4pt, blue!70!black] at (1,-2,1)
+    {$\vec w=\begin{bmatrix}1\\-2\\1\end{bmatrix}$};
+
+  \draw[-{Latex[length=3mm]}, thick, orange!80!black]
+    (O) -- (-5,5,-1);
+  \node[left=5pt, orange!80!black] at (-5,5,-1)
+    {$\vec w'=\begin{bmatrix}-5\\5\\-1\end{bmatrix}$};
+
+  \filldraw[black] (O) circle (1.7pt);
+
+  \node[blue!70!black] at (4.2,3.5,1.5) {$P$};
+  \node[orange!80!black] at (-2.6,-3.2,-1.7) {$P'$};
+  \node[right] at (3.4,4.55,5.7) {$\ell$};
+\end{tikzpicture}
+\caption{The line
+$\ell=\operatorname{span}\left(\begin{bmatrix}3\\4\\5\end{bmatrix}\right)$
+is the intersection of two planes through the origin.}
+\end{figure}
+
+Thus, the equations
+
+\[
+\begin{cases}
+x-2y+z=0,\\
+-5x+5y-z=0
+\end{cases}
+\]
+
+describe the line $\ell$.
+
+\paragraph{Remark.}
+Each equation defines a plane. What we are doing is writing $\ell$ as the
+intersection of two planes:
+
+\[
+\ell
+=
+\left\{
+\vec x\in\mathbb{R}^3:
+\vec x\cdot\vec w=0
+\text{ and }
+\vec x\cdot\vec w'=0
+\right\}.
+\]
+
+There are many different ways to do this. Each such way corresponds to choosing
+a pair of independent vectors $(\vec w_1,\vec w_2)$ in the plane perpendicular
+to $\ell$.
+
+\subsection{Affine Lines and Planes}
+
+Affine lines and planes are obtained by translating a line or plane through the
+origin by a fixed vector.
+
+An affine line is given by
+
+\[
+\vec v_0+\operatorname{span}(\vec v_1)
+\]
+
+for some vectors $\vec v_0$ and $\vec v_1$, with $\vec v_1\ne\vec 0$.
+
+An affine plane is given by
+
+\[
+\vec v_0+\operatorname{span}(\vec v_1,\vec v_2)
+\]
+
+for two independent vectors $\vec v_1$ and $\vec v_2$.
+
+Dually, in terms of equations, an affine plane is given by a single
+nonhomogeneous linear equation
+
+\[
+ax+by+cz=d,
+\]
+
+where $(a,b,c)\ne(0,0,0)$.
+
+An affine line in $\mathbb{R}^3$ is given by two independent linear equations,
+
+\[
+\begin{cases}
+a_1x+b_1y+c_1z=d_1,\\
+a_2x+b_2y+c_2z=d_2,
+\end{cases}
+\]
+
+whose corresponding normal vectors
+
+\[
+\begin{bmatrix}
+a_1\\
+b_1\\
+c_1
+\end{bmatrix},
+\qquad
+\begin{bmatrix}
+a_2\\
+b_2\\
+c_2
+\end{bmatrix}
+\]
+
+are independent, meaning that they are not scalar multiples of each other.

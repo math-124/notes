@@ -1,0 +1,715 @@
+
+% ================================================================
+% Linear Algebra Textbook Preamble and Macros
+% ================================================================
+%
+% Suggested main.tex:
+%
+% \documentclass[11pt,oneside]{book}
+% \input{preamble}
+%
+% \begin{document}
+% \frontmatter
+% \maketitle
+% \tableofcontents
+%
+% \mainmatter
+% \chapter{Introduction}
+% ...
+%
+% \end{document}
+%
+% ================================================================
+
+
+% ================================================================
+% BASIC PACKAGES
+% ================================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{comment}
+\usepackage{xparse}
+\usepackage{etoolbox}
+
+
+% ================================================================
+% FIGURES AND DRAWINGS
+% ================================================================
+
+\usepackage{tikz}
+
+\usetikzlibrary{
+  arrows.meta,
+  calc,
+  intersections,
+  positioning,
+  decorations.pathreplacing,
+  angles,
+  quotes
+}
+
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\definecolor{notespink}{RGB}{210,45,105}
+\definecolor{notespurple}{RGB}{95,45,170}
+
+
+% ================================================================
+% BOXES
+% ================================================================
+
+\usepackage[most]{tcolorbox}
+
+
+% ================================================================
+% HYPERLINKS AND REFERENCES
+% ================================================================
+
+\usepackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!70!black,
+  pdftitle={Linear Algebra},
+  pdfauthor={},
+  pdfsubject={Linear Algebra},
+  pdfkeywords={linear algebra, vectors, matrices}
+}
+
+\usepackage[nameinlink]{cleveref}
+
+
+% ================================================================
+% PAGE STYLE
+% ================================================================
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Linear Algebra}
+\fancyhead[R]{\leftmark}
+\fancyfoot[C]{\thepage}
+
+\setlength{\headheight}{14pt}
+
+
+% ================================================================
+% PARAGRAPH AND LIST FORMATTING
+% ================================================================
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+
+\setlist[itemize]{
+  leftmargin=2em,
+  itemsep=0.25em,
+  topsep=0.25em
+}
+
+\setlist[enumerate]{
+  leftmargin=2em,
+  itemsep=0.35em,
+  topsep=0.35em
+}
+
+
+% ================================================================
+% NUMBERING
+% ================================================================
+
+\numberwithin{equation}{chapter}
+
+
+% ================================================================
+% COMMON NUMBER SYSTEMS
+% ================================================================
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Rone}{\mathbb R^1}
+\newcommand{\Rtwo}{\mathbb R^2}
+\newcommand{\Rthree}{\mathbb R^3}
+\newcommand{\Rn}{\mathbb R^n}
+\newcommand{\Rm}{\mathbb R^m}
+
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\C}{\mathbb C}
+
+
+% ================================================================
+% SET NOTATION
+% ================================================================
+
+% Example:
+%   \Set{x \in \R}{x > 0}
+%
+% Produces:
+%   { x in R : x > 0 }
+
+\newcommand{\Set}[2]{\left\{\, #1 \;:\; #2 \,\right\}}
+
+% Alternative with vertical bar:
+%   \Setbar{x \in \R}{x > 0}
+
+\newcommand{\Setbar}[2]{\left\{\, #1 \;\middle|\; #2 \,\right\}}
+
+\newcommand{\st}{\;:\;}
+\newcommand{\suchthat}{\;\middle|\;}
+
+
+% ================================================================
+% VECTOR NOTATION
+% ================================================================
+%
+% We use arrow notation throughout:
+%
+%   \vec v, \vec u, \vec x
+%
+% We do not use boldface for vectors.
+% The standard LaTeX \vec command is left unchanged.
+
+\newcommand{\vzero}{\vec 0}
+
+\newcommand{\va}{\vec a}
+\newcommand{\vb}{\vec b}
+\newcommand{\vc}{\vec c}
+\newcommand{\vu}{\vec u}
+\newcommand{\vv}{\vec v}
+\newcommand{\vw}{\vec w}
+\newcommand{\vx}{\vec x}
+\newcommand{\vy}{\vec y}
+\newcommand{\vz}{\vec z}
+\newcommand{\vp}{\vec p}
+\newcommand{\vq}{\vec q}
+
+% Standard basis vectors.
+
+\newcommand{\eone}{\vec e_1}
+\newcommand{\etwo}{\vec e_2}
+\newcommand{\ethree}{\vec e_3}
+\newcommand{\ei}{\vec e_i}
+\newcommand{\ej}{\vec e_j}
+
+% Optional physics/engineering notation.
+% Main notes should primarily use \vec e_1, \vec e_2, \vec e_3.
+
+\newcommand{\ihat}{\hat{\imath}}
+\newcommand{\jhat}{\hat{\jmath}}
+\newcommand{\khat}{\hat{k}}
+
+
+% ================================================================
+% COLUMN VECTORS AND MATRICES
+% ================================================================
+%
+% We emphasize column vectors.
+%
+% Examples:
+%
+%   \twovec{2}{3}
+%   \threevec{1}{0}{-4}
+%   \colvec{x_1 \\ x_2 \\ \vdots \\ x_n}
+%   \mat{1 & 2 \\ 3 & 4}
+
+\newcommand{\colvec}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+
+\newcommand{\twovec}[2]{
+\begin{bmatrix}
+#1\\
+#2
+\end{bmatrix}
+}
+
+\newcommand{\threevec}[3]{
+\begin{bmatrix}
+#1\\
+#2\\
+#3
+\end{bmatrix}
+}
+
+\newcommand{\fourvec}[4]{
+\begin{bmatrix}
+#1\\
+#2\\
+#3\\
+#4
+\end{bmatrix}
+}
+
+\newcommand{\mat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+
+\newcommand{\smallmat}[1]{%
+\left[\begin{smallmatrix} #1 \end{smallmatrix}\right]%
+}
+
+% Augmented matrix.
+%
+% Example:
+%
+% \augmat{cc|c}{
+% 1 & 2 & 3\\
+% 4 & 5 & 6
+% }
+
+\newcommand{\augmat}[2]{
+\left[
+\begin{array}{#1}
+#2
+\end{array}
+\right]
+}
+
+
+% ================================================================
+% INNER PRODUCTS, NORMS, DISTANCE
+% ================================================================
+
+\newcommand{\dotp}[2]{#1 \cdot #2}
+\newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle}
+
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\dist}[2]{\operatorname{dist}\!\left(#1,#2\right)}
+
+
+% ================================================================
+% LINEAR ALGEBRA OPERATORS
+% ================================================================
+
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\Col}{Col}
+\DeclareMathOperator{\Nul}{Nul}
+\DeclareMathOperator{\Row}{Row}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\nullity}{nullity}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\range}{range}
+\DeclareMathOperator{\projop}{proj}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\tr}{tr}
+
+% Projection notation.
+%
+% Example:
+%   \proj{\vec u}{\vec v}
+%
+% Means:
+%   projection of \vec v onto the direction/subspace \vec u.
+
+\newcommand{\proj}[2]{\projop_{#1}\!\left(#2\right)}
+
+% Matrix transpose and inverse.
+%
+% Examples:
+%   A\T
+%   A\inv
+
+\newcommand{\T}{^{\mathsf T}}
+\newcommand{\inv}{^{-1}}
+
+% Coordinates relative to a basis.
+%
+% Example:
+%   \coords{\vec v}{B}
+%
+% Produces:
+%   [v]_B
+
+\newcommand{\coords}[2]{\left[#1\right]_{#2}}
+
+
+% ================================================================
+% TEXT EMPHASIS MACROS
+% ================================================================
+
+\newcommand{\defterm}[1]{\textbf{#1}}
+
+\newcommand{\important}[1]{%
+\begin{center}
+\fbox{\parbox{0.85\textwidth}{#1}}
+\end{center}
+}
+
+\newcommand{\bigidea}[1]{%
+\begin{center}
+\begin{tcolorbox}[
+  width=0.88\textwidth,
+  colback=yellow!8,
+  colframe=yellow!50!black,
+  boxrule=0.8pt,
+  arc=2mm
+]
+#1
+\end{tcolorbox}
+\end{center}
+}
+
+
+% ================================================================
+% THEOREM-LIKE ENVIRONMENTS
+% ================================================================
+
+\theoremstyle{definition}
+
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{example}{Example}[chapter]
+\newtheorem{exerciseinner}{Exercise}[chapter]
+
+\theoremstyle{plain}
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{fact}{Fact}[chapter]
+
+\theoremstyle{remark}
+
+\newtheorem{remark}{Remark}[chapter]
+
+
+% ================================================================
+% BOX STYLING FOR THEOREM-LIKE ENVIRONMENTS
+% ================================================================
+
+\tcolorboxenvironment{definition}{
+  enhanced,
+  breakable,
+  colback=blue!3,
+  colframe=blue!55!black,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=1mm,
+  right=1mm,
+  top=1mm,
+  bottom=1mm
+}
+
+\tcolorboxenvironment{example}{
+  enhanced,
+  breakable,
+  colback=green!3,
+  colframe=green!45!black,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=1mm,
+  right=1mm,
+  top=1mm,
+  bottom=1mm
+}
+
+\tcolorboxenvironment{theorem}{
+  enhanced,
+  breakable,
+  colback=purple!3,
+  colframe=purple!55!black,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=1mm,
+  right=1mm,
+  top=1mm,
+  bottom=1mm
+}
+
+\tcolorboxenvironment{proposition}{
+  enhanced,
+  breakable,
+  colback=purple!3,
+  colframe=purple!45!black,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=1mm,
+  right=1mm,
+  top=1mm,
+  bottom=1mm
+}
+
+\tcolorboxenvironment{fact}{
+  enhanced,
+  breakable,
+  colback=orange!5,
+  colframe=orange!60!black,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=1mm,
+  right=1mm,
+  top=1mm,
+  bottom=1mm
+}
+
+\tcolorboxenvironment{remark}{
+  enhanced,
+  breakable,
+  colback=gray!5,
+  colframe=gray!50!black,
+  boxrule=0.5pt,
+  arc=2mm,
+  left=1mm,
+  right=1mm,
+  top=1mm,
+  bottom=1mm
+}
+
+
+% ================================================================
+% EXERCISES AND SOLUTIONS
+% ================================================================
+%
+% Exercise:
+%
+% \begin{exercise}
+% ...
+% \end{exercise}
+%
+% Exercise with title:
+%
+% \begin{exercise}[Interpreting a line]
+% ...
+% \end{exercise}
+
+\NewDocumentEnvironment{exercise}{O{}}
+{
+  \ifstrempty{#1}
+    {\begin{exerciseinner}}
+    {\begin{exerciseinner}[#1]}
+}
+{
+  \end{exerciseinner}
+}
+
+% Solutions are hidden by default.
+% To show solutions, change \showsolutionstrue below.
+
+\newif\ifshowsolutions
+\showsolutionsfalse
+% \showsolutionstrue
+
+\ifshowsolutions
+  \NewDocumentEnvironment{solution}{}
+  {
+    \begin{proof}[Solution]
+  }
+  {
+    \end{proof}
+  }
+\else
+  \excludecomment{solution}
+\fi
+
+
+% ================================================================
+% CHAPTER-LEVEL STRUCTURE BOXES
+% ================================================================
+
+\newenvironment{chapteroverview}
+{
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=cyan!4,
+    colframe=cyan!50!black,
+    title=\textbf{Chapter Overview},
+    boxrule=0.7pt,
+    arc=2mm
+  ]
+}
+{
+  \end{tcolorbox}
+}
+
+\newenvironment{learningobjectives}
+{
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=cyan!4,
+    colframe=cyan!50!black,
+    title=\textbf{Learning Objectives},
+    boxrule=0.7pt,
+    arc=2mm
+  ]
+  \begin{itemize}
+}
+{
+  \end{itemize}
+  \end{tcolorbox}
+}
+
+\newenvironment{summarybox}
+{
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=yellow!5,
+    colframe=yellow!50!black,
+    title=\textbf{Summary},
+    boxrule=0.7pt,
+    arc=2mm
+  ]
+  \begin{itemize}
+}
+{
+  \end{itemize}
+  \end{tcolorbox}
+}
+
+\newenvironment{checkyourunderstanding}
+{
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=red!3,
+    colframe=red!50!black,
+    title=\textbf{Check Your Understanding},
+    boxrule=0.7pt,
+    arc=2mm
+  ]
+  \begin{enumerate}
+}
+{
+  \end{enumerate}
+  \end{tcolorbox}
+}
+
+
+% ================================================================
+% OPTIONAL SECTION-LEVEL BOXES
+% ================================================================
+
+\newenvironment{motivation}
+{
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=green!4,
+    colframe=green!45!black,
+    title=\textbf{Motivation},
+    boxrule=0.7pt,
+    arc=2mm
+  ]
+}
+{
+  \end{tcolorbox}
+}
+
+\newenvironment{warningbox}
+{
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=red!4,
+    colframe=red!60!black,
+    title=\textbf{Warning},
+    boxrule=0.7pt,
+    arc=2mm
+  ]
+}
+{
+  \end{tcolorbox}
+}
+
+\newenvironment{computationalnote}
+{
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=gray!6,
+    colframe=gray!60!black,
+    title=\textbf{Computational Note},
+    boxrule=0.7pt,
+    arc=2mm
+  ]
+}
+{
+  \end{tcolorbox}
+}
+
+
+% ================================================================
+% TIKZ STYLES
+% ================================================================
+
+\tikzset{
+  vector/.style={
+    -{Latex[length=3mm]},
+    thick,
+    blue!70!black
+  },
+  axis/.style={
+    -{Latex[length=2.5mm]},
+    gray!70
+  },
+  point/.style={
+    circle,
+    fill=black,
+    inner sep=1.5pt
+  },
+  dashedline/.style={
+    dashed,
+    gray!70
+  }
+}
+
+% Simple coordinate axes for \R^2 sketches.
+%
+% Usage inside tikzpicture:
+%
+% \drawRtwoaxes{-3}{3}{-2}{2}
+%
+% Arguments:
+%   xmin, xmax, ymin, ymax
+
+\NewDocumentCommand{\drawRtwoaxes}{m m m m}
+{
+  \draw[axis] (#1,0) -- (#2,0) node[right] {$x$};
+  \draw[axis] (0,#3) -- (0,#4) node[above] {$y$};
+}
+
+
+% ================================================================
+% CLEVEREF NAMES
+% ================================================================
+
+\crefname{definition}{Definition}{Definitions}
+\Crefname{definition}{Definition}{Definitions}
+
+\crefname{example}{Example}{Examples}
+\Crefname{example}{Example}{Examples}
+
+\crefname{theorem}{Theorem}{Theorems}
+\Crefname{theorem}{Theorem}{Theorems}
+
+\crefname{proposition}{Proposition}{Propositions}
+\Crefname{proposition}{Proposition}{Propositions}
+
+\crefname{fact}{Fact}{Facts}
+\Crefname{fact}{Fact}{Facts}
+
+\crefname{remark}{Remark}{Remarks}
+\Crefname{remark}{Remark}{Remarks}
+
+\crefname{exerciseinner}{Exercise}{Exercises}
+\Crefname{exerciseinner}{Exercise}{Exercises}
+
+
+% ================================================================
+% END OF PREAMBLE
+% ================================================================
