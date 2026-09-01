@@ -11,8 +11,8 @@ project:
           file: ch01/01-01.ipynb
         - title: "1.2: Sets and set operations"
           file: ch01/01-02.ipynb
-        # - title: "1.3: Sets of numbers"
-          # file: ch01/01-03.ipynb
+        - title: "1.3: Sets of numbers"
+          file: ch01/01-03.ipynb
         # - title: "1.4: Introduction to vectors"
           # file: ch01/01-04.ipynb
     # - title: "Chapter 2: Lines, planes, and orthogonality"
