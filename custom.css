@@ -55,6 +55,20 @@
   --content-max-width: 1120px;
 }
 
+:is(html.dark, html[data-theme="dark"]) {
+  --notes-dark-accent: #f3c969;
+  --notes-dark-accent-strong: #ffd978;
+  --notes-dark-accent-soft: rgba(243, 201, 105, 0.16);
+  --notes-dark-accent-border: rgba(243, 201, 105, 0.34);
+  --notes-dark-activity: #d8bf7a;
+  --notes-dark-activity-soft: rgba(216, 191, 122, 0.16);
+  --notes-dark-activity-strong: #f0dca0;
+  --notes-dark-nav-link: #f1ece3;
+  --notes-dark-nav-link-muted: #d2c7b8;
+  --notes-dark-nav-link-strong: #fff4d7;
+  --notes-dark-surface: #221d18;
+}
+
 /* Edward Tufte's font styles */
 body {
     font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
@@ -92,17 +106,147 @@ div.bd-content a:hover:not(nav a):not(.sidebar a) {
 }
 
 /* Dark mode: content links only (pydata-sphinx-theme / Jupyter Book) */
-html[data-theme="dark"] .bd-main .bd-content a:not(.headerlink):not(.toclink),
-html[data-theme="dark"] .bd-main .bd-content article a:not(.headerlink):not(.toclink) {
-  color: #ffcb05 !important;
+:is(html.dark, html[data-theme="dark"]) .bd-main .bd-content a:not(.headerlink):not(.toclink),
+:is(html.dark, html[data-theme="dark"]) .bd-main .bd-content article a:not(.headerlink):not(.toclink),
+:is(html.dark, html[data-theme="dark"]) main.article article.content a[href]:not(nav a),
+:is(html.dark, html[data-theme="dark"]) article.content a[href]:not(nav a),
+:is(html.dark, html[data-theme="dark"]) .article.content a[href]:not(nav a) {
+  color: var(--notes-dark-accent) !important;
 }
 
 /* Hover/focus */
-html[data-theme="dark"] .bd-main .bd-content a:not(.headerlink):not(.toclink):hover,
-html[data-theme="dark"] .bd-main .bd-content a:not(.headerlink):not(.toclink):focus {
+:is(html.dark, html[data-theme="dark"]) .bd-main .bd-content a:not(.headerlink):not(.toclink):hover,
+:is(html.dark, html[data-theme="dark"]) .bd-main .bd-content a:not(.headerlink):not(.toclink):focus,
+:is(html.dark, html[data-theme="dark"]) main.article article.content a[href]:not(nav a):hover,
+:is(html.dark, html[data-theme="dark"]) main.article article.content a[href]:not(nav a):focus,
+:is(html.dark, html[data-theme="dark"]) article.content a[href]:not(nav a):hover,
+:is(html.dark, html[data-theme="dark"]) article.content a[href]:not(nav a):focus,
+:is(html.dark, html[data-theme="dark"]) .article.content a[href]:not(nav a):hover,
+:is(html.dark, html[data-theme="dark"]) .article.content a[href]:not(nav a):focus {
   color: #000 !important;
-  background: #ffcb05 !important;
+  background: var(--notes-dark-accent-strong) !important;
   text-decoration: none;
+}
+
+/* Dark mode UI accents */
+:is(html.dark, html[data-theme="dark"]) .bd-header,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar-primary,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar-secondary,
+:is(html.dark, html[data-theme="dark"]) .bd-toc {
+  --color-link: var(--notes-dark-accent);
+  --color-link-hover: var(--notes-dark-accent-strong);
+}
+
+:is(html.dark, html[data-theme="dark"]) .bd-header a,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar a,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar summary,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar .caption,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar .sidebar-heading,
+:is(html.dark, html[data-theme="dark"]) .bd-toc a,
+:is(html.dark, html[data-theme="dark"]) .bd-toc summary,
+:is(html.dark, html[data-theme="dark"]) .bd-toc .toc-title,
+:is(html.dark, html[data-theme="dark"]) li.myst-outline-item a {
+  color: var(--notes-dark-nav-link) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar summary,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar .caption,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar .sidebar-heading,
+:is(html.dark, html[data-theme="dark"]) .bd-toc summary,
+:is(html.dark, html[data-theme="dark"]) .bd-toc .toc-title {
+  color: var(--notes-dark-nav-link-muted) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) .bd-header .navbar-nav > li > a:hover,
+:is(html.dark, html[data-theme="dark"]) .bd-header .navbar-nav > li > a:focus,
+:is(html.dark, html[data-theme="dark"]) .bd-header .navbar-nav > li.current > a,
+:is(html.dark, html[data-theme="dark"]) .bd-header a:hover,
+:is(html.dark, html[data-theme="dark"]) .bd-header a:focus,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar summary:hover,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar summary:focus,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar a:hover,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar a:focus,
+:is(html.dark, html[data-theme="dark"]) .bd-toc summary:hover,
+:is(html.dark, html[data-theme="dark"]) .bd-toc summary:focus,
+:is(html.dark, html[data-theme="dark"]) .bd-toc a:hover,
+:is(html.dark, html[data-theme="dark"]) .bd-toc a:focus {
+  color: var(--notes-dark-nav-link-strong) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) .search-button,
+:is(html.dark, html[data-theme="dark"]) .search-button__button,
+:is(html.dark, html[data-theme="dark"]) .bd-search .form-control,
+:is(html.dark, html[data-theme="dark"]) .bd-search input {
+  border-color: var(--notes-dark-accent-border) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) .search-button:focus-within,
+:is(html.dark, html[data-theme="dark"]) .search-button__button:hover,
+:is(html.dark, html[data-theme="dark"]) .search-button__button:focus,
+:is(html.dark, html[data-theme="dark"]) .bd-search .form-control:focus,
+:is(html.dark, html[data-theme="dark"]) .bd-search input:focus {
+  box-shadow: 0 0 0 0.18rem var(--notes-dark-accent-soft) !important;
+  border-color: var(--notes-dark-accent) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar .active,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar a.active,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar .current > a,
+:is(html.dark, html[data-theme="dark"]) .bd-sidebar .current-page,
+:is(html.dark, html[data-theme="dark"]) .bd-toc .active,
+:is(html.dark, html[data-theme="dark"]) .bd-toc a.active,
+:is(html.dark, html[data-theme="dark"]) li.myst-outline-item.myst-outline-item-active {
+  color: var(--notes-dark-accent-strong) !important;
+  background-color: var(--notes-dark-accent-soft) !important;
+  border-left-color: var(--notes-dark-accent) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) .bd-toc .toc-entry > .nav-link.active,
+:is(html.dark, html[data-theme="dark"]) .bd-toc nav a.active,
+:is(html.dark, html[data-theme="dark"]) li.myst-outline-item-active > a {
+  color: var(--notes-dark-accent-strong) !important;
+  border-left-color: var(--notes-dark-accent) !important;
+  background-color: var(--notes-dark-accent-soft) !important;
+}
+
+/* MyST dark-mode navigation chrome */
+:is(html.dark, html[data-theme="dark"]) .myst-top-nav a,
+:is(html.dark, html[data-theme="dark"]) .myst-home-link,
+:is(html.dark, html[data-theme="dark"]) .myst-theme-button,
+:is(html.dark, html[data-theme="dark"]) .myst-search-bar,
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc a,
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc .cursor-pointer,
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc button,
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc svg,
+:is(html.dark, html[data-theme="dark"]) .myst-fm-block-header a,
+:is(html.dark, html[data-theme="dark"]) .myst-fm-block-header button {
+  color: var(--notes-dark-nav-link) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc [data-state="open"] > .myst-toc-item .cursor-pointer,
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc .text-blue-800,
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc .dark\:text-blue-200 {
+  color: var(--notes-dark-accent-strong) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) .myst-top-nav a:hover,
+:is(html.dark, html[data-theme="dark"]) .myst-home-link:hover,
+:is(html.dark, html[data-theme="dark"]) .myst-theme-button:hover,
+:is(html.dark, html[data-theme="dark"]) .myst-search-bar:hover,
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc a:hover,
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc .cursor-pointer:hover,
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc button:hover,
+:is(html.dark, html[data-theme="dark"]) .myst-fm-block-header a:hover,
+:is(html.dark, html[data-theme="dark"]) .myst-fm-block-header button:hover {
+  color: var(--notes-dark-nav-link-strong) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc a.active,
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc a[aria-current="page"],
+:is(html.dark, html[data-theme="dark"]) .myst-primary-sidebar .myst-toc .active {
+  color: var(--notes-dark-accent-strong) !important;
+  background-color: var(--notes-dark-accent-soft) !important;
 }
 
 /* Remove navigation buttons */
@@ -176,9 +320,10 @@ li.myst-outline-item a {
 }
 
 /* Dark mode TOC links */
-html[data-theme="dark"] .bd-toc li a,
-html[data-theme="dark"] li.myst-outline-item a {
-  color: #e2e8f0 !important;
+:is(html.dark, html[data-theme="dark"]) .bd-toc li a,
+:is(html.dark, html[data-theme="dark"]) li.myst-outline-item a,
+:is(html.dark, html[data-theme="dark"]) .bd-toc summary {
+  color: var(--notes-dark-nav-link) !important;
 }
 
 /* Activity TOC link styling - override Tailwind utility classes */
@@ -189,6 +334,13 @@ li.myst-outline-item a[href^="#activity-"] {
   color: #4a8f6b !important; /* A slightly grayer, muted green */
   font-weight: 500 !important;
   position: relative;
+}
+
+:is(html.dark, html[data-theme="dark"]) .bd-toc li a[href^="#activity-"],
+:is(html.dark, html[data-theme="dark"]) .bd-toc [data-activities-toc] a,
+:is(html.dark, html[data-theme="dark"]) #activities-toc a,
+:is(html.dark, html[data-theme="dark"]) li.myst-outline-item a[href^="#activity-"] {
+  color: var(--notes-dark-activity) !important;
 }
 
 /* Add ✍️ after activity TOC links */
@@ -209,6 +361,16 @@ li.myst-outline-item a[href^="#activity-"]:focus {
   text-decoration: none !important;
 }
 
+:is(html.dark, html[data-theme="dark"]) .bd-toc li a[href^="#activity-"]:hover,
+:is(html.dark, html[data-theme="dark"]) .bd-toc li a[href^="#activity-"]:focus,
+:is(html.dark, html[data-theme="dark"]) .bd-toc [data-activities-toc] a:hover,
+:is(html.dark, html[data-theme="dark"]) .bd-toc [data-activities-toc] a:focus,
+:is(html.dark, html[data-theme="dark"]) li.myst-outline-item a[href^="#activity-"]:hover,
+:is(html.dark, html[data-theme="dark"]) li.myst-outline-item a[href^="#activity-"]:focus {
+  background-color: var(--notes-dark-activity-soft) !important;
+  color: var(--notes-dark-activity-strong) !important;
+}
+
 /* Override Tailwind classes on the parent li for activity items */
 li.myst-outline-item:has(a[href^="#activity-"]) {
   background-color: transparent !important;
@@ -224,6 +386,21 @@ li.myst-outline-item.myst-outline-item-active:has(a[href^="#activity-"]),
 li.myst-outline-item:has(a[href^="#activity-"]).myst-outline-item-active {
   background-color: #c3e6cb !important;
   border-left-color: #155724 !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) li.myst-outline-item:has(a[href^="#activity-"]) {
+  border-left-color: transparent !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) li.myst-outline-item:has(a[href^="#activity-"]):hover {
+  background-color: var(--notes-dark-activity-soft) !important;
+  border-left-color: var(--notes-dark-activity) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) li.myst-outline-item.myst-outline-item-active:has(a[href^="#activity-"]),
+:is(html.dark, html[data-theme="dark"]) li.myst-outline-item:has(a[href^="#activity-"]).myst-outline-item-active {
+  background-color: rgba(216, 191, 122, 0.22) !important;
+  border-left-color: var(--notes-dark-activity) !important;
 }
 
 /* Widen reading column on large screens */
