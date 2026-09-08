@@ -9,3 +9,4 @@
 - Keep 3D plots interactive so readers can drag and rotate them.
 - Add the `remove-input` cell tag to every visualization or visualization-helper cell.
 - After changing a plot, execute its notebook and refresh the stored output.
+- Always render vectors using `\bmatrix`.
