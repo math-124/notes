@@ -27,8 +27,8 @@ project:
           file: ch02/02-02.ipynb
         - title: '2.3: Orthogonal projections'
           file: ch02/02-03.ipynb
-        - title: '2.4: Lines and planes in ℝ³'
-          file: ch02/02-04.ipynb
+    #     - title: '2.4: Lines and planes in ℝ³'
+    #       file: ch02/02-04.ipynb
     #     - title: "2.5: The cross product"
     #       file: ch02/02-05.ipynb
     #     - title: "2.6: Geometry of lines and planes"
