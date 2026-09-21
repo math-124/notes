@@ -71,11 +71,11 @@
 
 /* Edward Tufte's font styles */
 body {
-    font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, system-ui, serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, system-ui, serif;
 }
 
 /* Keep figure captions visually separate from the surrounding explanation. */
@@ -586,4 +586,245 @@ body.lightmode-banner-active.processing-banner-active .bd-header,
 body.lightmode-banner-active.processing-banner-active header,
 body.lightmode-banner-active.processing-banner-active .navbar {
   top: 68px !important;
+}
+
+/* Optional reading font; math and code retain their dedicated fonts. */
+html.font-palatino body,
+html.font-palatino :is(h1, h2, h3, h4, h5, h6) {
+  font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+/* Keep the font control visible at the bottom of the primary sidebar. */
+.myst-primary-sidebar-footer:has(.font-preference) {
+  opacity: 1;
+  transform: none;
+}
+.font-preference {
+  font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+  position: static;
+  border-top: 1px solid #d1d5db;
+}
+
+.font-preference-title {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+.font-preference-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  position: relative;
+  min-height: 44px;
+  cursor: pointer;
+  color: inherit;
+}
+
+.font-preference-palatino {
+  font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+.font-preference-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.font-preference-track {
+  width: 36px;
+  height: 22px;
+  border: 1px solid #767676;
+  border-radius: 12px;
+  background: #767676;
+  flex-shrink: 0;
+}
+
+.font-preference-track::before {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 2px;
+  border-radius: 50%;
+  background: white;
+}
+
+.font-preference-input:checked + .font-preference-track {
+  background: #1d3faf;
+  border-color: #1d3faf;
+}
+
+.font-preference-input:checked + .font-preference-track::before {
+  transform: translateX(14px);
+}
+
+.font-preference-input:focus-visible + .font-preference-track {
+  outline: 2px solid #1d3faf;
+  outline-offset: 3px;
+}
+
+.font-preference {
+  padding-top: 0.75rem;
+  font-size: 14px;
+  line-height: 1.5;
+}
+:is(html.dark, html[data-theme="dark"]) .font-preference {
+  border-color: #57534e;
+}
+:is(html.dark, html[data-theme="dark"]) .font-preference-input:checked + .font-preference-track {
+  background: var(--notes-dark-accent);
+  border-color: var(--notes-dark-accent);
+}
+:is(html.dark, html[data-theme="dark"]) .font-preference-input:focus-visible + .font-preference-track {
+  outline-color: var(--notes-dark-accent);
+}
+@media print {
+  .font-preference { display: none; }
+}
+
+/* Reading appearance lives beside the font preference once its script is ready. */
+html[data-notes-appearance] .myst-theme-button {
+  display: none;
+}
+.font-preference {
+  color: #292524;
+}
+html.dark .font-preference {
+  color: #e7e5e4;
+}
+.appearance-preference {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.appearance-preference legend {
+  padding: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: inherit;
+}
+.appearance-options {
+  display: flex;
+  padding: 3px;
+  border: 1px solid #d6d3d1;
+  border-radius: 8px;
+  background: #f5f5f4;
+}
+.appearance-option {
+  position: relative;
+  flex: 1;
+  cursor: pointer;
+  text-align: center;
+}
+.appearance-preference-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.appearance-option span {
+  display: flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid transparent;
+}
+.appearance-preference-input:checked + span {
+  background: white;
+  border-color: #d6d3d1;
+  font-weight: 600;
+  box-shadow: 0 1px 2px #0000000d;
+}
+.appearance-preference-input:focus-visible + span {
+  outline: 2px solid #1d3faf;
+  outline-offset: 2px;
+}
+html.dark .appearance-options {
+  background: #292524;
+  border-color: #57534e;
+}
+html.dark .appearance-preference-input:checked + span {
+  background: #44403c;
+  border-color: #78716c;
+  color: var(--notes-dark-accent);
+}
+html.dark .appearance-preference-input:focus-visible + span {
+  outline-color: var(--notes-dark-accent);
+}
+
+/* Paper: soft neutral cream, with matching page and navigation surfaces. */
+html[data-notes-appearance="paper"] {
+  --paper-page: #f0eee6;
+  --paper-sidebar: #f0eee6;
+  --paper-border: #d8d4c9;
+  --paper-ink: #3d3929;
+  --paper-accent: #a35139;
+  background: var(--paper-page);
+  color-scheme: light;
+}
+html[data-notes-appearance="paper"] body,
+html[data-notes-appearance="paper"] .myst-top-nav {
+  background-color: var(--paper-page);
+  color: var(--paper-ink);
+}
+html[data-notes-appearance="paper"] .myst-primary-sidebar-pointer {
+  background-color: var(--paper-sidebar);
+  color: var(--paper-ink);
+}
+html[data-notes-appearance="paper"] article.content,
+html[data-notes-appearance="paper"] article.content :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--paper-ink);
+}
+html[data-notes-appearance="paper"] .myst-top-nav {
+  box-shadow: 0 1px 0 var(--paper-border);
+}
+html[data-notes-appearance="paper"] .font-preference {
+  border-color: var(--paper-border);
+  color: var(--paper-ink);
+}
+html[data-notes-appearance="paper"] .appearance-options {
+  background: #e5e2d8;
+  border-color: var(--paper-border);
+}
+html[data-notes-appearance="paper"] .appearance-preference-input:checked + span {
+  background: var(--paper-page);
+  border-color: #c8c3b7;
+  color: var(--paper-accent);
+}
+html[data-notes-appearance="paper"] .font-preference-input:checked + .font-preference-track {
+  background: var(--paper-accent);
+  border-color: var(--paper-accent);
+}
+html[data-notes-appearance="paper"] .appearance-preference-input:focus-visible + span,
+html[data-notes-appearance="paper"] .font-preference-input:focus-visible + .font-preference-track {
+  outline-color: var(--paper-accent);
+}
+html[data-notes-appearance="paper"] .myst-primary-sidebar a[aria-current="page"] {
+  background: #e2ded3;
+  color: var(--paper-ink);
+}
+
+/* Include navigation, page contents, and translucent white theme panels. */
+html[data-notes-appearance="paper"] :is(.myst-outline, .myst-top-nav, .myst-top-nav-bar, .myst-search-dialog, .myst-search, .myst-dropdown) {
+  background-color: var(--paper-page);
+  color: var(--paper-ink);
+}
+html[data-notes-appearance="paper"] :is(.myst-primary-sidebar-nav, .myst-primary-sidebar-footer, .myst-toc, .myst-toc-nav) {
+  background-color: var(--paper-sidebar);
+  color: var(--paper-ink);
+}
+html[data-notes-appearance="paper"] :is(.myst-outline, .myst-top-nav, .myst-primary-sidebar-pointer) :is([class~="bg-white"], [class~="bg-white/80"], [class~="bg-white/95"], [class~="bg-gray-50"]) {
+  background-color: var(--paper-page);
+}
+html[data-notes-appearance="paper"] .myst-outline :is(a, button),
+html[data-notes-appearance="paper"] .myst-primary-sidebar :is(a, button) {
+  color: var(--paper-ink);
+}
+html[data-notes-appearance="paper"] .myst-outline-item {
+  border-color: var(--paper-border);
 }
