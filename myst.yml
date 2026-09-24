@@ -27,12 +27,12 @@ project:
           file: ch02/02-02.ipynb
         - title: '2.3: Orthogonal projections'
           file: ch02/02-03.ipynb
-        - title: '2.4: Lines and planes in ℝ³'
+        - title: '2.4: Lines and planes through the origin in ℝ³'
           file: ch02/02-04.ipynb
-    #     - title: "2.5: The cross product"
-    #       file: ch02/02-05.ipynb
-    #     - title: "2.6: Geometry of lines and planes"
-    #       file: ch02/02-06.ipynb
+        - title: "2.5: Linear equations in ℝ³"
+          file: ch02/02-05.ipynb
+        - title: "2.6: Affine lines and planes in ℝ³"
+          file: ch02/02-06.ipynb
     #     - title: "2.7: Systems of linear equations via lines and planes"
     #       file: ch02/02-07.ipynb
     # - title: "Chapter 3: Matrices and linear transformations"
