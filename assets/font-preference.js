@@ -1,7 +1,8 @@
-let initialized = false;
-function render({ el }) {
-  if (initialized) return;
-  initialized = true;
+function render({ el } = {}) {
+  // Keep one controller across client-side navigation and content-hashed copies
+  // of the MyST widget. Its render hook runs after the page has hydrated.
+  if (window.__math124ReadingSettings) return;
+  window.__math124ReadingSettings = true;
   // One shared display filter works for SVG, PNG, and interactive WebGL plots.
   document.body.insertAdjacentHTML('beforeend', `<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" style="position:absolute;pointer-events:none">
   <defs><filter id="notes-dark-diagram-colors" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
@@ -49,7 +50,7 @@ function render({ el }) {
 </svg>`);
   // MyST gives widget CSS a content-hashed URL. Apply it to the page as well
   // as the widget so returning visitors do not reuse an old myst-theme.css.
-  const stylesheet = el.querySelector('link[rel="stylesheet"]');
+  const stylesheet = el?.querySelector('link[rel="stylesheet"]');
   if (stylesheet) document.head.append(stylesheet.cloneNode(true));
   const key = 'math124-font';
   let preference = 'default';
@@ -62,7 +63,7 @@ function render({ el }) {
     preference = palatino ? 'palatino' : 'default';
     document.documentElement.classList.toggle('font-palatino', palatino);
     document.querySelectorAll('.font-preference-input').forEach((input) => {
-      input.checked = palatino;
+      input.checked = input.value === preference;
     });
   };
   try { preference = localStorage.getItem(key) || 'default'; } catch { /* Use the default. */ }
@@ -85,21 +86,155 @@ function render({ el }) {
     syncAppearance();
   };
 
+  const settings = document.createElement('dialog');
+  settings.id = 'notes-reading-settings';
+  settings.className = 'notes-reading-settings';
+  settings.setAttribute('aria-labelledby', 'notes-reading-settings-title');
+  settings.innerHTML = `
+    <div class="notes-settings-heading">
+      <h2 id="notes-reading-settings-title">Reading settings</h2>
+      <button type="button" class="notes-settings-close" aria-label="Close reading settings">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg>
+      </button>
+    </div>
+    <fieldset><legend>Font</legend><div class="notes-font-options">
+      ${['default', 'palatino'].map((value) => `<label class="notes-settings-choice notes-font-choice">
+        <input type="radio" name="notes-font" value="${value}" class="font-preference-input">
+        <span class="notes-choice-content"><span class="notes-font-sample notes-font-${value}" aria-hidden="true">Aa</span>
+          <span>${value === 'default' ? 'Default' : 'Palatino'}</span><span class="notes-choice-check" aria-hidden="true">✓</span>
+        </span>
+      </label>`).join('')}
+    </div></fieldset>
+    <fieldset><legend>Color</legend><div class="notes-color-options">
+      ${appearances.map((value) => `<label class="notes-settings-choice notes-color-choice">
+        <input type="radio" name="notes-appearance" value="${value}" class="appearance-preference-input">
+        <span class="notes-choice-content"><span class="notes-color-sample notes-sample-${value}" aria-hidden="true">Aa</span>
+          <span>${value[0].toUpperCase() + value.slice(1)}</span><span class="notes-choice-check" aria-hidden="true">✓</span>
+        </span>
+      </label>`).join('')}
+    </div></fieldset>
+    <button type="button" class="notes-settings-done">Done</button>`;
+  document.body.append(settings);
+
+  const mobile = window.matchMedia('(max-width: 639px)');
+  let settingsButton;
+  let modal = false;
+  let previousOverflow = '';
+  let openPath = location.pathname;
+  const positionSettings = () => {
+    if (!settings.open || !settingsButton) return;
+    if (modal) {
+      // A wide equation can enlarge the layout viewport on phones. Anchor the
+      // sheet to the visible viewport so its Done button cannot fall offscreen.
+      const viewport = window.visualViewport;
+      const height = viewport?.height || document.documentElement.clientHeight;
+      settings.style.width = `${Math.min(document.documentElement.clientWidth, viewport?.width || window.innerWidth)}px`;
+      settings.style.maxHeight = `${height - 16}px`;
+      settings.style.bottom = 'auto';
+      settings.style.right = 'auto';
+      settings.style.left = `${viewport?.offsetLeft || 0}px`;
+      settings.style.top = `${(viewport?.offsetTop || 0) + height - settings.offsetHeight}px`;
+      return;
+    }
+    const rect = settingsButton.getBoundingClientRect();
+    const viewportWidth = document.documentElement.clientWidth;
+    const width = Math.min(320, viewportWidth - 24);
+    settings.style.top = `${rect.bottom + 8}px`;
+    settings.style.left = `${Math.max(12, Math.min(rect.right - width, viewportWidth - width - 12))}px`;
+    settings.style.maxHeight = `${Math.max(120, window.innerHeight - rect.bottom - 20)}px`;
+  };
+  const closeSettings = () => {
+    if (!settings.open) return;
+    settings.close();
+    document.body.style.overflow = previousOverflow;
+    settingsButton?.setAttribute('aria-expanded', 'false');
+    settingsButton?.focus({ preventScroll: true });
+  };
+  const openSettings = () => {
+    if (settings.open) return;
+    previousOverflow = document.body.style.overflow;
+    modal = mobile.matches;
+    openPath = location.pathname;
+    ['top', 'left', 'right', 'bottom', 'width', 'max-height'].forEach((property) => settings.style.removeProperty(property));
+    if (modal) {
+      settings.showModal();
+      document.body.style.overflow = 'hidden';
+    } else {
+      settings.show();
+    }
+    settingsButton?.setAttribute('aria-expanded', 'true');
+    positionSettings();
+    settings.querySelector('.notes-settings-close').focus({ preventScroll: true });
+  };
+  settings.querySelectorAll('.notes-settings-close, .notes-settings-done').forEach((button) => {
+    button.addEventListener('click', closeSettings);
+  });
+  settings.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    closeSettings();
+  });
+  settings.addEventListener('click', (event) => {
+    const rect = settings.getBoundingClientRect();
+    if (event.target === settings && (event.clientX < rect.left || event.clientX > rect.right ||
+        event.clientY < rect.top || event.clientY > rect.bottom)) closeSettings();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && settings.open) {
+      event.preventDefault();
+      closeSettings();
+    }
+  });
+  document.addEventListener('pointerdown', (event) => {
+    if (settings.open && !modal && !settings.contains(event.target) &&
+        !settingsButton?.contains(event.target)) closeSettings();
+  });
+  window.addEventListener('resize', () => {
+    if (settings.open && modal !== mobile.matches) {
+      closeSettings();
+      openSettings();
+    }
+    positionSettings();
+  });
+  window.visualViewport?.addEventListener('resize', positionSettings);
+  window.visualViewport?.addEventListener('scroll', positionSettings);
+
   const mount = () => {
-    document.querySelectorAll('.article.footer.myst-primary-sidebar-footer').forEach((footer) => {
-      if (footer.querySelector('.font-preference')) return;
-      footer.insertAdjacentHTML('beforeend', "<div class=\"font-preference\">\n  <span class=\"font-preference-title\">Font</span>\n  <label class=\"font-preference-control\">\n    <span>Default</span>\n    <input type=\"checkbox\" role=\"switch\" aria-label=\"Use Palatino font\" class=\"font-preference-input\">\n    <span class=\"font-preference-track\" aria-hidden=\"true\"></span>\n    <span class=\"font-preference-palatino\">Palatino</span>\n  </label>\n</div>\n");
-      const fieldset = document.createElement('fieldset');
-      fieldset.className = 'appearance-preference';
-      fieldset.innerHTML = `<legend>Appearance</legend><div class="appearance-options">${appearances.map((value) => `
-        <label class="appearance-option">
-          <input class="appearance-preference-input" type="radio" name="notes-appearance" value="${value}">
-          <span>${value[0].toUpperCase() + value.slice(1)}</span>
-        </label>`).join('')}</div>`;
-      footer.querySelector('.font-preference').append(fieldset);
-      apply(preference);
-      syncAppearance();
-    });
+    if (settings.open && location.pathname !== openPath) closeSettings();
+    const toolbar = document.querySelector('.myst-top-nav-bar');
+    const search = toolbar?.querySelector('.myst-search-bar');
+    if (!toolbar || !search) return;
+    search.parentElement.classList.add('notes-toolbar-tools');
+    if (!toolbar.querySelector('.notes-settings-button')) {
+      settingsButton = document.createElement('button');
+      settingsButton.type = 'button';
+      settingsButton.className = 'notes-settings-button';
+      settingsButton.title = 'Reading settings';
+      settingsButton.setAttribute('aria-label', 'Reading settings');
+      settingsButton.setAttribute('aria-haspopup', 'dialog');
+      settingsButton.setAttribute('aria-controls', settings.id);
+      settingsButton.setAttribute('aria-expanded', String(settings.open));
+      settingsButton.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h3m4 0h9M4 17h9m4 0h3"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></svg>`;
+      settingsButton.addEventListener('click', () => settings.open ? closeSettings() : openSettings());
+      search.insertAdjacentElement('afterend', settingsButton);
+      document.documentElement.dataset.notesSettings = 'ready';
+    }
+    const title = toolbar.querySelector('.myst-home-link');
+    if (title && !title.querySelector('.notes-course-title-short')) {
+      title.firstElementChild?.classList.add('notes-course-title-full');
+      const shortTitle = document.createElement('span');
+      shortTitle.className = 'notes-course-title-short';
+      shortTitle.textContent = 'Math 124';
+      title.append(shortTitle);
+    }
+    // Match the desktop link row itself, not links inside an open overflow menu.
+    const links = Array.from(search.parentElement.children).find((child) => child.querySelector(':scope > a'));
+    links?.classList.add('notes-toolbar-links');
+    const more = toolbar.querySelector('.myst-action-menu');
+    if (more) {
+      more.parentElement.classList.add('notes-toolbar-more');
+      more.querySelector('button')?.setAttribute('aria-label', 'Course resources');
+    }
+
   };
   const init = () => {
     if (!appearances.includes(appearance)) {
@@ -117,8 +252,13 @@ function render({ el }) {
         syncAppearance();
       }
     }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    // MyST replaces sidebar contents during client-side navigation.
-    new MutationObserver(mount).observe(document.documentElement, { childList: true, subtree: true });
+    // MyST replaces navigation during client-side routing; coalesce math/widget mutations.
+    let mountPending = false;
+    new MutationObserver(() => {
+      if (mountPending) return;
+      mountPending = true;
+      requestAnimationFrame(() => { mountPending = false; mount(); });
+    }).observe(document.body, { childList: true, subtree: true });
     document.addEventListener('change', (event) => {
       if (event.target.matches('.appearance-preference-input')) {
         applyAppearance(event.target.value);
@@ -126,7 +266,7 @@ function render({ el }) {
         return;
       }
       if (!event.target.matches('.font-preference-input')) return;
-      const value = event.target.checked ? 'palatino' : 'default';
+      const value = event.target.value;
       apply(value);
       try { localStorage.setItem(key, value); } catch { /* Keep the current-page choice. */ }
     });
