@@ -35,7 +35,6 @@ project:
           file: ch02/02-06.ipynb
         - title: "2.7: Orthogonal projections and orthonormal bases in ℝ³"
           file: ch02/02-07.ipynb
-          hidden: true
     # - title: "Chapter 3: Matrices and linear transformations"
     #   children:
     #     - title: "3.1: Matrices and matrix-vector multiplication"
