@@ -69,7 +69,7 @@
   --notes-dark-surface: #221d18;
 }
 
-/* Give toolbar actions room and center search between the title and links. */
+/* Keep search beside the toolbar links, with a small gap between controls. */
 @media (min-width: 640px) {
   .myst-top-nav-bar > div > div:has(> a) {
     display: flex;
@@ -85,12 +85,7 @@
 }
 
 @media (min-width: 1280px) {
-  .myst-top-nav-bar > div:has(> .myst-search-bar) > div:empty {
-    flex-grow: 0;
-  }
-
   .myst-top-nav-bar .myst-search-bar {
-    margin-inline: auto;
     flex-shrink: 0;
   }
 
