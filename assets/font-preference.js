@@ -2,6 +2,51 @@ let initialized = false;
 function render({ el }) {
   if (initialized) return;
   initialized = true;
+  // One shared display filter works for SVG, PNG, and interactive WebGL plots.
+  document.body.insertAdjacentHTML('beforeend', `<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" style="position:absolute;pointer-events:none">
+  <defs><filter id="notes-dark-diagram-colors" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <!-- Detect chromatic pixels. Neutral backgrounds, axes, and labels use
+         a separate lightness reversal; vector hues are never inverted. -->
+    <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1 -1 0 0 0" result="rg"/>
+    <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 1 -1 0 0" result="gb"/>
+    <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  -1 0 1 0 0" result="br"/>
+    <feMerge result="chroma"><feMergeNode in="rg"/><feMergeNode in="gb"/><feMergeNode in="br"/></feMerge>
+    <feComponentTransfer in="chroma" result="base-color-mask"><feFuncA type="table" tableValues="0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"/></feComponentTransfer>
+    <!-- Dark green has low chroma; keep it colored without classifying
+         blue-gray plot typography as an accent. -->
+    <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 20 -20 0 0" result="green-mask"/>
+    <feMerge result="color-mask"><feMergeNode in="base-color-mask"/><feMergeNode in="green-mask"/></feMerge>
+    <!-- Pale colored surfaces become dark tinted surfaces, so bright vector
+         strokes remain visible over translucent planes and shaded regions. -->
+    <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .333333 .333333 .333333 0 0" result="lightness"/>
+    <feComponentTransfer in="lightness" result="pale-mask"><feFuncA type="table" tableValues="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1"/></feComponentTransfer>
+    <feComposite in="color-mask" in2="pale-mask" operator="out" result="strong-mask"/>
+    <feComponentTransfer in="SourceGraphic" result="muted">
+      <feFuncR type="linear" slope="0.25"/><feFuncG type="linear" slope="0.25"/><feFuncB type="linear" slope="0.25"/>
+    </feComponentTransfer>
+    <feComposite in="muted" in2="color-mask" operator="in" result="muted-colored"/>
+    <feComposite in="muted-colored" in2="pale-mask" operator="in" result="surfaces"/>
+    <feComponentTransfer in="SourceGraphic" result="tinted">
+      <feFuncR type="linear" slope="0.5" intercept="0.5"/>
+      <feFuncG type="linear" slope="0.5" intercept="0.5"/>
+      <feFuncB type="linear" slope="0.5" intercept="0.5"/>
+    </feComponentTransfer>
+    <!-- Neutral labels (including Plotly's blue-gray ink) use an affine
+         grayscale reversal, so antialiased edges cannot develop halos. -->
+    <feColorMatrix in="SourceGraphic" type="saturate" values="0" result="grayscale"/>
+    <feComponentTransfer in="grayscale" result="neutral">
+      <feFuncR type="linear" slope="-0.85" intercept="0.95"/>
+      <feFuncG type="linear" slope="-0.85" intercept="0.95"/>
+      <feFuncB type="linear" slope="-0.85" intercept="0.95"/>
+    </feComponentTransfer>
+    <feComposite in="tinted" in2="strong-mask" operator="in" result="colored"/>
+    <feComposite in="neutral" in2="color-mask" operator="out" result="uncolored"/>
+    <!-- Add complementary masks instead of stacking translucent layers;
+         preserve coverage at the antialiased boundaries. -->
+    <feComposite in="uncolored" in2="surfaces" operator="arithmetic" k2="1" k3="1" result="base"/>
+    <feComposite in="base" in2="colored" operator="arithmetic" k2="1" k3="1"/>
+  </filter></defs>
+</svg>`);
   // MyST gives widget CSS a content-hashed URL. Apply it to the page as well
   // as the widget so returning visitors do not reuse an old myst-theme.css.
   const stylesheet = el.querySelector('link[rel="stylesheet"]');

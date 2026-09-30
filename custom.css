@@ -828,3 +828,100 @@ html[data-notes-appearance="paper"] .myst-primary-sidebar :is(a, button) {
 html[data-notes-appearance="paper"] .myst-outline-item {
   border-color: var(--paper-border);
 }
+
+/* Shared dark reading palette. Diagram pixels and authored text use the same
+   50% white / 50% source-color mapping, without modifying notebook content.
+   The SVG filter lives in font-preference.js and also covers WebGL canvases. */
+:is(html.dark, html[data-theme="dark"]) {
+  --notes-ink-blue: #9ec0fa;
+  --notes-ink-green: #80a6a0;
+  --notes-ink-pink: #ec8db0;
+  --notes-ink-purple: #c080c0;
+  --notes-ink-orange: #ffd280;
+  --notes-ink-dark-orange: #ffc680;
+  --notes-ink-gold: #ffeb80;
+  --notes-ink-light-blue: #d6ecf2;
+}
+
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:#3d81f6" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: #3d81f6" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:rgb(61, 129, 246)" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: rgb(61, 129, 246)" i] {
+  color: var(--notes-ink-blue) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:#004d40" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: #004d40" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:rgb(0, 77, 64)" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: rgb(0, 77, 64)" i] {
+  color: var(--notes-ink-green) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:#d81b60" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: #d81b60" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:#d81a60" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: #d81a60" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:rgb(216, 27, 96)" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: rgb(216, 27, 96)" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:rgb(216, 26, 96)" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: rgb(216, 26, 96)" i] {
+  color: var(--notes-ink-pink) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:purple" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: purple" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:#800080" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: #800080" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:rgb(128, 0, 128)" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: rgb(128, 0, 128)" i] {
+  color: var(--notes-ink-purple) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:orange" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: orange" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:#ffa500" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: #ffa500" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:rgb(255, 165, 0)" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: rgb(255, 165, 0)" i] {
+  color: var(--notes-ink-orange) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:#ff8c00" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: #ff8c00" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:rgb(255, 140, 0)" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: rgb(255, 140, 0)" i] {
+  color: var(--notes-ink-dark-orange) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:gold" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: gold" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:#ffd700" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: #ffd700" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:rgb(255, 215, 0)" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: rgb(255, 215, 0)" i] {
+  color: var(--notes-ink-gold) !important;
+}
+
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:lightblue" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: lightblue" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:#add8e6" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: #add8e6" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color:rgb(173, 216, 230)" i],
+:is(html.dark, html[data-theme="dark"]) article :is(span, mstyle):not(.js-plotly-plot *, [data-name="safe-output-svg"] *)[style*="color: rgb(173, 216, 230)" i] {
+  color: var(--notes-ink-light-blue) !important;
+}
+
+/* Filter once at the outside of a visual, never each SVG glyph/trace. This
+   keeps raster plots, 3D shading, labels, and slider redraws in agreement. */
+:is(html.dark, html[data-theme="dark"]) article :is(
+  .js-plotly-plot, [data-name="safe-output-image"], [data-name="safe-output-svg"]
+) {
+  filter: url(#notes-dark-diagram-colors);
+}
+
+/* Photographs and image-valued data must retain their actual pixel values. */
+:is(html.dark, html[data-theme="dark"])[data-notes-image-data] article [data-name="safe-output-image"],
+:is(html.dark, html[data-theme="dark"]) article .js-plotly-plot:has(.heatmaplayer image, .imagelayer image),
+:is(html.dark, html[data-theme="dark"]) article .notes-original-colors {
+  filter: none;
+}
