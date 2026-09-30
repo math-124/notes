@@ -90,9 +90,9 @@ project:
 site:
   template: book-theme
   actions:
-    - title: Course website
+    - title: "🧠 Course Website"
       url: https://math124.org
-    - title: Feedback
+    - title: "🙋 Feedback"
       url: https://docs.google.com/forms/d/e/1FAIpQLScbG8tqhFHc-F9FkQHBofSxFmyBxTmngf4mTi-8juMdWGAHuQ/viewform
   options:
     style: ./custom.css

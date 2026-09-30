@@ -69,6 +69,37 @@
   --notes-dark-surface: #221d18;
 }
 
+/* Give toolbar actions room and center search between the title and links. */
+@media (min-width: 640px) {
+  .myst-top-nav-bar > div > div:has(> a) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-inline-start: 1rem;
+  }
+
+  .myst-top-nav-bar > div > div > a {
+    margin-inline: 0;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 1280px) {
+  .myst-top-nav-bar > div:has(> .myst-search-bar) > div:empty {
+    flex-grow: 0;
+  }
+
+  .myst-top-nav-bar .myst-search-bar {
+    margin-inline: auto;
+    flex-shrink: 0;
+  }
+
+  .myst-top-nav-bar > div > div:has(> a) {
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+  }
+}
+
 /* Edward Tufte's font styles */
 body {
     font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, system-ui, serif;
