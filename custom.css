@@ -829,6 +829,23 @@ html[data-notes-appearance="paper"] .myst-outline-item {
   border-color: var(--paper-border);
 }
 
+/* White plot backgrounds take on the surrounding paper color automatically,
+   including raster outputs, SVG diagrams, and interactive WebGL canvases.
+   Multiplication also keeps antialiased edges smooth and gridlines visible. */
+html[data-notes-appearance="paper"] article :is(
+  .js-plotly-plot, [data-name="safe-output-image"], [data-name="safe-output-svg"],
+  .course-caption .jp-RenderedSVG
+) {
+  mix-blend-mode: multiply;
+}
+
+/* Preserve photographs, image-valued data, and explicit original-color outputs. */
+html[data-notes-appearance="paper"][data-notes-image-data] article [data-name="safe-output-image"],
+html[data-notes-appearance="paper"] article .js-plotly-plot:has(.heatmaplayer image, .imagelayer image),
+html[data-notes-appearance="paper"] article .notes-original-colors {
+  mix-blend-mode: normal;
+}
+
 /* Shared dark reading palette. Diagram pixels and authored text use the same
    50% white / 50% source-color mapping, without modifying notebook content.
    The SVG filter lives in font-preference.js and also covers WebGL canvases. */
