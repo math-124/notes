@@ -10,3 +10,8 @@
 - Add the `remove-input` cell tag to every visualization or visualization-helper cell.
 - After changing a plot, execute its notebook and refresh the stored output.
 - Always render vectors using `\bmatrix`.
+
+- Before every level-two (`##`) heading, add a horizontal rule (`---`). Start each such section in a new Markdown cell, beginning with `---`, a blank line, then the heading.
+- Unless explicitly clarified, “vector” means a column vector. When discussing vectors formed from matrix rows, write their entries as column vectors. A horizontal array is a one-row matrix and may explicitly be called a row vector.
+
+- After the page title, the first section heading must be level two (`##`), never level three (`###`).
