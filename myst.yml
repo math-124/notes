@@ -37,8 +37,9 @@ project:
           file: ch02/02-07.ipynb
         - title: "2.8: Systems of linear equations"
           file: ch02/02-08.ipynb
-    - file: ch03/03-01.ipynb
-      hidden: true
+    - title: "Chapter 3: Matrices"
+      children:
+        - file: ch03/03-01.ipynb
     - file: ch03/03-02.ipynb
       hidden: true
     # Section 3.3 is reserved for Lecture 12.
