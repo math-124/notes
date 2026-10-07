@@ -40,8 +40,7 @@ project:
     - title: "Chapter 3: Matrices"
       children:
         - file: ch03/03-01.ipynb
-    - file: ch03/03-02.ipynb
-      hidden: true
+        - file: ch03/03-02.ipynb
     # Section 3.3 is reserved for Lecture 12.
     # Later Chapter 3 drafts retain their old boundaries and are not part of this preview.
     # - title: "Chapter 4: Systems of linear equations"
