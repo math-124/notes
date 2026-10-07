@@ -41,8 +41,10 @@ project:
       children:
         - file: ch03/03-01.ipynb
         - file: ch03/03-02.ipynb
-    # Section 3.3 is reserved for Lecture 12.
-    # Later Chapter 3 drafts retain their old boundaries and are not part of this preview.
+        - file: ch03/03-03.ipynb
+        - file: ch03/03-04.ipynb
+        - file: ch03/03-05.ipynb
+    # The later 3.6 draft remains unpublished.
     # - title: "Chapter 4: Systems of linear equations"
     #   children:
     #     - title: "4.1: Linear systems, triangular systems, and back substitution"
@@ -104,3 +106,4 @@ site:
     folders: true
   parts:
     primary_sidebar_footer: ./assets/activities-toc-loader.md
+
