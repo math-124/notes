@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>From 3D worlds to 2D screens</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#fff;color:#202124;font:17px/1.4 Palatino,'Palatino Linotype',serif}main{max-width:760px;margin:auto;padding:18px}h1{font-size:24px;line-height:1.15;margin:0 0 8px}p{margin:8px 0}.hint{font-size:15px;color:#465268}.controls{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:16px 0 0}label{display:block;font-weight:bold}output{font-weight:normal;float:right}input[type=range]{width:100%;min-height:36px;margin:0;accent-color:#3d81f6;cursor:pointer}.endpoints{display:flex;justify-content:space-between;font-size:14px;color:#465268;margin-top:-5px}.buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}button{font:inherit;font-size:15px;min-height:40px;border:1px solid #586577;background:white;color:inherit;border-radius:5px;padding:7px 12px;cursor:pointer}button[aria-pressed=true]{background:#e0ecff;border-color:#3d81f6}button:focus-visible,input:focus-visible{outline:3px solid #3d81f6;outline-offset:3px}#scene{width:100%;height:300px}#scene svg{overflow:visible}.readout{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;align-items:center;border-top:1px solid #d6dde6;padding-top:12px}.vector{display:inline-grid;border-left:2px solid;border-right:2px solid;border-radius:4px;padding:2px 7px;text-align:center;line-height:1.15;vertical-align:middle;min-width:34px}.vector span{display:block}.space{font-size:13px;color:#465268;margin-top:5px;text-align:center}.map{text-align:center;font-size:15px}.caption{min-height:46px;font-size:15px;color:#465268}.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;margin:8px 0}.key{border-bottom:3px solid #3d81f6}.key.second{border-bottom:3px dashed orange}.key.third{border-bottom:3px dotted #d81a60}#status{min-height:44px;font-size:15px;margin-bottom:0}#error{color:#9b1c1c}@media(max-width:430px){main{padding:12px}h1{font-size:22px}.controls{grid-template-columns:1fr;gap:10px;margin-top:12px}#scene{height:270px}.buttons{gap:6px}button{padding:6px 9px}.caption{min-height:64px}.readout{gap:10px}.legend{font-size:13px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<main>
+<h1>From 3D worlds to 2D screens</h1>
+<p class="hint">Turn a square ground tile into a game world. Every corner is still just a vector.</p>
+<div class="controls">
+<div><label for="view">View <output id="view-value" for="view">Overhead</output></label><input id="view" type="range" min="0" max="100" step="1" value="0" aria-describedby="view-help"><div class="endpoints" id="view-help"><span>Square grid</span><span>Game view</span></div></div>
+<div><label for="height">Building height <output id="height-value" for="height">1.00 units</output></label><input id="height" type="range" min="0" max="2" step="0.05" value="1" aria-describedby="height-help"><div class="endpoints" id="height-help"><span>0 units · flat tile</span><span>2 units</span></div></div>
+</div>
+<div class="buttons"><button id="game">Try game view</button><button id="basis" aria-pressed="false">Show basis arrows</button><button id="reveal">Same pixel?</button><button id="reset">Reset</button></div>
+<div id="scene" role="img" aria-label="A square ground tile seen from above." aria-describedby="scene-description"></div>
+<p class="caption" id="scene-description">Overhead: height is invisible. Slide View to the right to make height visible.</p>
+<div class="readout" aria-label="Live corner coordinates">
+<div><span class="vector" id="input-vector" role="img" aria-label="Input column vector: 1, 1, 1"><span>1</span><span>1</span><span id="input-height">1.00</span></span><div class="space">Input in ℝ³</div></div>
+<div class="map"><span id="map-name">Overhead map</span><br>⟶</div>
+<div><span class="vector" id="output-vector" role="img" aria-label="Output column vector: 40, 40"><span id="screen-x">40</span><span id="screen-y">40</span></span><div class="space">Output in ℝ²</div></div>
+</div>
+<div class="legend"><span class="key">Column 1 · x direction</span><span class="key second">Column 2 · y direction</span><span class="key third">Column 3 · z direction</span></div>
+<p id="status" role="status" aria-live="polite">The ring marks the roof corner above the opposite corner of the ground tile.</p>
+<p id="error" hidden>The interactive could not load. The lesson below gives the same coordinate rule and worked example.</p>
+<noscript>Enable JavaScript to use the sliders. In game view the roof corner has horizontal coordinate 0 and vertical coordinate 40 − 40h.</noscript>
+</main>
+<script>/* PLOTLY_BUNDLE */</script>
+<script>
+'use strict';
+// Plotly draws SVG in the output plane. All geometry below starts in world coordinates.
+const $ = id => document.getElementById(id);
+const BLUE = '#3d81f6', ORANGE = 'orange', PINK = '#d81a60';
+const state = {view:0, height:1, basis:false, reveal:false};
+const A = [[40,-40,0],[20,20,-40]];
+const TOP = [[40,0,0],[0,40,0]];
+const matrixAt = t => TOP.map((row,i) => row.map((x,j) => (1-t)*x+t*A[i][j]));
+const project = (p,m) => m.map(row => row.reduce((sum,x,j) => sum+x*p[j],0));
+const format = x => (Math.abs(x)<1e-8 ? '0' : Number(x.toFixed(2)).toString()).replace('-', '−');
+let busy = false, pending = false;
+function geometry() {
+  const m=matrixAt(state.view), h=state.height, data=[];
+  const line=(points,color,width=1,dash='solid')=>{
+    const q=points.map(p=>p===null ? [null,null] : project(p,m));
+    data.push({type:'scatter',x:q.map(p=>p[0]),y:q.map(p=>p[1]),mode:'lines',line:{color,width,dash},hoverinfo:'skip',showlegend:false});
+  };
+  const face=(points,fill)=>{
+    const q=[...points,points[0]].map(p=>project(p,m));
+    data.push({type:'scatter',x:q.map(p=>p[0]),y:q.map(p=>p[1]),mode:'lines',fill:'toself',fillcolor:fill,line:{color:'#36577d',width:1.5},hoverinfo:'skip',showlegend:false});
+  };
+  const grid=[];
+  for(let i=-2;i<=3;i++) grid.push([i,-2,0],[i,3,0],null,[-2,i,0],[3,i,0],null);
+  line(grid,'#dfe5ed');
+  line([[-2,0,0],[3,0,0]],'#a0afbf',1.5);line([[0,-2,0],[0,3,0]],'#a0afbf',1.5);
+  face([[0,0,0],[1,0,0],[1,1,0],[0,1,0]],'#e0ecff');
+  // The camera looks along -(1,1,1): draw the two visible walls, then the roof.
+  face([[1,0,0],[1,1,0],[1,1,h],[1,0,h]],'#9bbcf0');
+  face([[0,1,0],[1,1,0],[1,1,h],[0,1,h]],'#c4d8f7');
+  // Small windows follow the wall geometry, including at height zero.
+  for(const a of [.18,.58]) {
+    face([[1,a,.3*h],[1,a+.2,.3*h],[1,a+.2,.67*h],[1,a,.67*h]],'#fff');
+    face([[a,1,.3*h],[a+.2,1,.3*h],[a+.2,1,.67*h],[a,1,.67*h]],'#fff');
+  }
+  face([[0,0,h],[1,0,h],[1,1,h],[0,1,h]],'#e0ecff');
+  const roof=project([1,1,h],m);
+  data.push({type:'scatter',x:[roof[0]],y:[roof[1]],mode:'markers',marker:{color:PINK,size:13,symbol:'circle-open',line:{width:3}},hoverinfo:'skip',showlegend:false});
+  const annotations=[];
+  if(state.basis) {
+    [[1,0,0],[0,1,0],[0,0,1]].forEach((e,i)=>{
+      const q=project(e,m),color=[BLUE,ORANGE,PINK][i];
+      line([[0,0,0],e],color,3,['solid','dash','dot'][i]);
+      annotations.push({x:q[0],y:q[1],ax:0,ay:0,axref:'x',ayref:'y',text:'',showarrow:true,arrowhead:3,arrowwidth:2,arrowcolor:color});
+      annotations.push({x:q[0],y:q[1],text:['A e₁','A e₂','A e₃'][i].replace('A',state.view===1?'A':'T'),showarrow:false,xshift:[25,-25,26][i],yshift:[-15,-15,10][i],font:{size:15,color:'#202124'},bgcolor:'#fff'});
+    });
+  }
+  if(state.reveal) {
+    data.push({type:'scatter',x:[0],y:[0],mode:'markers',marker:{color:'#202124',size:6},hoverinfo:'skip',showlegend:false});
+    annotations.push({x:0,y:0,text:'Ground origin',showarrow:false,xshift:88,yshift:-6,font:{size:14},bgcolor:'#fff'});
+  }
+  return {data,annotations,roof};
+}
+function updateText(roof) {
+  const game=state.view===1, top=state.view===0;
+  $('view-value').textContent=game?'Game view':top?'Overhead':Math.round(100*state.view)+'%';
+  $('height-value').textContent=state.height.toFixed(2)+' units';
+  $('view').setAttribute('aria-valuetext',$('view-value').textContent);
+  $('height').setAttribute('aria-valuetext',$('height-value').textContent);
+  $('input-height').textContent=state.height.toFixed(2);
+  $('screen-x').textContent=format(roof[0]);$('screen-y').textContent=format(roof[1]);
+  $('input-vector').setAttribute('aria-label','Input column vector: 1, 1, '+state.height);
+  $('output-vector').setAttribute('aria-label','Output column vector: '+roof.join(', '));
+  $('map-name').textContent=game?'Apply A':top?'Overhead map':'Blended map';
+  $('basis').setAttribute('aria-pressed',String(state.basis));
+  $('scene-description').textContent=game?'Game view: u = 40x − 40y and v = 20x + 20y − 40z. Screen v increases downward.':top?'Overhead: height is invisible. Slide View to the right to make height visible.':'Between views: we blend two linear coordinate maps. Only the right endpoint uses A.';
+  const same=game&&Math.abs(state.height-1)<1e-8;
+  $('status').textContent=state.reveal ? (same?'Same pixel! The roof corner with x = y = z = 1 and the ground origin both project to the screen origin. Change the height to separate them.':'The black dot is the ground origin. The pink ring is the roof corner. They coincide at height 1 in game view.') : 'The ring marks the roof corner above the opposite corner of the ground tile.';
+  $('scene').setAttribute('aria-label',(top?'Overhead square grid':game?'Parallel projection of a grid and building':'Grid between overhead and parallel views')+', building height '+state.height+' units. Roof corner screen coordinates '+roof.join(', ')+(same?'. This is the same screen position as the ground origin.':'.'));
+}
+async function render() {
+  pending=true;
+  if(busy) return;
+  busy=true;
+  try {
+    while(pending) {
+      pending=false;
+      const g=geometry();updateText(g.roof);
+      await Plotly.react('scene',g.data,{paper_bgcolor:'#fff',plot_bgcolor:'#fff',font:{family:"Palatino, 'Palatino Linotype', serif",size:15,color:'#202124'},margin:{l:12,r:12,t:12,b:12},showlegend:false,hovermode:false,dragmode:false,xaxis:{range:[-100,100],visible:false,fixedrange:true},yaxis:{range:[85,-95],visible:false,fixedrange:true,scaleanchor:'x',scaleratio:1},annotations:g.annotations},{displayModeBar:false,responsive:true,staticPlot:true});
+      // Expose one descriptive graphic, rather than hundreds of unlabeled SVG paths.
+      $('scene').querySelectorAll('svg').forEach(svg=>svg.setAttribute('aria-hidden','true'));
+    }
+  } catch(error) { $('error').hidden=false; console.error(error); }
+  finally { busy=false; }
+}
+$('view').addEventListener('input',()=>{state.view=Number($('view').value)/100;render();});
+$('height').addEventListener('input',()=>{state.height=Number($('height').value);render();});
+$('game').addEventListener('click',()=>{state.view=1;$('view').value=100;render();});
+$('basis').addEventListener('click',()=>{state.basis=!state.basis;render();});
+$('reveal').addEventListener('click',()=>{state.view=1;state.height=1;state.reveal=true;$('view').value=100;$('height').value=1;render();});
+$('reset').addEventListener('click',()=>{Object.assign(state,{view:0,height:1,basis:false,reveal:false});$('view').value=0;$('height').value=1;render();});
+// Match the iframe to its contents at mobile widths and after text zoom.
+if (typeof ResizeObserver !== 'undefined') {
+  new ResizeObserver(() => {
+    if (window.frameElement) window.frameElement.style.height = Math.ceil(document.querySelector('main').getBoundingClientRect().height + 4) + 'px';
+  }).observe(document.querySelector('main'));
+}
+render();
+</script>
+</body>
+</html>
