@@ -69,14 +69,14 @@ def input_output():
     fig.update_xaxes(visible=False,range=[0,10]);fig.update_yaxes(visible=False,range=[0,3])
     for x0,x1,color in [(0,2.7,BLUE),(3.6,6.4,'#586577'),(7.3,10,ORANGE)]:
         fig.add_shape(type='rect',x0=x0,x1=x1,y0=.4,y1=2.5,line=dict(color=color,width=2),fillcolor='white')
-    for x,text in [(1.35,'<b>Input space ℝ²</b><br><br>Two actuator commands<br>s = 2, t = −1'),(5,'<b>Linear rule</b><br><br>F(s,t) = s u + t v<br>Matrix shape: 3 × 2'),(8.65,'<b>Output space ℝ³</b><br><br>One force in space<br>x = 5, y = 2, z = −3')]:
+    for x,text in [(1.35,'<b>Domain ℝ²</b><br><br>Two actuator commands<br>s = 2, t = −1'),(5,'<b>Linear rule</b><br><br>F(s,t) = s u + t v<br>Matrix shape: 3 × 2'),(8.65,'<b>Codomain ℝ³</b><br><br>One force in space<br>x = 5, y = 2, z = −3')]:
         fig.add_annotation(x=x,y=1.5,text=text,showarrow=False,font=dict(size=17))
     for a,b in [(2.75,3.5),(6.5,7.2)]:arrow(fig,[a,1.5],[b,1.5],'#586577')
     return fig
 
 
 def linearity():
-    fig=style(make_subplots(rows=1,cols=2,subplot_titles=['Add in the input space','Add in the output space'],horizontal_spacing=.16))
+    fig=style(make_subplots(rows=1,cols=2,subplot_titles=['Add in the domain','Add in the codomain'],horizontal_spacing=.16))
     u=np.array([1,0]);v=np.array([0,1]);A=np.array([[1,1],[0,1]])
     for col,M in [(1,np.eye(2)),(2,A)]:
         a,b=M@u,M@v
