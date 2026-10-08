@@ -41,8 +41,7 @@ project:
       children:
         - file: ch03/03-01.ipynb
         - file: ch03/03-02.ipynb
-    - file: ch03/03-03.ipynb
-      hidden: true
+        - file: ch03/03-03.ipynb
     - file: ch03/03-04.ipynb
       hidden: true
     - file: ch03/03-05.ipynb
