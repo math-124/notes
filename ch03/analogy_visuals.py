@@ -30,13 +30,13 @@ def machine():
 
 
 def lines_stay_lines():
-    A = np.array([[1, 1], [1, 0]])
-    points = np.array([[0, 1], [1, 1], [2, 1]])
-    line = np.array([[-.5, 1], [2.5, 1]])
+    K = np.array([[1, 1], [0, 1]])
+    points = np.array([[0, 1], [1, 2], [2, 3]])
+    line = np.array([[-.5, .5], [2.5, 3.5]])
     fig = style(make_subplots(rows=1, cols=2,
-        subplot_titles=['Domain: points on y = 1', 'Output: points on y = x − 1'],
+        subplot_titles=['Before', 'After'],
         horizontal_spacing=.15), height=400)
-    for col, M in [(1, np.eye(2)), (2, A)]:
+    for col, M in [(1, np.eye(2)), (2, K)]:
         transformed_line = line @ M.T
         fig.add_trace(go.Scatter(x=transformed_line[:, 0], y=transformed_line[:, 1],
             mode='lines', line=dict(color='#9caaba', width=2)), row=1, col=col)
@@ -46,7 +46,7 @@ def lines_stay_lines():
             fig.add_trace(go.Scatter(x=[p[0]], y=[p[1]], mode='markers+text',
                 text=[label], textposition='top center',
                 marker=dict(color=color, size=13, symbol=symbol)), row=1, col=col)
-        fig.update_xaxes(range=[-1, 4], title_text='x', row=1, col=col)
-        fig.update_yaxes(range=[-1, 3], title_text='y', scaleanchor='x' if col == 1 else 'x2',
+        fig.update_xaxes(range=[-1, 6], row=1, col=col)
+        fig.update_yaxes(range=[-1, 4], scaleanchor='x' if col == 1 else 'x2',
                          scaleratio=1, row=1, col=col)
     return fig

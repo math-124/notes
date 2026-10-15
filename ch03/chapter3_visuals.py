@@ -15,7 +15,7 @@ from IPython.display import HTML, display
 ROOT = Path(__file__).resolve().parents[1]
 BLUE, ORANGE, PINK = '#3d81f6', 'orange', '#d81a60'
 FONT = "Palatino, 'Palatino Linotype', serif"
-if hasattr(pio.defaults, 'headers'):
+if hasattr(pio, 'defaults') and hasattr(pio.defaults, 'headers'):
     pio.defaults.headers = {}
 
 
@@ -28,12 +28,12 @@ def style(fig, height=420):
     return fig
 
 
-def arrow(fig, start, end, color, label='', col=None, dash='solid'):
+def arrow(fig, start, end, color, label='', col=None, dash='solid', label_color='#202124', label_size=16):
     kw=dict(row=1,col=col) if col else {}
     fig.add_trace(go.Scatter(x=[start[0],end[0]],y=[start[1],end[1]],mode='lines',line=dict(color=color,width=3,dash=dash),hoverinfo='skip'),**kw)
     suffix='' if col in (None,1) else str(col)
     fig.add_annotation(x=end[0],y=end[1],ax=start[0],ay=start[1],xref='x'+suffix,yref='y'+suffix,axref='x'+suffix,ayref='y'+suffix,text='',showarrow=True,arrowhead=3,arrowwidth=2,arrowcolor=color)
-    if label:fig.add_annotation(x=end[0],y=end[1],xref='x'+suffix,yref='y'+suffix,text=label,showarrow=False,xshift=12,yshift=17,bgcolor='white',font=dict(size=16,color='#202124'))
+    if label:fig.add_annotation(x=end[0],y=end[1],xref='x'+suffix,yref='y'+suffix,text=label,showarrow=False,xshift=12,yshift=17,bgcolor='white',font=dict(size=label_size,color=label_color))
 
 
 def polygon(fig, pts, color=BLUE, col=None, dash='solid'):
@@ -41,7 +41,7 @@ def polygon(fig, pts, color=BLUE, col=None, dash='solid'):
     fig.add_trace(go.Scatter(x=pts[:,0],y=pts[:,1],mode='lines',fill='toself',fillcolor='rgba(61,129,246,.12)',line=dict(color=color,width=2,dash=dash),hoverinfo='skip'),**(dict(row=1,col=col) if col else {}))
 
 
-def save_figure(fig, name, alt, caption):
+def save_figure(fig, name, alt, caption=''):
     """Store a crisp PNG and accessible notebook output from the same bytes."""
     # Keep renderer shutdown chatter out of student-facing notebook output.
     with contextlib.redirect_stderr(io.StringIO()), contextlib.redirect_stdout(io.StringIO()):
@@ -49,7 +49,8 @@ def save_figure(fig, name, alt, caption):
     folder=ROOT/'ch03/visuals';folder.mkdir(exist_ok=True)
     (folder/(name+'.png')).write_bytes(data)
     encoded=base64.b64encode(data).decode('ascii')
-    display(HTML('<figure style="margin:16px 0"><img style="width:100%;height:auto" alt="'+html.escape(alt,quote=True)+'" src="data:image/png;base64,'+encoded+'"><figcaption style="font:16px/1.4 '+FONT+';margin-top:8px">'+html.escape(caption)+'</figcaption></figure>'))
+    caption_html='' if not caption else '<figcaption style="font:16px/1.4 '+FONT+';margin-top:8px">'+html.escape(caption)+'</figcaption>'
+    display(HTML('<figure style="margin:16px 0"><img style="width:100%;height:auto" alt="'+html.escape(alt,quote=True)+'" src="data:image/png;base64,'+encoded+'">'+caption_html+'</figure>'))
 
 
 def iframe(document, title, height=720):
@@ -156,10 +157,51 @@ def rotation_story():
     shape=np.array([[0,0],[1.7,0],[1.7,.45],[.5,.45],[.5,1.3],[0,1.3]])
     for col,M in [(1,np.eye(2)),(2,np.array([[0,-1],[1,0]]))]:
         polygon(fig,shape@M.T,col=col)
-        arrow(fig,[0,0],M@np.array([1,0]),BLUE,'e₁' if col==1 else 'R e₁',col)
-        arrow(fig,[0,0],M@np.array([0,1]),ORANGE,'e₂' if col==1 else 'R e₂',col,dash='dash')
+        arrow(fig,[0,0],M@np.array([1,0]),BLUE,'e₁' if col==1 else 'T(e₁)',col)
+        arrow(fig,[0,0],M@np.array([0,1]),ORANGE,'e₂' if col==1 else 'T(e₂)',col,dash='dash')
         fig.update_xaxes(range=[-2,2.2],row=1,col=col);fig.update_yaxes(range=[-1,2.2],scaleanchor='x'+('' if col==1 else str(col)),row=1,col=col)
     return fig
+
+
+def rotation_slider():
+    """Interactive rotation of the unit square and standard basis vectors."""
+    from friendly_visuals import transform
+    angles=np.arange(0,361,15)
+
+    def rotation_figure(degrees):
+        theta=np.deg2rad(degrees)
+        fig=transform([[np.cos(theta),-np.sin(theta)],[np.sin(theta),np.cos(theta)]], matrix_name=r'R_\theta', matrix_latex=r'\begin{bmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{bmatrix}')
+        for annotation in fig.layout.annotations:
+            annotation.text=annotation.text.replace(r'$\vec e_1$','e₁').replace(r'$\vec e_2$','e₂').replace(r'$T(\vec e_1)$','T(e₁)').replace(r'$T(\vec e_2)$','T(e₂)')
+        return fig
+
+    fig=rotation_figure(0)
+    steps=[]
+    for d in angles:
+        rotated=rotation_figure(d)
+        steps.append(dict(label=str(d),method='update',args=[
+            dict(x=[list(t.x) for t in rotated.data],y=[list(t.y) for t in rotated.data]),
+            dict(annotations=[a.to_plotly_json() for a in rotated.layout.annotations])]))
+    fig.update_layout(height=480,margin=dict(b=125),showlegend=False,sliders=[dict(
+        y=0,pad=dict(t=45),
+        active=0,currentvalue=dict(prefix='θ = ',suffix='°',font=dict(size=18)),
+        steps=steps)])
+    fig.update_xaxes(range=[-1.5,2.5])
+    fig.update_yaxes(range=[-1.5,2.1])
+    return fig
+
+
+def show_interactive(fig,title,description,height=600):
+    fig.update_layout(width=780,autosize=False)
+    chart=pio.to_html(fig,include_plotlyjs=True,include_mathjax='cdn',full_html=False,
+        default_width='100%',
+        config={'responsive':False,'displaylogo':False,'displayModeBar':False})
+    document=('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+        '<title>'+html.escape(title)+'</title><style>html,body{margin:0;width:100%;overflow:hidden;background:white} #scaled-chart{width:780px;transform-origin:top left}</style>'
+        '<div id="scaled-chart">'+chart+'</div><script>function fit(){const s=innerWidth/780;document.getElementById("scaled-chart").style.transform="scale("+s+")";if(window.frameElement)window.frameElement.style.height=('+str(fig.layout.height)+'*s)+"px";}new ResizeObserver(fit).observe(document.documentElement);fit();</script></html>')
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore', message='Consider using IPython.display.IFrame instead')
+        display(HTML('<iframe title="'+html.escape(title,quote=True)+'" style="display:block;width:100%;height:'+str(height)+'px;margin:16px 0;border:0;background:white" srcdoc="'+html.escape(document,quote=True)+'"></iframe>'))
 
 
 def shape_flow():
@@ -183,7 +225,7 @@ def shuffle_scale():
 
 def show_3d(fig,title,description):
     # Embed Plotly itself: no CDN or notebook kernel is needed when reading.
-    chart=pio.to_html(fig,include_plotlyjs=True,full_html=False,config={'responsive':True,'displaylogo':False,'displayModeBar':False,'modeBarButtonsToRemove':['toImage']})
+    chart=pio.to_html(fig,include_plotlyjs=True,include_mathjax='cdn',full_html=False,config={'responsive':True,'displaylogo':False,'displayModeBar':False,'modeBarButtonsToRemove':['toImage']})
     camera=json.dumps(fig.layout.scene.camera.to_plotly_json())
     document = ('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
         '<title>'+html.escape(title)+'</title><style>body{margin:0;background:white;color:#202124;'

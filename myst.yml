@@ -42,11 +42,10 @@ project:
         - file: ch03/03-01.ipynb
         - file: ch03/03-02.ipynb
         - file: ch03/03-03.ipynb
-    - file: ch03/03-04.ipynb
-      hidden: true
-    - file: ch03/03-05.ipynb
-      hidden: true
-    # The later 3.6 draft remains unpublished.
+        - file: ch03/03-04.ipynb
+        - file: ch03/03-05.ipynb
+        - file: ch03/03-06.ipynb
+        - file: ch03/03-07.ipynb
     # - title: "Chapter 4: Systems of linear equations"
     #   children:
     #     - title: "4.1: Linear systems, triangular systems, and back substitution"
