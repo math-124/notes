@@ -46,14 +46,18 @@ project:
         - file: ch03/03-05.ipynb
         - file: ch03/03-06.ipynb
         # - file: ch03/03-07.ipynb
-    # - title: "Chapter 4: Linear systems"
-    #   children:
-    #     - file: ch04/04-01.ipynb
-    #     - file: ch04/04-02.ipynb
-    #     - file: ch04/04-03.ipynb
-    #     - file: ch04/04-04.ipynb
-    #     - file: ch04/04-05.ipynb
-    #     - file: ch04/04-06.ipynb
+    - file: ch04/04-01.ipynb
+      hidden: true
+    - file: ch04/04-02.ipynb
+      hidden: true
+    - file: ch04/04-03.ipynb
+      hidden: true
+    - file: ch04/04-04.ipynb
+      hidden: true
+    - file: ch04/04-05.ipynb
+      hidden: true
+    - file: ch04/04-06.ipynb
+      hidden: true
     # - title: "Chapter 5: Subspaces"
     #   children:
     #     - title: "5.1: Subspaces, span, and column space"
