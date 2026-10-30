@@ -56,8 +56,6 @@ project:
       hidden: true
     - file: ch04/04-06.ipynb
       hidden: true
-    - file: ch04/04-07.ipynb
-      hidden: true
     # - title: "Chapter 5: Subspaces"
     #   children:
     #     - title: "5.1: Subspaces, span, and column space"
