@@ -54,12 +54,15 @@ project:
         - file: ch04/04-04.ipynb
         - file: ch04/04-05.ipynb
         # - file: ch04/04-06.ipynb
-    # - title: "Chapter 5: Subspaces"
-    #   children:
-    #     - title: "5.1: Subspaces, span, and column space"
-    #       file: ch05/05-01.ipynb
-    #     - title: "5.2: Bases and dimension"
-    #       file: ch05/05-02.ipynb
+    - title: "5.1: The column space"
+      file: ch05/05-01.ipynb
+      hidden: true
+    - title: "5.2: Linear independence and invertibility"
+      file: ch05/05-02.ipynb
+      hidden: true
+    - title: "5.3: Subspaces, bases, and dimension"
+      file: ch05/05-03.ipynb
+      hidden: true
     # - title: "Chapter 6: Orthonormal bases"
     #   children:
     #     - title: "6.1: Orthonormal bases and QR factorization"
