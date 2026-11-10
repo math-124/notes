@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://cdn.plot.ly/plotly-3.1.0.min.js"></script>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]},svg:{fontCache:'local'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" defer></script>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#fff;color:#23344b;font:16px Palatino,'Palatino Linotype',Georgia,serif}
+.widget{border:1px solid #d8e1ed;border-radius:10px;padding:18px}h3{font-size:22px;margin:0 0 12px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}select,button{font:inherit;padding:7px 10px;background:white;border:1px solid #b8c6da;border-radius:6px;color:inherit}
+button:disabled{opacity:.4}button:not(:disabled){cursor:pointer}select{max-width:100%}.step{margin:16px 0 4px;font-weight:bold;color:#185bbd}
+input[type=range]{width:100%;accent-color:#3d81f6;margin:12px 0;cursor:pointer}.range-ends{display:flex;justify-content:space-between;font-size:14px;color:#596b83}
+.view{display:block}#plot{height:500px;width:100%;min-width:0}
+.card{background:#f5f8fc;border-radius:8px;padding:14px;margin:12px 0 0;min-height:0}#description{line-height:1.5;min-height:0}#equation{font-size:16px;min-height:70px;overflow-x:auto}#status{line-height:1.5;border-top:1px solid #d8e1ed;padding-top:12px;font-size:15px}
+.key{font-size:14px;line-height:1.5;color:#50617a;margin-top:5px}.note{font-size:14px;margin:12px 0 0;color:#50617a}
+@media(max-width:650px){.view{grid-template-columns:1fr}#plot{height:390px}.card{min-height:0;margin:0}#description{min-height:0}.widget{padding:12px}#equation{min-height:70px}.key{display:none}}
+</style></head><body><div class="widget">
+<h3>__TITLE__</h3>
+<div class="toolbar"><button id="previous" aria-label="Previous step">← Previous</button><button id="next" aria-label="Next step">Next →</button><button id="reset">Reset</button></div>
+<div id="step" class="step" aria-live="polite"></div>
+<input id="slider" type="range" min="0" value="0" step="1" aria-label="Gram–Schmidt step">
+<div class="range-ends"><span>Original vectors</span><span>Completed orthonormal basis</span></div>
+<div class="view"><div><div id="plot" aria-label="Rotatable three-dimensional Gram–Schmidt diagram"></div><div class="key">Solid colors: current vector and completed unit vectors. Gray dotted: current original vector.<br>Dashed black: projection being removed. Dashed color: translated remainder. Drag to rotate.</div></div>
+<div class="card"><div id="description"></div><div id="equation"></div><div id="status"></div></div></div>
+<p class="note">Each iteration i handles one original vector vᵢ. Within it, remove its earlier components one at a time, then normalize. Decimal entries are rounded.</p>
+</div>
+<script>
+const payload=__PAYLOAD__;
+const el=id=>document.getElementById(id), sub=['₁','₂','₃'];
+let index=0,ready=false,labels=[];
+const norm=v=>Math.sqrt(v.reduce((s,x)=>s+x*x,0));
+const sum=(a,b)=>a.map((x,i)=>x+b[i]);
+const fixed=x=>Math.abs(x)<.0005?'0':Number(x.toFixed(3)).toString();
+const vector=v=>'\\begin{bmatrix}'+v.map(fixed).join('\\\\')+'\\end{bmatrix}';
+function arrow(v,label,color,{origin=[0,0,0],dash='solid',width=6,text=true,offset=[18,18]}={}){
+ const length=norm(v);if(length<1e-10)return [];
+ const tip=sum(origin,v),unit=v.map(x=>x/length),end=tip.map((x,i)=>x-Math.min(.13,length*.18)*unit[i]);
+ const traces=[{type:'scatter3d',mode:'lines',x:[origin[0],end[0]],y:[origin[1],end[1]],z:[origin[2],end[2]],line:{color,width,dash},name:label,showlegend:false,hovertemplate:label+'<extra></extra>'},
+ {type:'cone',x:[tip[0]],y:[tip[1]],z:[tip[2]],u:[unit[0]],v:[unit[1]],w:[unit[2]],colorscale:[[0,color],[1,color]],showscale:false,sizemode:'absolute',sizeref:.16,anchor:'tip',showlegend:false,hoverinfo:'skip'}];
+ if(text){
+  const match=label.match(/^([uvw])([₁₂₃])$/);
+  const latex=match?'$\\vec{'+match[1]+'}_{'+(sub.indexOf(match[2])+1)+'}$':label;
+  labels.push({x:tip[0],y:tip[1],z:tip[2],xshift:offset[0],yshift:offset[1],text:latex,showarrow:false,bgcolor:'rgba(255,255,255,0.85)',borderpad:2,font:{family:'Palatino',size:20,color}});
+ }
+ return traces;
+}
+function render(){
+ const e=payload.example,s=e.states[index],i=s.i-1,color=payload.colors[i];
+ el('slider').max=e.states.length-1;el('slider').value=index;
+ el('previous').disabled=index===0;el('next').disabled=index===e.states.length-1;
+ el('step').textContent=`Iteration i = ${s.i} of ${e.a.length} · ${s.phase} · Step ${index+1}/${e.states.length}`;
+ el('slider').setAttribute('aria-valuetext',el('step').textContent);
+ el('description').textContent=s.description;
+ labels=e.plane?[structuredClone(payload.plane_label)]:[];
+ let traces=e.plane?structuredClone(payload.plane):[];
+ // Only retain the original arrow when it differs from the current residual.
+ if(s.projection)traces.push(...arrow(e.a[i],'v'+sub[i],'#8c98a9',{dash:'dot',width:3,text:false}));
+ s.accepted.forEach((u,j)=>traces.push(...arrow(u,'u'+sub[j],payload.colors[j],{offset:[[26,-10],[-26,12],[22,20]][j]})));
+ if(s.phase!=='Normalize')traces.push(...arrow(s.residual,s.projection?'w'+sub[i]:'v'+sub[i],color,{offset:[-20,22]}));
+ if(s.projection){
+  traces.push(...arrow(s.projection,'projection','#25344a',{dash:'dash',width:4,text:false}));
+  traces.push(...arrow(s.residual,'translated remainder',color,{origin:s.projection,dash:'dash',width:3,text:false}));
+  if(norm(s.before.map((x,k)=>x-e.a[i][k]))>1e-10)traces.push(...arrow(s.before,'before subtraction','#6b778b',{dash:'dot',width:4,text:false}));
+ }
+ const layout=structuredClone(payload.layout);layout.scene.annotations=labels;layout.uirevision='fixed-view';
+ if(!ready){Plotly.newPlot('plot',traces,layout,{responsive:true,displayModeBar:false,scrollZoom:false});ready=true;}
+ else Plotly.react('plot',traces,layout,{responsive:true,displayModeBar:false,scrollZoom:false});
+ let formula;
+ if(s.phase==='Normalize')formula=`u_${s.i}=${vector(s.residual)}`;
+ else if(s.projection)formula=`w_${s.i}=${vector(s.before)}-${vector(s.projection)}=${vector(s.residual)}`;
+ else formula=`v_${s.i}=${vector(s.residual)}`;
+ el('equation').textContent='\\('+formula+'\\)';
+ const accepted=s.accepted.length;
+ el('status').textContent=`Unit vectors completed: ${accepted} of ${e.a.length}. `+
+  (accepted>1?'Their pairwise dot products are zero. ':'')+
+  `Current vector length: ${fixed(norm(s.residual))}.`+
+  (s.coefficient!==null?` Projection coefficient: ${fixed(s.coefficient)}.`:'');
+ if(window.MathJax?.typesetPromise)MathJax.typesetPromise([el('equation')]);
+}
+el('slider').addEventListener('input',event=>{index=Number(event.target.value);render()});
+el('previous').addEventListener('click',()=>{index--;render()});
+el('next').addEventListener('click',()=>{index++;render()});
+el('reset').addEventListener('click',()=>{index=0;render()});
+render();
+window.addEventListener('load',()=>{if(window.MathJax?.typesetPromise)MathJax.typesetPromise([el('equation')]);});
+</script></body></html>
