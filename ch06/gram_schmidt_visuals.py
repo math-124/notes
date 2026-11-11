@@ -152,7 +152,7 @@ def gram_schmidt_states(a):
 def stepper(example='plane'):
     is_plane = example == 'plane'
     a = PLANE if is_plane else SPACE
-    title = 'Gram–Schmidt: two vectors' if is_plane else 'Gram–Schmidt: three vectors'
+    title = 'Gram–Schmidt process: two vectors' if is_plane else 'Gram–Schmidt process: three vectors'
     step_layout = layout(3.3)
     bounds = [-2.0, 3.1] if is_plane else [-2.5, 3.5]
     for axis in ['xaxis','yaxis','zaxis']:

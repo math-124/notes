@@ -59,12 +59,9 @@ project:
         - file: ch05/05-01.ipynb
         - file: ch05/05-02.ipynb
         - file: ch05/05-03.ipynb
-    - file: ch06/06-01.ipynb
-      hidden: true
-    # - title: "Chapter 6: Orthonormal bases"
-    #   children:
-    #     - title: "6.1: Orthonormal bases and QR factorization"
-    #       file: ch06/06-01.ipynb
+    - title: "Chapter 6: Orthonormal bases"
+      children:
+        - file: ch06/06-01.ipynb
     #     - title: "6.2: Orthogonal matrices and orthogonal transformations"
     #       file: ch06/06-02.ipynb
     # - title: "Chapter 7: Least squares"
