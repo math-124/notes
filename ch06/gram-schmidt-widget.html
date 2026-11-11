@@ -17,9 +17,9 @@ input[type=range]{width:100%;accent-color:#3d81f6;margin:12px 0;cursor:pointer}.
 <h3>__TITLE__</h3>
 <div class="toolbar"><button id="previous" aria-label="Previous step">← Previous</button><button id="next" aria-label="Next step">Next →</button><button id="reset">Reset</button></div>
 <div id="step" class="step" aria-live="polite"></div>
-<input id="slider" type="range" min="0" value="0" step="1" aria-label="Gram–Schmidt step">
+<input id="slider" type="range" min="0" value="0" step="1" aria-label="Gram-Schmidt step">
 <div class="range-ends"><span>Original vectors</span><span>Completed orthonormal basis</span></div>
-<div class="view"><div><div id="plot" aria-label="Rotatable three-dimensional Gram–Schmidt diagram"></div><div class="key"><span style="color:#3d81f6">Blue: current vector and its remainder.</span> <span style="color:#a65f00">Orange: previous unit vectors.</span> Gray dotted: current original vector.<br>Dashed black: projection being removed. Dashed color: translated remainder. Drag to rotate.</div></div>
+<div class="view"><div><div id="plot" aria-label="Rotatable three-dimensional Gram-Schmidt diagram"></div><div class="key"><span style="color:#3d81f6">Blue: current vector and its remainder.</span> <span style="color:#a65f00">Orange: previous unit vectors.</span> Gray dotted: current original vector.<br>Dashed black: projection being removed. Dashed color: translated remainder. Drag to rotate.</div></div>
 <div class="card"><div id="description"></div><div id="equation"></div><div id="status"></div></div></div>
 <p class="note">Each iteration i handles one original vector vᵢ. Within it, remove its earlier components one at a time, then normalize. Decimal entries are rounded.</p>
 </div>
