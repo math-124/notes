@@ -19,7 +19,7 @@ input[type=range]{width:100%;accent-color:#3d81f6;margin:12px 0;cursor:pointer}.
 <div id="step" class="step" aria-live="polite"></div>
 <input id="slider" type="range" min="0" value="0" step="1" aria-label="Gram–Schmidt step">
 <div class="range-ends"><span>Original vectors</span><span>Completed orthonormal basis</span></div>
-<div class="view"><div><div id="plot" aria-label="Rotatable three-dimensional Gram–Schmidt diagram"></div><div class="key">Solid colors: current vector and completed unit vectors. Gray dotted: current original vector.<br>Dashed black: projection being removed. Dashed color: translated remainder. Drag to rotate.</div></div>
+<div class="view"><div><div id="plot" aria-label="Rotatable three-dimensional Gram–Schmidt diagram"></div><div class="key"><span style="color:#3d81f6">Blue: current vector and its remainder.</span> <span style="color:#a65f00">Orange: previous unit vectors.</span> Gray dotted: current original vector.<br>Dashed black: projection being removed. Dashed color: translated remainder. Drag to rotate.</div></div>
 <div class="card"><div id="description"></div><div id="equation"></div><div id="status"></div></div></div>
 <p class="note">Each iteration i handles one original vector vᵢ. Within it, remove its earlier components one at a time, then normalize. Decimal entries are rounded.</p>
 </div>
@@ -44,7 +44,7 @@ function arrow(v,label,color,{origin=[0,0,0],dash='solid',width=6,text=true,offs
  return traces;
 }
 function render(){
- const e=payload.example,s=e.states[index],i=s.i-1,color=payload.colors[i];
+ const e=payload.example,s=e.states[index],i=s.i-1,color='#3d81f6';
  el('slider').max=e.states.length-1;el('slider').value=index;
  el('previous').disabled=index===0;el('next').disabled=index===e.states.length-1;
  el('step').textContent=`Iteration i = ${s.i} of ${e.a.length} · ${s.phase} · Step ${index+1}/${e.states.length}`;
@@ -54,7 +54,7 @@ function render(){
  let traces=e.plane?structuredClone(payload.plane):[];
  // Only retain the original arrow when it differs from the current residual.
  if(s.projection)traces.push(...arrow(e.a[i],'v'+sub[i],'#8c98a9',{dash:'dot',width:3,text:false}));
- s.accepted.forEach((u,j)=>traces.push(...arrow(u,'u'+sub[j],payload.colors[j],{offset:[[26,-10],[-26,12],[22,20]][j]})));
+ s.accepted.forEach((u,j)=>traces.push(...arrow(u,'u'+sub[j],j<i?'orange':color,{offset:[[26,-10],[-26,12],[22,20]][j]})));
  if(s.phase!=='Normalize')traces.push(...arrow(s.residual,s.projection?'w'+sub[i]:'v'+sub[i],color,{offset:[-20,22]}));
  if(s.projection){
   traces.push(...arrow(s.projection,'projection','#25344a',{dash:'dash',width:4,text:false}));
