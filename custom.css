@@ -620,6 +620,11 @@ html.font-palatino :is(h1, h2, h3, h4, h5, h6) {
   font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 
+html.font-atkinson body,
+html.font-atkinson :is(h1, h2, h3, h4, h5, h6) {
+  font-family: 'Atkinson Hyperlegible Next', 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 /* The native theme button remains available until its replacement is mounted. */
 html[data-notes-settings="ready"] .myst-theme-button { display: none; }
 
@@ -917,7 +922,7 @@ html[data-notes-settings="ready"] .myst-primary-sidebar-footer { display: none; 
   font-weight: 600;
   color: inherit;
 }
-html.font-palatino .notes-reading-settings h2 {
+html:is(.font-palatino, .font-atkinson) .notes-reading-settings h2 {
   font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .notes-settings-close {
@@ -939,7 +944,7 @@ html.font-palatino .notes-reading-settings h2 {
 .notes-reading-settings fieldset { min-width: 0; border: 0; padding: 0; margin: 0 0 18px; }
 .notes-reading-settings legend { padding: 0; margin-bottom: 9px; color: var(--notes-settings-muted); font-size: 13px; }
 .notes-font-options, .notes-color-options { display: grid; gap: 10px; }
-.notes-font-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.notes-font-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .notes-color-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .notes-settings-choice { position: relative; min-width: 0; cursor: pointer; touch-action: manipulation; }
 .notes-settings-choice input { position: absolute; width: 1px; height: 1px; opacity: 0; }
@@ -966,8 +971,11 @@ html.font-palatino .notes-reading-settings h2 {
   outline: 2px solid var(--notes-settings-accent);
   outline-offset: 3px;
 }
+.notes-font-choice .notes-choice-content { padding: 12px 8px; }
+.notes-font-choice .notes-choice-content > span:nth-child(2) { font-size: 12px; overflow-wrap: anywhere; }
 .notes-font-sample { font-size: 27px; line-height: 1.1; }
 .notes-font-palatino { font-family: Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, serif; }
+.notes-font-atkinson { font-family: 'Atkinson Hyperlegible Next', 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 .notes-choice-check { display: none; position: absolute; right: 7px; top: 5px; font-size: 12px; color: var(--notes-settings-accent); }
 .notes-settings-choice input:checked + .notes-choice-content .notes-choice-check { display: block; }
 .notes-color-choice .notes-choice-content { align-items: center; padding: 10px 6px 8px; min-height: 82px; font-size: 13px; }

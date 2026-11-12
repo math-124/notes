@@ -52,6 +52,15 @@ function render({ el } = {}) {
   // as the widget so returning visitors do not reuse an old myst-theme.css.
   const stylesheet = el?.querySelector('link[rel="stylesheet"]');
   if (stylesheet) document.head.append(stylesheet.cloneNode(true));
+  const fontStylesheet = document.createElement('link');
+  fontStylesheet.rel = 'stylesheet';
+  fontStylesheet.href = 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap';
+  document.head.append(fontStylesheet);
+  const fonts = {
+    default: 'Default',
+    palatino: 'Palatino',
+    atkinson: 'Atkinson Hyperlegible Next',
+  };
   const key = 'math124-font';
   let preference = 'default';
   const appearanceKey = 'math124-appearance';
@@ -59,9 +68,10 @@ function render({ el } = {}) {
   let appearance = null;
   try { appearance = localStorage.getItem(appearanceKey); } catch { /* Use the current theme. */ }
   const apply = (value) => {
-    const palatino = value === 'palatino';
-    preference = palatino ? 'palatino' : 'default';
-    document.documentElement.classList.toggle('font-palatino', palatino);
+    preference = Object.hasOwn(fonts, value) ? value : 'default';
+    for (const font of ['palatino', 'atkinson']) {
+      document.documentElement.classList.toggle(`font-${font}`, preference === font);
+    }
     document.querySelectorAll('.font-preference-input').forEach((input) => {
       input.checked = input.value === preference;
     });
@@ -98,10 +108,10 @@ function render({ el } = {}) {
       </button>
     </div>
     <fieldset><legend>Font</legend><div class="notes-font-options">
-      ${['default', 'palatino'].map((value) => `<label class="notes-settings-choice notes-font-choice">
+      ${Object.keys(fonts).map((value) => `<label class="notes-settings-choice notes-font-choice">
         <input type="radio" name="notes-font" value="${value}" class="font-preference-input">
         <span class="notes-choice-content"><span class="notes-font-sample notes-font-${value}" aria-hidden="true">Aa</span>
-          <span>${value === 'default' ? 'Default' : 'Palatino'}</span><span class="notes-choice-check" aria-hidden="true">✓</span>
+          <span>${fonts[value]}</span><span class="notes-choice-check" aria-hidden="true">✓</span>
         </span>
       </label>`).join('')}
     </div></fieldset>
@@ -245,7 +255,7 @@ function render({ el } = {}) {
     mount();
     // Theme changes rewrite the root class list; preserve the reading preference.
     new MutationObserver(() => {
-      if (document.documentElement.classList.contains('font-palatino') !== (preference === 'palatino')) {
+      if (['palatino', 'atkinson'].some((font) => document.documentElement.classList.contains(`font-${font}`) !== (preference === font))) {
         apply(preference);
       }
       if (document.documentElement.classList.contains('dark') !== (appearance === 'dark')) {
