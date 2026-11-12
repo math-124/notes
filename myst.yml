@@ -62,8 +62,8 @@ project:
     - title: "Chapter 6: Orthonormal bases"
       children:
         - file: ch06/06-01.ipynb
-    #     - title: "6.2: Orthogonal matrices and orthogonal transformations"
-    #       file: ch06/06-02.ipynb
+        - file: ch06/06-02.ipynb
+          hidden: true
     # - title: "Chapter 7: Least squares"
     #   children:
     #     - title: "7.1: Least squares"
