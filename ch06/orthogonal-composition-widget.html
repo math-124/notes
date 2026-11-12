@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Composing rotations and reflections</title>
+<script src="https://cdn.plot.ly/plotly-4.0.0.min.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;background:white;color:#24354a;font:17px Palatino,"Palatino Linotype",Georgia,serif}main{max-width:900px;margin:auto;padding:14px}h3{margin:0 0 12px;font-size:22px}p{margin:8px 0;line-height:1.4}.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px}fieldset{min-width:0;margin:0;border:1px solid #cbd5e1;border-radius:8px;padding:12px}legend{font-weight:bold}label{display:block;margin:4px 0}select,button{font:inherit;color:inherit;background:#fff;border:1px solid #aab8ca;border-radius:5px;padding:7px}select{width:100%}input[type=range]{width:100%;accent-color:#3d81f6}button{cursor:pointer}button:hover{background:#f1f5fb}button:disabled{opacity:.5;cursor:default}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #3d81f6;outline-offset:2px}.actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.primary{background:#24354a;color:white}.primary:hover{background:#3d5270}.matrices{display:flex;gap:16px;flex-wrap:wrap;align-items:center;justify-content:center;font-size:16px}.matrixbox{display:flex;align-items:center;gap:7px}.matrix{display:grid;grid-template-columns:repeat(2,minmax(48px,auto));border-left:2px solid;border-right:2px solid;padding:2px 6px;text-align:right;gap:3px 12px;font-variant-numeric:tabular-nums}.note{font-size:14px;color:#53657b}.result{background:#f3f6fb;border-radius:6px;padding:10px;min-height:43px}#plot{width:100%;height:430px}#phase{min-height:24px;font-weight:bold}.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:15px}.blue{color:#2768d4}.orange{color:#9d6000}.pink{color:#c01356}@media(max-width:500px){main{padding:8px}.controls{gap:7px}fieldset{padding:8px}#plot{height:340px}h3{font-size:20px}.matrices{gap:8px;font-size:14px}.matrix{grid-template-columns:repeat(2,42px)}}
+</style></head><body><main>
+<h3>Compose two orthogonal transformations</h3>
+<div class="controls">
+<fieldset><legend>First: Q</legend><label for="kindQ">Transformation</label><select id="kindQ"><option value="reflection">Reflection</option><option value="rotation">Rotation</option></select><label id="labelQ" for="angleQ">Reflecting line angle: <output id="valueQ">0°</output></label><input id="angleQ" type="range" min="-180" max="180" step="5" value="0"></fieldset>
+<fieldset><legend>Second: P</legend><label for="kindP">Transformation</label><select id="kindP"><option value="rotation">Rotation</option><option value="reflection">Reflection</option></select><label id="labelP" for="angleP">Rotation angle: <output id="valueP">90°</output></label><input id="angleP" type="range" min="-180" max="180" step="5" value="90"></fieldset>
+</div>
+<div class="actions"><button id="play" class="primary">Play both steps</button><button id="pause" disabled>Pause</button><button id="swap">Swap order</button><button id="reset">Reset</button></div>
+<div class="matrices"><div class="matrixbox">Q = <span id="matrixQ" class="matrix" role="img"></span></div><div class="matrixbox">P = <span id="matrixP" class="matrix" role="img"></span></div><div class="matrixbox">PQ = <span id="matrixPQ" class="matrix" role="img"></span></div></div>
+<p class="note">Apply Q first, then P. Matrix entries are rounded to three decimal places.</p>
+<p id="result" class="result" aria-live="polite"></p>
+<div id="plot" role="img" aria-label="The letter A before and after the selected transformations"></div>
+<div class="legend"><span class="blue">━ Original A</span><span class="orange">┄ After Q</span><span class="pink">━ After PQ / moving figure</span></div>
+<label for="progress">Animation progress: original → after Q → after P</label><input id="progress" type="range" min="0" max="2" step="0.01" value="2">
+<p id="phase" aria-live="polite"></p>
+<p class="note">During a reflection, the animation shows a flip viewed in the plane. The intermediate flattened shapes are a visual transition, not orthogonal transformations. Each completed step preserves lengths and angles.</p>
+<noscript>Enable JavaScript to explore the transformations. The worked examples in the notes describe the compositions.</noscript>
+</main><script>
+'use strict';
+const el=id=>document.getElementById(id),rad=Math.PI/180;
+const original=[[1,1],[2,3],[3,1],null,[1.5,2],[2.5,2]];
+const identity=[[1,0],[0,1]];
+function multiply(A,B){return A.map(row=>B[0].map((_,j)=>row[0]*B[0][j]+row[1]*B[1][j]));}
+function apply(A,v){return v===null?null:A.map(row=>row[0]*v[0]+row[1]*v[1]);}
+function rotation(degrees){const a=degrees*rad,c=Math.cos(a),s=Math.sin(a);return [[c,-s],[s,c]];}
+function matrix(kind,degrees){if(kind==='rotation')return rotation(degrees);const a=2*degrees*rad,c=Math.cos(a),s=Math.sin(a);return [[c,s],[s,-c]];}
+function partial(kind,degrees,t){if(kind==='rotation')return rotation(degrees*t);return multiply(multiply(rotation(degrees),[[1,0],[0,Math.cos(Math.PI*t)]]),rotation(-degrees));}
+function format(n){if(Math.abs(n)<.0005)n=0;return n.toFixed(3).replace(/\.?0+$/,'').replace('-','−');}
+function showMatrix(id,A,name){el(id).innerHTML=A.flat().map(v=>'<span>'+format(v)+'</span>').join('');el(id).setAttribute('aria-label',name+' rows '+A.map(r=>r.map(format).join(', ')).join('; '));}
+function description(A){const det=A[0][0]*A[1][1]-A[0][1]*A[1][0];if(det>0){let a=Math.atan2(A[1][0],A[0][0])/rad;if(Math.abs(a)<1e-8)return 'The composition is the identity (a rotation through 0°).';return 'The composition is a rotation through '+format(a)+'° '+(a<0?'(clockwise).':'(counterclockwise).');}let a=Math.atan2(A[1][0],A[0][0])/rad/2;if(a<0)a+=180;return 'The composition is reflection across the line at '+format(a)+'° to the positive x-axis.';}
+function trace(points,name,color,dash='solid',width=3){return {type:'scatter',mode:'lines',x:points.map(v=>v===null?null:v[0]),y:points.map(v=>v===null?null:v[1]),name,line:{color,width,dash},hoverinfo:'skip',connectgaps:false,showlegend:false};}
+let state={},playing=false,startTime=0,startProgress=0,frame=0,plotReady=false,renderBusy=false,renderAgain=false;
+function readState(){state={kindQ:el('kindQ').value,kindP:el('kindP').value,angleQ:Number(el('angleQ').value),angleP:Number(el('angleP').value)};state.Q=matrix(state.kindQ,state.angleQ);state.P=matrix(state.kindP,state.angleP);state.PQ=multiply(state.P,state.Q);}
+function reflectingLines(){const traces=[];for(const k of ['Q','P'])if(state['kind'+k]==='reflection'){const a=state['angle'+k]*rad;traces.push(trace([[-5*Math.cos(a),-5*Math.sin(a)],[5*Math.cos(a),5*Math.sin(a)]],k+' reflecting line',k==='Q'?'#b67b29':'#cc7c9b','dot',1));}return traces;}
+function drawing(){const t=Number(el('progress').value),afterQ=original.map(v=>apply(state.Q,v));let A=t<=1?partial(state.kindQ,state.angleQ,t):multiply(partial(state.kindP,state.angleP,t-1),state.Q);const moving=original.map(v=>apply(A,v));return [...reflectingLines(),trace(original,'Original','#3d81f6'),trace(afterQ,'After Q','orange','dash',3),trace(moving,'Moving figure / after PQ','#d81a60','solid',4)];}
+const layout={paper_bgcolor:'white',plot_bgcolor:'white',font:{family:'Palatino, Palatino Linotype, Georgia, serif',size:16,color:'#24354a'},margin:{l:38,r:16,t:12,b:35},xaxis:{range:[-4.6,4.6],title:{text:'x'},dtick:1,gridcolor:'#e5eaf2',zerolinecolor:'#738298',fixedrange:true,constrain:'domain'},yaxis:{range:[-4.6,4.6],title:{text:'y'},dtick:1,gridcolor:'#e5eaf2',zerolinecolor:'#738298',scaleanchor:'x',scaleratio:1,fixedrange:true,constrain:'domain'},showlegend:false};
+async function draw(){if(renderBusy){renderAgain=true;return;}renderBusy=true;do{renderAgain=false;await Plotly.react('plot',drawing(),layout,{responsive:true,displayModeBar:false});plotReady=true;}while(renderAgain);renderBusy=false;}
+function phase(){const t=Number(el('progress').value);el('phase').textContent=t===0?'Original figure':t===1?'Step 1 complete: Q has acted':t===2?'Both steps complete: the final image is PQ applied to the original':t<1?'Step 1: applying Q':'Step 2: applying P to the image after Q';}
+function stop(){playing=false;cancelAnimationFrame(frame);el('play').disabled=false;el('pause').disabled=true;}
+function refresh(){stop();readState();for(const k of ['Q','P']){el('label'+k).innerHTML=(state['kind'+k]==='rotation'?'Rotation angle: ':'Reflecting line angle: ')+'<output id="value'+k+'">'+state['angle'+k]+'°</output>';showMatrix('matrix'+k,state[k],k);}showMatrix('matrixPQ',state.PQ,'PQ');el('result').textContent=description(state.PQ);el('progress').value='2';phase();draw();}
+function tick(now){if(!playing)return;const t=Math.min(2,startProgress+(now-startTime)/1400);el('progress').value=String(t);phase();draw();if(t>=2)stop();else frame=requestAnimationFrame(tick);}
+el('play').onclick=()=>{if(Number(el('progress').value)>=2)el('progress').value='0';if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){el('progress').value='2';phase();draw();return;}startProgress=Number(el('progress').value);startTime=performance.now();playing=true;el('play').disabled=true;el('pause').disabled=false;frame=requestAnimationFrame(tick);};
+el('pause').onclick=stop;
+el('progress').oninput=()=>{stop();phase();draw();};
+el('swap').onclick=()=>{for(const key of ['kind','angle']){const a=el(key+'Q').value;el(key+'Q').value=el(key+'P').value;el(key+'P').value=a;}refresh();};
+el('reset').onclick=()=>{el('kindQ').value='reflection';el('angleQ').value='0';el('kindP').value='rotation';el('angleP').value='90';refresh();};
+for(const k of ['Q','P']){el('kind'+k).onchange=refresh;el('angle'+k).oninput=refresh;}
+new ResizeObserver(()=>{if(window.frameElement)window.frameElement.style.height=(document.querySelector('main').getBoundingClientRect().height+4)+'px';}).observe(document.querySelector('main'));
+refresh();
+</script></body></html>
