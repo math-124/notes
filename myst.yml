@@ -63,7 +63,6 @@ project:
       children:
         - file: ch06/06-01.ipynb
         - file: ch06/06-02.ipynb
-          hidden: true
     # - title: "Chapter 7: Least squares"
     #   children:
     #     - title: "7.1: Least squares"
