@@ -192,3 +192,16 @@ def render_all():
 
 if __name__=='__main__':
     render_all()
+
+
+def show_squared_error_explorer():
+    """Link the data plot to the squared-error surface for the same line."""
+    doc = (HERE / 'least-squares-explorer.html').read_text()
+    display({
+        'text/html': '<iframe title="Explore the squared error of a line" '
+        'style="width:100%;height:440px;border:0;display:block" '
+        'srcdoc="' + html.escape(doc, quote=True) + '" '
+        'onload="const f=this;const b=f.contentDocument.body;'
+        'new ResizeObserver(()=>f.style.height=(b.getBoundingClientRect().height+8)+\'px\').observe(b)">'
+        '</iframe>'
+    }, raw=True)

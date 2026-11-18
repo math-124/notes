@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Explore squared error</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+:root{color-scheme:light;--ink:#24354a}
+:root[data-theme="dark"]{color-scheme:dark;--ink:#f1ece3}
+body{margin:0;color:var(--ink);font:16px Palatino,'Palatino Linotype',Georgia,serif}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding:8px}
+label{display:flex;align-items:center;gap:6px}
+output{font-variant-numeric:tabular-nums}
+.panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.plot{height:335px;min-width:0}
+@media(max-width:590px){.panels{grid-template-columns:1fr}.plot{height:280px}}
+</style>
+<div class="controls">
+<label>Intercept <i>c</i><input id="c" type="range" min="-2" max="4" step=".1" value="0"><output id="cv"></output></label>
+<label>Slope <i>m</i><input id="m" type="range" min="0" max="2" step=".05" value="1"><output id="mv"></output></label>
+<button id="best" type="button">Show best fit</button>
+</div>
+<div class="controls" id="scores" aria-live="polite"></div>
+<div class="panels">
+<div class="plot" id="data" aria-label="Data, line, and vertical errors"></div>
+<div class="plot" id="surface" aria-label="Squared error as a function of the intercept and slope"></div>
+</div>
+<script>
+const t=[3,2,7,6], y=[5,2,7,8];
+const byId=id=>document.getElementById(id);
+const cInput=byId('c'), mInput=byId('m');
+const sse=(c,m)=>t.reduce((sum,x,i)=>sum+(y[i]-c-m*x)**2,0);
+const cs=Array.from({length:31},(_,i)=>-2+i/5);
+const ms=Array.from({length:41},(_,i)=>i/20);
+const parentTheme=window.parent.document.documentElement;
+const systemTheme=window.matchMedia('(prefers-color-scheme: dark)');
+const darkMode=()=>parentTheme.classList.contains('dark') ||
+  parentTheme.dataset.theme==='dark' ||
+  (window.parent===window && systemTheme.matches);
+function palette(){
+  const dark=darkMode();
+  document.documentElement.dataset.theme=dark?'dark':'light';
+  const font={family:'Palatino, Palatino Linotype, Georgia, serif',color:dark?'#f1ece3':'#24354a'};
+  const axis={gridcolor:dark?'#514a42':'#e5e8ed',zerolinecolor:dark?'#9d9489':'#aeb8c6'};
+  const base={font,paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',showlegend:false,uirevision:'keep'};
+  return {axis,base};
+}
+const config={responsive:true,displaylogo:false,displayModeBar:false};
+function render(){
+  const {axis,base}=palette();
+  const c=Number(cInput.value),m=Number(mInput.value);
+  const predicted=t.map(x=>c+m*x), error=sse(c,m);
+  byId('cv').value=c.toFixed(1);
+  byId('mv').value=m.toFixed(2);
+  byId('scores').textContent='Sum of squared errors: '+error.toFixed(2)+'  ·  Mean squared error: '+(error/t.length).toFixed(2);
+  const trace=[
+    {x:[1,9],y:[c+m,c+9*m],mode:'lines',line:{color:'#3d81f6',width:3},name:'Line'},
+    {x:t.flatMap(x=>[x,x,null]),y:y.flatMap((v,i)=>[v,predicted[i],null]),mode:'lines',line:{color:'#d81a60',width:3,dash:'dash'},name:'Vertical errors'},
+    {x:t,y,mode:'markers',marker:{color:'orange',size:10},name:'Observations'}
+  ];
+  Plotly.react('data',trace,{...base,title:{text:'Data and vertical errors',font:{size:16}},xaxis:{...axis,title:'Input, t',range:[1,9]},yaxis:{...axis,title:'Output, y',range:[-2,23]},margin:{l:50,r:12,t:35,b:48}},config);
+  return Plotly.restyle('surface',{x:[[c]],y:[[m]],z:[[error]]},[1]);
+}
+function surfaceLayout(){
+  const {axis,base}=palette();
+  const sceneAxis={...axis,showbackground:false};
+  return {...base,title:{text:'Sum of squared errors',font:{size:16}},margin:{l:0,r:0,t:35,b:0},scene:{bgcolor:'rgba(0,0,0,0)',xaxis:{...sceneAxis,title:'Intercept, c'},yaxis:{...sceneAxis,title:'Slope, m'},zaxis:{...sceneAxis,title:'Squared error'}}};
+}
+Plotly.newPlot('surface',[
+  {type:'surface',x:cs,y:ms,z:ms.map(m=>cs.map(c=>sse(c,m))),colorscale:[[0,'#d8e8ff'],[1,'#3d81f6']],showscale:false,name:'Squared error'},
+  {type:'scatter3d',x:[0],y:[1],z:[sse(0,1)],mode:'markers',marker:{color:'#d81a60',size:7},name:'Current line'}
+],{...surfaceLayout()},config).then(async()=>{
+  await render();
+  const applyTheme=()=>{
+    Plotly.relayout('surface',surfaceLayout());
+    render();
+  };
+  if(window.parent!==window){
+    new MutationObserver(applyTheme).observe(parentTheme,{attributes:true,attributeFilter:['class','data-theme']});
+  }else{
+    systemTheme.addEventListener('change',applyTheme);
+  }
+});
+for(const input of [cInput,mInput])input.addEventListener('input',render);
+byId('best').addEventListener('click',()=>{cInput.value=1;mInput.value=1;render()});
+</script>
+</html>
