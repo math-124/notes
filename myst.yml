@@ -63,13 +63,12 @@ project:
       children:
         - file: ch06/06-01.ipynb
         - file: ch06/06-02.ipynb
-    # - title: "Chapter 7: Least squares"
-    #   children:
-    #     - title: "7.1: Least squares"
-    #       file: ch07/07-01.ipynb
-    #   children:
-    #     - title: "7.2: Applications of Least Squares"
-    #       file: ch07/07-02.ipynb
+    - title: "Chapter 7: Least squares"
+      children:
+        - file: ch07/07-01.ipynb
+        - file: ch07/07-02.ipynb
+        - file: ch07/07-03.ipynb
+          hidden: true
     # - title: "Chapter 8: Determinants"
     #   children:
     #     - title: "8.1: Determinants as area and volume scale factors"
