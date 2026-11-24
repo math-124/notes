@@ -69,10 +69,11 @@ project:
         - file: ch07/07-02.ipynb
         - file: ch07/07-03.ipynb
           hidden: true
-    # - title: "Chapter 8: Determinants"
-    #   children:
-    #     - title: "8.1: Determinants as area and volume scale factors"
-    #       file: ch08/08-01.ipynb
+    # Chapter 8: Determinants
+    - file: ch08/08-01.ipynb
+      hidden: true
+    - file: ch08/08-02.ipynb
+      hidden: true
     # - title: "Chapter 9: Eigenvalues and eigenvectors"
     #   children:
     #     - title: "9.1: Eigenvalues and eigenvectors"
