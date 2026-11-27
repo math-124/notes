@@ -69,15 +69,12 @@ project:
         - file: ch07/07-02.ipynb
         - file: ch07/07-03.ipynb
           hidden: true
-    # Chapter 8: Determinants (draft)
-    - file: ch08/08-01.ipynb
-      hidden: true
-    - file: ch08/08-02.ipynb
-      hidden: true
-    - file: ch08/08-03.ipynb
-      hidden: true
-    - file: ch08/08-04.ipynb
-      hidden: true
+    - title: "Chapter 8: Determinants"
+      children:
+        - file: ch08/08-01.ipynb
+        - file: ch08/08-02.ipynb
+        - file: ch08/08-03.ipynb
+        - file: ch08/08-04.ipynb
     # - title: "Chapter 9: Eigenvalues and eigenvectors"
     #   children:
     #     - title: "9.1: Eigenvalues and eigenvectors"
